@@ -1,8 +1,8 @@
 {
-  "name": "next-firebase-starter",
+  "name": "D6 RPG Companion",
   "private": true,
   "version": "1.0.0",
-  "author": "Trinity Christiana",
+  "author": "Thomas McMahon",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
