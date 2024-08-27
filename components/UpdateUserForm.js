@@ -4,38 +4,32 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useRouter } from 'next/router';
 import { registerUser } from '../utils/auth';
+// import { updateGameMasterStatus } from '../utils/data/user';
 
-function RegisterForm({ user, updateUser }) {
+function UpdateUserForm({ user, onUserUpdate }) {
   const router = useRouter();
   const [userData, setUserData] = useState({
-    uid: user.uid || '',
-    handle: '',
-    bio: '',
-    gameMaster: false,
-    admin: false,
+    uid: user.uid,
+    handle: user.handle || '',
+    bio: user.bio || '',
+    gameMaster: user.gameMaster || false,
+    admin: user.admin || false,
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
     registerUser(userData)
       .then(() => {
-        updateUser(user.uid);
+        onUserUpdate(user.uid);
         router.push('/users');
       })
       .catch((error) => {
-        console.error('Error registering user:', error);
+        console.error('Error registering or updating user:', error);
       });
   };
 
-  const handleInputChange = ({
-    target: {
-      name, value, type, checked,
-    },
-  }) => {
-    setUserData((prev) => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value, // this inputChange handles both text input and checkbox
-    }));
+  const handleCheckboxChange = (e) => {
+    setUserData((prev) => ({ ...prev, gameMaster: e.target.checked, admin: e.target.checked }));
   };
 
   return (
@@ -48,7 +42,7 @@ function RegisterForm({ user, updateUser }) {
           required
           placeholder="Enter your handle"
           value={userData.handle}
-          onChange={handleInputChange}
+          onChange={({ target }) => setUserData((prev) => ({ ...prev, [target.name]: target.value }))}
         />
       </Form.Group>
 
@@ -60,7 +54,7 @@ function RegisterForm({ user, updateUser }) {
           required
           placeholder="Enter your Bio"
           value={userData.bio}
-          onChange={handleInputChange}
+          onChange={({ target }) => setUserData((prev) => ({ ...prev, [target.name]: target.value }))}
         />
         <Form.Text className="text-muted">
           Let other players know a little bit about you...
@@ -73,7 +67,7 @@ function RegisterForm({ user, updateUser }) {
           name="gameMaster"
           label="Game Master"
           checked={userData.gameMaster}
-          onChange={handleInputChange}
+          onChange={handleCheckboxChange}
         />
       </Form.Group>
 
@@ -83,22 +77,26 @@ function RegisterForm({ user, updateUser }) {
           name="admin"
           label="Admin"
           checked={userData.admin}
-          onChange={handleInputChange}
+          onChange={handleCheckboxChange}
         />
       </Form.Group>
 
       <Button variant="primary" type="submit">
-        Register
+        Submit
       </Button>
     </Form>
   );
 }
 
-RegisterForm.propTypes = {
+UpdateUserForm.propTypes = {
   user: PropTypes.shape({
     uid: PropTypes.string.isRequired,
+    handle: PropTypes.string,
+    bio: PropTypes.string,
+    gameMaster: PropTypes.bool,
+    admin: PropTypes.bool,
   }).isRequired,
-  updateUser: PropTypes.func.isRequired,
+  onUserUpdate: PropTypes.func.isRequired, // Ensure onUserUpdate is defined here
 };
 
-export default RegisterForm;
+export default UpdateUserForm;

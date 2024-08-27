@@ -9,29 +9,43 @@ import {
 } from 'react-bootstrap';
 import { signOut } from '../utils/auth';
 
-export default function NavBar() {
-  return (
-    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-      <Container>
-        <Link passHref href="/">
-          <Navbar.Brand>CHANGE ME</Navbar.Brand>
-        </Link>
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="me-auto">
-            {/* CLOSE NAVBAR ON LINK SELECTION: https://stackoverflow.com/questions/72813635/collapse-on-select-react-bootstrap-navbar-with-nextjs-not-working */}
-            <Link passHref href="/">
-              <Nav.Link>Home</Nav.Link>
-            </Link>
-            <Link passHref href="/delete-me">
-              <Nav.Link>Delete Me</Nav.Link>
-            </Link>
-            <Button variant="danger" onClick={signOut}>
-              Sign Out
-            </Button>
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
-  );
-}
+const NavBar = () => (
+  <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+    <Container>
+      <Link passHref href="/heros">
+        <Navbar.Brand>D6 RPG Companion</Navbar.Brand>
+      </Link>
+      <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+      <Navbar.Collapse id="responsive-navbar-nav">
+        <Nav className="me-auto">
+          {/* CLOSE NAVBAR ON LINK SELECTION: https://stackoverflow.com/questions/72813635/collapse-on-select-react-bootstrap-navbar-with-nextjs-not-working */}
+          <Link passHref href="/">
+            <Nav.Link>Home</Nav.Link>
+          </Link>
+          <Link passHref href="/notes">
+            <Nav.Link>What is next</Nav.Link>
+          </Link>
+          <Link passHref href="/heros">
+            <Nav.Link>Make a Hero?</Nav.Link>
+          </Link>
+          <Link passHref href="/heros/archetypes/new">
+            <Nav.Link>Make/Edit an Archetype</Nav.Link>
+          </Link>
+          {/* <Link passHref href="/equipment">
+            <Nav.Link>Equipment</Nav.Link>
+          </Link>
+          <Link passHref href="/equipment/new">
+            <Nav.Link>New Equipment</Nav.Link>
+          </Link> */}
+          <Link passHref href="/skills">
+            <Nav.Link>skills</Nav.Link>
+          </Link>
+          <Button variant="danger" onClick={signOut}>
+            Sign Out
+          </Button>
+        </Nav>
+      </Navbar.Collapse>
+    </Container>
+  </Navbar>
+);
+export default NavBar;
