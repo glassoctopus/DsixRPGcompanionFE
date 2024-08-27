@@ -5,7 +5,7 @@ import {
   Button, Form, FormLabel, FloatingLabel,
 } from 'react-bootstrap';
 import {
-  createArchtype, updateArchtype,
+  createArchetype, updateArchetype,
 } from '../../../utils/data/archetypeData';
 
 const initialState = {
@@ -30,78 +30,85 @@ const initialState = {
   source: '',
 };
 
-const ArchtypeForm = ({ archtype, id }) => {
-  const [currentArchtype, setCurrentArchtype] = useState(initialState);
+const ArchetypeForm = ({ archetype, id }) => {
+  const [currentArchetype, setCurrentArchetype] = useState(initialState);
   const router = useRouter();
 
-  const findAttribute = (attributes, name) => {
-    const attribute = attributes.find((attr) => attr.name === name);
-    return attribute ? attribute.code : '';
-  };
-
   useEffect(() => {
-    if (archtype) {
-      // console.log('Fetched Archtype:', archtype); // Add console log to check fetched archtype
-      const attributes = archtype.archetype_attributes.map((attr) => ({
-        name: attr.attribute_name,
-        code: attr.attribute_code,
-      }));
-      // console.log('Mapped Attributes:', attributes); // Add console log to check mapped attributes
+    if (archetype) {
+      // console.log('Fetched Archetype:', archetype); // Add console log to check fetched archetype
 
-      setCurrentArchtype({
-        name: archtype.archetype_name,
-        force_sensitive: archtype.archetype_force_sensitive,
-        dexterity: findAttribute(attributes, 'Dexterity'),
-        knowledge: findAttribute(attributes, 'Knowledge'),
-        mechanical: findAttribute(attributes, 'Mechanical'),
-        perception: findAttribute(attributes, 'Perception'),
-        strength: findAttribute(attributes, 'Strength'),
-        technical: findAttribute(attributes, 'Technical'),
-        personality: archtype.archetype_personality,
-        background: archtype.archetype_background,
-        objectives: archtype.archetype_objectives,
-        a_quote: archtype.archetype_a_quote,
+      setCurrentArchetype({
+        name: archetype.archetype_name,
+        archetype_for_NPC: archetype.archetype_for_NPC,
+        force_sensitive: archetype.archetype_force_sensitive,
+        dexterity: archetype.archetype_dexterity,
+        knowledge: archetype.archetype_knowledge,
+        mechanical: archetype.archetype_mechanical,
+        perception: archetype.archetype_perception,
+        strength: archetype.archetype_strength,
+        technical: archetype.archetype_technical,
+        control: archetype.archetype_force_control,
+        sense: archetype.archetype_force_sense,
+        alter: archetype.archetype_force_alter,
+        credits: archetype.archetype_starting_credits,
+        personality: archetype.archetype_personality,
+        background: archetype.archetype_background,
+        objectives: archetype.archetype_objectives,
+        a_quote: archetype.archetype_a_quote,
+        gameNotes: archetype.archetype_game_notes,
+        source: archetype.archetype_source,
       });
     }
-  }, [id, archtype]);
+  }, [id, archetype]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setCurrentArchtype((prevState) => ({
-      ...prevState,
-      [name]: value,
+  const handleInputChange = ({
+    target: {
+      name, value, type, checked,
+    },
+  }) => {
+    setCurrentArchetype((prev) => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value, // this inputChange handles both text input and checkbox
     }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const updatedArchtype = {
-      ...currentArchtype,
-      archetype_attributes: archtype.archetype_attributes.map((attr) => attr.id), // Adjust as per your backend requirements
+    const updatedArchetype = {
+      ...currentArchetype,
     };
 
     if (!id) {
-      createArchtype(updatedArchtype)
-        .then(() => router.push('/archtypes'))
+      createArchetype(updatedArchetype)
+        .then(() => router.push('/archetypes'))
         .catch((error) => {
-          console.error('Error creating this archtype:', error);
+          console.error('Error creating this archetype:', error);
         });
     } else {
-      updateArchtype(updatedArchtype, id)
-        .then(() => router.push(`/archtypes/${id}`))
+      updateArchetype(updatedArchetype, id)
+        .then(() => router.push(`/archetypes/${id}`))
         .catch((error) => {
-          console.error('Error updating this archtype:', error);
+          console.error('Error updating this archetype:', error);
         });
     }
   };
 
-  const toggleForceSensitive = () => {
-    const updatedArchtype = {
-      ...currentArchtype,
-      force_sensitive: !currentArchtype.force_sensitive,
+  const toggleIsNPC = () => {
+    const updatedArchetype = {
+      ...currentArchetype,
+      NPC: !currentArchetype.NPC,
     };
-    setCurrentArchtype(updatedArchtype);
+    setCurrentArchetype(updatedArchetype);
+  };
+
+  const toggleForceSensitive = () => {
+    const updatedArchetype = {
+      ...currentArchetype,
+      force_sensitive: !currentArchetype.force_sensitive,
+    };
+    setCurrentArchetype(updatedArchetype);
   };
 
   return (
@@ -110,6 +117,56 @@ const ArchtypeForm = ({ archtype, id }) => {
         <Form.Group className="mb-3">
           <div className="row">
             <div className="col">
+              <div className="col">
+                <div className="row">
+                  <div className="col">
+                    <FormLabel>Archetype Name</FormLabel>
+                    <Form.Control
+                      className="form-control-sm"
+                      type="text"
+                      placeholder="Archetype Name"
+                      name="Archetype Name"
+                      required
+                      value={currentArchetype.name}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div className="col">
+                    <div className="row align-items-center">
+                      <div className="col-auto">
+                        <FormLabel>Starting Credits</FormLabel>
+                        <Form.Control
+                          className="form-control form-control-sm"
+                          type="text"
+                          placeholder="Starting Credits"
+                          name="startingCredits"
+                          required
+                          value={currentArchetype.credits}
+                          onChange={handleInputChange}
+                        />
+                      </div>
+                      <div className="col-auto">
+                        <Button
+                          variant={currentArchetype.NPC ? 'info' : 'success'}
+                          onClick={toggleIsNPC}
+                          className="ml-2 mt-3"
+                        >
+                          {currentArchetype.NPC ? 'Is not a NPC Archetype' : 'Is a NPC Archetype'}
+                        </Button>
+                      </div>
+                      <div className="col-auto">
+                        <Button
+                          variant={currentArchetype.force_sensitive ? 'info' : 'success'}
+                          onClick={toggleForceSensitive}
+                          className="ml-2 mt-3"
+                        >
+                          {currentArchetype.force_sensitive ? 'Is not Force Sensitive' : 'Is Force Sensitive'}
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div className="row">
                 <div className="col">
                   <FormLabel>Dexterity</FormLabel>
@@ -119,8 +176,8 @@ const ArchtypeForm = ({ archtype, id }) => {
                     placeholder="Dexterity"
                     name="dexterity"
                     required
-                    value={currentArchtype.dexterity}
-                    onChange={handleChange}
+                    value={currentArchetype.dexterity}
+                    onChange={handleInputChange}
                   />
                 </div>
 
@@ -132,8 +189,8 @@ const ArchtypeForm = ({ archtype, id }) => {
                     placeholder="Knowledge"
                     name="knowledge"
                     required
-                    value={currentArchtype.knowledge}
-                    onChange={handleChange}
+                    value={currentArchetype.knowledge}
+                    onChange={handleInputChange}
                   />
                 </div>
               </div>
@@ -147,8 +204,8 @@ const ArchtypeForm = ({ archtype, id }) => {
                     placeholder="Mechanical"
                     name="mechanical"
                     required
-                    value={currentArchtype.mechanical}
-                    onChange={handleChange}
+                    value={currentArchetype.mechanical}
+                    onChange={handleInputChange}
                   />
                 </div>
 
@@ -160,8 +217,8 @@ const ArchtypeForm = ({ archtype, id }) => {
                     placeholder="Perception"
                     name="perception"
                     required
-                    value={currentArchtype.perception}
-                    onChange={handleChange}
+                    value={currentArchetype.perception}
+                    onChange={handleInputChange}
                   />
                 </div>
               </div>
@@ -175,8 +232,8 @@ const ArchtypeForm = ({ archtype, id }) => {
                     placeholder="Strength"
                     name="strength"
                     required
-                    value={currentArchtype.strength}
-                    onChange={handleChange}
+                    value={currentArchetype.strength}
+                    onChange={handleInputChange}
                   />
                 </div>
 
@@ -188,8 +245,49 @@ const ArchtypeForm = ({ archtype, id }) => {
                     placeholder="Technical"
                     name="technical"
                     required
-                    value={currentArchtype.technical}
-                    onChange={handleChange}
+                    value={currentArchetype.technical}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="col">
+                  <FormLabel>Force Control</FormLabel>
+                  <Form.Control
+                    className="form-control-sm"
+                    type="text"
+                    placeholder="Control"
+                    name="control"
+                    required
+                    value={currentArchetype.Control}
+                    onChange={handleInputChange}
+                  />
+                </div>
+
+                <div className="col">
+                  <FormLabel>Force Sense</FormLabel>
+                  <Form.Control
+                    className="form-control-sm"
+                    type="text"
+                    placeholder="Sense"
+                    name="sense"
+                    required
+                    value={currentArchetype.sense}
+                    onChange={handleInputChange}
+                  />
+                </div>
+
+                <div className="col">
+                  <FormLabel>Force Alter</FormLabel>
+                  <Form.Control
+                    className="form-control-sm"
+                    type="text"
+                    placeholder="Alter"
+                    name="alter"
+                    required
+                    value={currentArchetype.alter}
+                    onChange={handleInputChange}
                   />
                 </div>
               </div>
@@ -203,8 +301,8 @@ const ArchtypeForm = ({ archtype, id }) => {
                       placeholder="Personality"
                       name="personality"
                       required
-                      value={currentArchtype.personality}
-                      onChange={handleChange}
+                      value={currentArchetype.personality}
+                      onChange={handleInputChange}
                     />
                   </FloatingLabel>
                 </div>
@@ -219,8 +317,8 @@ const ArchtypeForm = ({ archtype, id }) => {
                       placeholder="Background"
                       name="background"
                       required
-                      value={currentArchtype.background}
-                      onChange={handleChange}
+                      value={currentArchetype.background}
+                      onChange={handleInputChange}
                     />
                   </FloatingLabel>
                 </div>
@@ -235,8 +333,8 @@ const ArchtypeForm = ({ archtype, id }) => {
                       placeholder="Objectives"
                       name="objectives"
                       required
-                      value={currentArchtype.objectives}
-                      onChange={handleChange}
+                      value={currentArchetype.objectives}
+                      onChange={handleInputChange}
                     />
                   </FloatingLabel>
                 </div>
@@ -251,53 +349,89 @@ const ArchtypeForm = ({ archtype, id }) => {
                     placeholder="A Quote"
                     name="a_quote"
                     required
-                    value={currentArchtype.a_quote}
-                    onChange={handleChange}
+                    value={currentArchetype.a_quote}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col">
+                  <FormLabel>Source</FormLabel>
+                  <Form.Control
+                    className="form-control-sm"
+                    type="text"
+                    placeholder="Source"
+                    name="source"
+                    required
+                    value={currentArchetype.source}
+                    onChange={handleInputChange}
                   />
                 </div>
               </div>
             </div>
           </div>
-
-          <Button
-            variant={currentArchtype.force_sensitive ? 'danger' : 'success'}
-            onClick={toggleForceSensitive}
-            className="mt-3"
-          >
-            {currentArchtype.force_sensitive ? 'Deactivate Force' : 'Activate Force'}
-          </Button>
-
-          <Button variant="primary" type="submit" className="mt-3">
-            Submit
-          </Button>
+          <div>
+            <Button variant="primary" type="submit" className="mt-3">
+              Submit
+            </Button>
+          </div>
         </Form.Group>
       </Form>
     </>
   );
 };
 
-ArchtypeForm.propTypes = {
+ArchetypeForm.propTypes = {
   id: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
   ]),
-  archtype: PropTypes.shape({
-    archetype_name: PropTypes.string,
+  archetype: PropTypes.shape({
+    archetype_name: PropTypes.string.isRequired,
+    archetype_for_NPC: PropTypes.bool,
     archetype_force_sensitive: PropTypes.bool,
-    archetype_attributes: PropTypes.arrayOf(PropTypes.shape({
-      attribute_name: PropTypes.string,
-      attribute_code: PropTypes.string,
-    })),
+    archetype_dexterity: PropTypes.number,
+    archetype_knowledge: PropTypes.number,
+    archetype_mechanical: PropTypes.number,
+    archetype_perception: PropTypes.number,
+    archetype_strength: PropTypes.number,
+    archetype_technical: PropTypes.number,
+    archetype_force_control: PropTypes.number,
+    archetype_force_sense: PropTypes.number,
+    archetype_force_alter: PropTypes.number,
+    archetype_starting_credits: PropTypes.number,
     archetype_personality: PropTypes.string,
     archetype_background: PropTypes.string,
     archetype_objectives: PropTypes.string,
     archetype_a_quote: PropTypes.string,
+    archetype_game_notes: PropTypes.string,
+    archetype_source: PropTypes.string,
   }),
 };
 
-ArchtypeForm.defaultProps = {
+ArchetypeForm.defaultProps = {
   id: null,
-  archtype: null,
+  archetype: {
+    archetype_name: '',
+    archetype_for_NPC: false,
+    archetype_force_sensitive: false,
+    archetype_dexterity: 0,
+    archetype_knowledge: 0,
+    archetype_mechanical: 0,
+    archetype_perception: 0,
+    archetype_strength: 0,
+    archetype_technical: 0,
+    archetype_force_control: 0,
+    archetype_force_sense: 0,
+    archetype_force_alter: 0,
+    archetype_starting_credits: 0,
+    archetype_personality: '',
+    archetype_background: '',
+    archetype_objectives: '',
+    archetype_a_quote: '',
+    archetype_game_notes: '',
+    archetype_source: '',
+  },
 };
 
-export default ArchtypeForm;
+export default ArchetypeForm;
