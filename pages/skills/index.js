@@ -31,7 +31,7 @@ const Skills = () => {
   };
 
   const handleSearch = (term) => {
-    console.log('Search term:', term); // Debugging line
+    // console.log('Search term:', term); // Debugging line
     setSearchTerm(term);
   };
 
@@ -39,7 +39,7 @@ const Skills = () => {
     .filter((skill) => selectedAttribute === 'All' || skill.attribute === selectedAttribute)
     .filter((skill) => skill.skill_name.toLowerCase().includes(searchTerm.toLowerCase()));
 
-  console.log('Filtered skills:', filteredSkills); // Debugging line
+  // console.log('Filtered skills:', filteredSkills); // Debugging line
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
