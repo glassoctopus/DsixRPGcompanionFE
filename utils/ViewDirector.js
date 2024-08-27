@@ -7,6 +7,7 @@ import RegisterForm from '../components/RegisterForm';
 
 const ViewDirectorBasedOnUserAuthStatus = ({ component: Component, pageProps }) => {
   const { user, userLoading, updateUser } = useAuth();
+  // const updateUser = updateUser
 
   // if user state is null, then show loader
   if (userLoading) {
