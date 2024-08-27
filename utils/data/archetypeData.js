@@ -2,20 +2,20 @@ import { clientCredentials } from '../client';
 
 const endpoint = clientCredentials.databaseURL;
 
-const createArchtype = (archtype) => new Promise((resolve, reject) => {
+const createArchetype = (archetype) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/archetypes`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(archtype),
+    body: JSON.stringify(archetype),
   })
     .then((response) => response.json())
     .then((data) => resolve(data))
     .catch(reject);
 });
 
-const getSingleArchtype = (id) => new Promise((resolve, reject) => {
+const getSingleArchetype = (id) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/archetypes/${id}`, {
     method: 'GET',
     headers: {
@@ -30,7 +30,7 @@ const getSingleArchtype = (id) => new Promise((resolve, reject) => {
     })
     .then((data) => resolve(data))
     .catch((error) => {
-      console.error('Error fetching single archtype:', error);
+      console.error('Error fetching single archetype:', error);
       reject(error);
     });
 });
@@ -47,13 +47,13 @@ const getArchetypes = () => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const updateArchtype = (id, archtype) => new Promise((resolve, reject) => {
+const updateArchetype = (id, archetype) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/archetypes/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(archtype),
+    body: JSON.stringify(archetype),
   })
     .then((response) => {
       if (!response.ok) {
@@ -62,16 +62,16 @@ const updateArchtype = (id, archtype) => new Promise((resolve, reject) => {
     //   return response.json();
     })
     .then((data) => {
-      console.log('Update archtype Response:', data); // Log the response data
+      console.log('Update archetype Response:', data); // Log the response data
       resolve(data);
     })
     .catch((error) => {
-      console.error('Error updating archtype:', error);
+      console.error('Error updating archetype:', error);
       reject(error);
     });
 });
 
-const deleteArchtype = (id) => new Promise((resolve, reject) => {
+const deleteArchetype = (id) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/archetypes/${id}`, {
     method: 'DELETE',
     headers: {
@@ -83,9 +83,9 @@ const deleteArchtype = (id) => new Promise((resolve, reject) => {
 });
 
 export {
-  createArchtype,
-  getSingleArchtype,
+  createArchetype,
+  getSingleArchetype,
   getArchetypes,
-  updateArchtype,
-  deleteArchtype,
+  updateArchetype,
+  deleteArchetype,
 };
