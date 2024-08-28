@@ -1,15 +1,20 @@
-import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
-import { Button, Form, FormLabel } from 'react-bootstrap';
+import {
+  Button, Form, FloatingLabel,
+} from 'react-bootstrap';
 import {
   createHero, getSingleHero, updateHero, isForceSensitive, isNotForceSensitive,
 } from '../../../utils/data/heroData';
 
 const initialState = {
+  uid: '',
+  NPC: true,
+  user: '',
+  image: '',
   name: '',
-  archtype: '',
+  archetype: '',
   species: '',
   homeworld: '',
   gender: '',
@@ -20,331 +25,476 @@ const initialState = {
   personality: '',
   background: '',
   objectives: '',
-  a_guote: '',
+  a_quote: '',
+  credits: '',
+  force_sensitive: false,
+  dexterity: '',
+  knowledge: '',
+  mechanical: '',
+  perception: '',
+  strength: '',
+  technical: '',
+  force_control: '',
+  force_sense: '',
+  force_alter: '',
+  force_points: '',
+  dark_side_points: '',
+  force_strength: '',
+  skills: '',
 };
 
 const HeroForm = ({ hero, id }) => {
   const [currentHero, setCurrentHero] = useState(initialState);
   const router = useRouter();
-  // const { Hero, HeroLoading } = useAuth();
 
   useEffect(() => {
     if (hero) {
-      getSingleHero(id).then((data) => {
-        setCurrentHero({
-          name: data.name,
-          archtype: data.archtype,
-          species: data.species,
-          homeworld: data.homeworld,
-          gender: data.gender,
-          age: data.age,
-          height: data.height,
-          weight: data.weight,
-          physical_description: data.physical_description,
-          personality: data.personality,
-          background: data.background,
-          objectives: data.objectives,
-          a_quote: data.a_quote,
-        });
+      setCurrentHero({
+        uid: hero.uid,
+        NPC: hero.NPC,
+        user: hero.user,
+        image: hero.image,
+        name: hero.name,
+        archetype: hero.archetype,
+        species: hero.species,
+        homeworld: hero.homeworld,
+        gender: hero.gender,
+        age: hero.age,
+        height: hero.height,
+        weight: hero.weight,
+        physical_description: hero.physical_description,
+        personality: hero.personality,
+        background: hero.background,
+        objectives: hero.objectives,
+        a_quote: hero.a_quote,
+        credits: hero.credits,
+        force_sensitive: hero.force_sensitive,
+        dexterity: hero.dexterity,
+        knowledge: hero.knowledge,
+        mechanical: hero.mechanical,
+        perception: hero.perception,
+        strength: hero.strength,
+        technical: hero.technical,
+        force_control: hero.force_control,
+        force_sense: hero.force_sense,
+        force_alter: hero.force_alter,
+        force_points: hero.force_points,
+        dark_side_points: hero.dark_side_points,
+        force_strength: hero.force_strength,
       });
     }
   }, [id, hero]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setCurrentHero((prevState) => ({
-      ...prevState,
-      [name]: value || '',
+  const handleInputChange = ({
+    target: {
+      name, value, type, checked,
+    },
+  }) => {
+    setCurrentHero((prev) => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value,
     }));
-  };
-
-  const noForceAbility = () => {
-    if (hero) {
-      if (window.confirm(`no force ability in ${currentHero.name} ${id}`)) {
-        isNotForceSensitive(id);
-        window.location.reload();
-        router.push('/Heros');
-      }
-    }
-  };
-
-  const forceAbility = () => {
-    if (hero) {
-      if (window.confirm(`the force is strong with ${currentHero.name} ${id}`)) {
-        isForceSensitive(id);
-        window.location.reload();
-        router.push('/Heros');
-      }
-    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const aHero = {
-      name: currentHero.name,
-      archtype: currentHero.archtype,
-      species: currentHero.species,
-      homeworld: currentHero.homeworld,
-      gender: currentHero.gender,
-      age: currentHero.age,
-      height: currentHero.height,
-      weight: currentHero.weight,
-      physical_description: currentHero.physical_description,
-      personality: currentHero.personality,
-      background: currentHero.background,
-      objectives: currentHero.objectives,
-      a_quote: currentHero.a_guote,
+    const updatedHero = {
+      ...currentHero,
     };
 
     if (!id) {
-      createHero(aHero)
-        .then(() => router.push('/heros'))
+      createHero(updatedHero)
+        .then(() => router.push('/heroes'))
         .catch((error) => {
-          console.error('Error creating this Hero: ', error);
+          console.error('Error creating this hero:', error);
         });
     } else {
-      updateHero(aHero, id)
-        .then(() => router.push(`/heros/${id}`))
+      updateHero(updatedHero, id)
+        .then(() => router.push(`/heroes/${id}`))
         .catch((error) => {
-          console.error('Error updating this event: ', error);
+          console.error('Error updating this hero:', error);
         });
     }
   };
 
+  const toggleIsNPC = () => {
+    const updatedHero = {
+      ...currentHero,
+      NPC: !currentHero.NPC,
+    };
+    setCurrentHero(updatedHero);
+  };
+
+  const toggleForceSensitive = () => {
+    const updatedHero = {
+      ...currentHero,
+      force_sensitive: !currentHero.force_sensitive,
+    };
+    setCurrentHero(updatedHero);
+  };
+
   return (
     <>
-      <Form onSubmit={handleSubmit}>
+      <Form
+        onSubmit={handleSubmit}
+        style={{
+          maxHeight: '80vh',
+          overflowY: 'auto',
+          margin: '13px',
+          border: '13px',
+          padding: '13px',
+        }}
+        className="container-fluid"
+      >
         <Form.Group className="mb-3">
-          <div className="row">
-            <div className="col">
-              <div className="row">
-                <div className="col">
-                  <FormLabel>What&apos;s your name?</FormLabel>
-                  <Form.Control
-                    className="form-control-sm"
-                    type="text"
-                    placeholder="First Name"
-                    name="name"
-                    required
-                    value={currentHero.name}
-                    onChange={handleChange}
-                  />
-                </div>
+          <div style={{ margin: '13px', border: '13px', padding: '13px' }}>
 
-                <div className="col">
-                  <FormLabel>Class / Type / &quot;Template&quot;</FormLabel>
-                  <Form.Control
-                    className="form-control-sm"
-                    type="text"
-                    placeholder="Archetype / Occupation / Paradigm"
-                    name="archtype"
-                    required
-                    value={currentHero.archtype}
-                    onChange={handleChange}
-                  />
+            <div className="row">
+              <div className="col">
+
+                <Form.Label>Name</Form.Label>
+                <Form.Control
+                  className="form-control-sm"
+                  type="text"
+                  placeholder="Name"
+                  name="name"
+                  required
+                  value={hero.name}
+                  onChange={handleInputChange}
+                />
+                <Form.Label>Species</Form.Label>
+                <Form.Control
+                  className="form-control-sm"
+                  type="text"
+                  placeholder="Species"
+                  name="species"
+                  required
+                  value={hero.species}
+                  onChange={handleInputChange}
+                />
+                <div className="row">
+                  <div className="col">
+                    <Form.Label>Gender</Form.Label>
+                    <Form.Control
+                      className="form-control-sm"
+                      type="text"
+                      placeholder="Gender"
+                      name="gender"
+                      required
+                      value={hero.gender}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div className="col">
+                    <Form.Label>Age</Form.Label>
+                    <Form.Control
+                      className="form-control-sm"
+                      type="number"
+                      placeholder="Age"
+                      name="age"
+                      required
+                      value={hero.age}
+                      onChange={handleInputChange}
+                    />
+                  </div>
                 </div>
               </div>
 
-              <div className="row">
-                <div className="col">
-                  <FormLabel>You&apos;re the genetic or mechanical progeny of:</FormLabel>
-                  <Form.Control
-                    className="form-control-sm"
-                    type="text"
-                    placeholder="species"
-                    name="species"
-                    required
-                    value={currentHero.species}
-                    onChange={handleChange}
-                  />
+              <div className="col" style={{ margin: '13px', border: '13px', padding: '13px' }}>
+                <div className="row">
+                  <div className="col">
+                    <Form.Label>Dexterity</Form.Label>
+                    <Form.Control
+                      className="form-control-sm"
+                      type="text"
+                      placeholder="Dexterity"
+                      name="dexterity"
+                      required
+                      value={hero.dexterity}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div className="col">
+                    <Form.Label>Knowledge</Form.Label>
+                    <Form.Control
+                      className="form-control-sm"
+                      type="text"
+                      placeholder="Knowledge"
+                      name="knowledge"
+                      required
+                      value={hero.knowledge}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div className="col">
+                    <Form.Label>Mechanical</Form.Label>
+                    <Form.Control
+                      className="form-control-sm"
+                      type="text"
+                      placeholder="Mechanical"
+                      name="mechanical"
+                      required
+                      value={hero.mechanical}
+                      onChange={handleInputChange}
+                    />
+                  </div>
                 </div>
-
-                <div className="col">
-                  <FormLabel>Do you have a planet you call your homeworld?</FormLabel>
-                  <Form.Control
-                    className="form-control-sm"
-                    type="text"
-                    placeholder="homeworld"
-                    name="homeworld"
-                    required
-                    value={currentHero.homeworld}
-                    onChange={handleChange}
-                  />
+                <div className="row">
+                  <div className="col">
+                    <Form.Label>Perception</Form.Label>
+                    <Form.Control
+                      className="form-control-sm"
+                      type="text"
+                      placeholder="Perception"
+                      name="perception"
+                      required
+                      value={hero.perception}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div className="col">
+                    <Form.Label>Strength</Form.Label>
+                    <Form.Control
+                      className="form-control-sm"
+                      type="text"
+                      placeholder="Strength"
+                      name="strength"
+                      required
+                      value={hero.strength}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div className="col">
+                    <Form.Label>Technical</Form.Label>
+                    <Form.Control
+                      className="form-control-sm"
+                      type="text"
+                      placeholder="Technical"
+                      name="technical"
+                      required
+                      value={hero.technical}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col">
+                    <Form.Label>Force Control</Form.Label>
+                    <Form.Control
+                      className="form-control-sm"
+                      type="text"
+                      placeholder="Force Control"
+                      name="force_control"
+                      required
+                      value={hero.force_control}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div className="col">
+                    <Form.Label>Force Sense</Form.Label>
+                    <Form.Control
+                      className="form-control-sm"
+                      type="text"
+                      placeholder="Force Sense"
+                      name="force_sense"
+                      required
+                      value={hero.force_sense}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div className="col">
+                    <Form.Label>Force Alter</Form.Label>
+                    <Form.Control
+                      className="form-control-sm"
+                      type="text"
+                      placeholder="Force Alter"
+                      name="force_alter"
+                      required
+                      value={hero.force_alter}
+                      onChange={handleInputChange}
+                    />
+                  </div>
                 </div>
               </div>
 
-              <div className="row">
-                <div className="col">
-                  <FormLabel>If your species has &apos;em</FormLabel>
-                  <Form.Control
-                    className="form-control-sm"
-                    type="text"
-                    placeholder="gender"
-                    name="gender"
-                    required
-                    value={currentHero.gender}
-                    onChange={handleChange}
-                  />
-                </div>
-
-                <div className="col">
-                  <FormLabel>Age in Republic years?</FormLabel>
-                  <Form.Control
-                    className="form-control-sm"
-                    type="text"
-                    placeholder="age"
-                    name="age"
-                    required
-                    value={currentHero.age}
-                    onChange={handleChange}
-                  />
-                </div>
-
-                <div className="col">
-                  <FormLabel>Height in meters?</FormLabel>
-                  <Form.Control
-                    className="form-control-sm"
-                    type="text"
-                    placeholder="height"
-                    name="height"
-                    required
-                    value={currentHero.height}
-                    onChange={handleChange}
-                  />
-                </div>
-
-                <div className="col">
-                  <FormLabel>Weight in kilos</FormLabel>
-                  <Form.Control
-                    className="form-control-sm"
-                    type="text"
-                    placeholder="weight"
-                    name="weight"
-                    required
-                    value={currentHero.weight}
-                    onChange={handleChange}
-                  />
-                </div>
-
+              <div className="col">
+                <Form.Label>Archetype</Form.Label>
+                <Form.Control
+                  className="form-control-sm"
+                  type="text"
+                  placeholder="Archetype"
+                  name="archetype"
+                  required
+                  value={hero.archetype}
+                  onChange={handleInputChange}
+                />
+                <Form.Label>Homeworld</Form.Label>
+                <Form.Control
+                  className="form-control-sm"
+                  type="text"
+                  placeholder="Homeworld"
+                  name="homeworld"
+                  required
+                  value={hero.homeworld}
+                  onChange={handleInputChange}
+                />
                 <div className="row">
+
                   <div className="col">
-                    <FormLabel>Physical Description</FormLabel>
-                    <FloatingLabel controlId="floatingTextarea" label="what you look like" className="mb-3">
-                      <Form.Control
-                        type="text"
-                        placeholder="physical_description"
-                        name="physical_description"
-                        required
-                        value={currentHero.physical_description}
-                        onChange={handleChange}
-                        style={{ height: '69px' }}
-                      />
-                    </FloatingLabel>
+                    <Form.Label>Height</Form.Label>
+                    <Form.Control
+                      className="form-control-sm"
+                      type="text"
+                      placeholder="Height"
+                      name="height"
+                      required
+                      value={hero.height}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div className="col">
+                    <Form.Label>Weight</Form.Label>
+                    <Form.Control
+                      className="form-control-sm"
+                      type="text"
+                      placeholder="Weight"
+                      name="weight"
+                      required
+                      value={hero.weight}
+                      onChange={handleInputChange}
+                    />
                   </div>
                 </div>
-
-                <div className="row">
-                  <div className="col">
-                    <FormLabel>Personality</FormLabel>
-                    <FloatingLabel controlId="floatingTextarea" label="You're a..." className="mb-3">
-                      <Form.Control
-                        type="text"
-                        placeholder="personality"
-                        name="personality"
-                        required
-                        value={currentHero.personality}
-                        onChange={handleChange}
-                        style={{ height: '69px' }}
-                      />
-                    </FloatingLabel>
-                  </div>
-                </div>
-
-                <div className="row">
-                  <div className="col">
-                    <FormLabel>Background</FormLabel>
-                    <FloatingLabel controlId="floatingTextarea" label="You're from a..." className="mb-3">
-                      <Form.Control
-                        type="text"
-                        placeholder="background"
-                        name="background"
-                        required
-                        value={currentHero.background}
-                        onChange={handleChange}
-                        style={{ height: '69px' }}
-                      />
-                    </FloatingLabel>
-                  </div>
-                </div>
-
-                <div className="row">
-                  <div className="col">
-                    <FormLabel>Objectives</FormLabel>
-                    <FloatingLabel controlId="floatingTextarea" label="You're gonna do a..." className="mb-3">
-                      <Form.Control
-                        type="text"
-                        placeholder="objectives"
-                        name="objectives"
-                        required
-                        value={currentHero.objectives}
-                        onChange={handleChange}
-                        style={{ height: '69px' }}
-                      />
-                    </FloatingLabel>
-                  </div>
-                </div>
-
-                <div className="row">
-                  <div className="col">
-                    <FormLabel>A quote</FormLabel>
-                    <FloatingLabel controlId="floatingTextarea" label="You're always saying ..." className="mb-3">
-                      <Form.Control
-                        type="text"
-                        placeholder="a_quote"
-                        name="a_quote"
-                        required
-                        value={currentHero.a_quote || ''}
-                        onChange={handleChange}
-                        style={{ height: '33px' }}
-                      />
-                    </FloatingLabel>
-                  </div>
-                </div>
-
               </div>
             </div>
 
-            <div style={{ height: '666px', width: '450px', backgroundColor: '#f0f0f0' }}>
-              {/* Additional content or components can go here */}
+            <div className="row">
+              <div className="col">
+                <Form.Label>Personality</Form.Label>
+                <FloatingLabel controlId="personality" label="Personality" className="mb-3">
+                  <Form.Control
+                    as="textarea"
+                    placeholder="Personality"
+                    name="personality"
+                    required
+                    value={hero.personality}
+                    onChange={handleInputChange}
+                  />
+                </FloatingLabel>
+              </div>
+              <div className="col">
+                <Form.Label>Background</Form.Label>
+                <FloatingLabel controlId="background" label="Background" className="mb-3">
+                  <Form.Control
+                    as="textarea"
+                    placeholder="Background"
+                    name="background"
+                    required
+                    value={hero.background}
+                    onChange={handleInputChange}
+                  />
+                </FloatingLabel>
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="col">
+                <Form.Label>Physical Description</Form.Label>
+                <FloatingLabel controlId="physical_description" label="Physical Description" className="mb-3">
+                  <Form.Control
+                    as="textarea"
+                    placeholder="Physical Description"
+                    name="physical_description"
+                    required
+                    value={hero.physical_description}
+                    onChange={handleInputChange}
+                  />
+                </FloatingLabel>
+              </div>
+
+              <div className="col">
+                <Form.Label>Objectives</Form.Label>
+                <FloatingLabel controlId="objectives" label="Objectives" className="mb-3">
+                  <Form.Control
+                    as="textarea"
+                    placeholder="Objectives"
+                    name="objectives"
+                    required
+                    value={hero.objectives}
+                    onChange={handleInputChange}
+                  />
+                </FloatingLabel>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col">
+                <Form.Label>A Quote</Form.Label>
+                <Form.Control
+                  className="form-control-sm"
+                  type="text"
+                  placeholder="A Quote"
+                  name="a_quote"
+                  required
+                  value={hero.a_quote}
+                  onChange={handleInputChange}
+                />
+              </div>
+            </div>
+            <div className="row">
+              <div className="row">
+                <div className="col-auto">
+
+                  <Form.Label>Credits</Form.Label>
+                  <Form.Control
+                    className="form-control-sm"
+                    type="number"
+                    placeholder="Credits"
+                    name="credits"
+                    required
+                    value={hero.credits}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="col-auto">
+                  <Button
+                    variant={currentHero.NPC ? 'info' : 'success'}
+                    onClick={toggleIsNPC}
+                    className="ml-2 mt-3"
+                  >
+                    {currentHero.NPC ? 'Is not a NPC' : 'Is a NPC'}
+                  </Button>
+                </div>
+                <div className="col-auto">
+                  <Button
+                    variant={currentHero.force_sensitive ? 'info' : 'success'}
+                    onClick={toggleForceSensitive}
+                    className="ml-2 mt-3"
+                  >
+                    {currentHero.force_sensitive ? 'Is not Force Sensitive' : 'Is Force Sensitive'}
+                  </Button>
+                </div>
+              </div>
             </div>
           </div>
 
-          <Button
-            variant={currentHero.weight === 1 ? 'danger' : 'success'}
-            onClick={currentHero.weight === 1 ? noForceAbility : forceAbility}
-          >
-            {currentHero.weight === 1 ? 'not Force Sensitive' : 'Force Sensitive'}
-          </Button>
-
         </Form.Group>
         <Button variant="primary" type="submit">
-          Submit
+          Save
         </Button>
       </Form>
     </>
   );
-  //
 };
 
 HeroForm.propTypes = {
-  id: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-  ]),
   hero: PropTypes.shape({
+    uid: PropTypes.string,
+    NPC: PropTypes.bool,
+    user: PropTypes.string,
+    image: PropTypes.string,
     name: PropTypes.string,
-    archtype: PropTypes.string,
+    archetype: PropTypes.string,
     species: PropTypes.string,
     homeworld: PropTypes.string,
     gender: PropTypes.string,
@@ -356,12 +506,60 @@ HeroForm.propTypes = {
     background: PropTypes.string,
     objectives: PropTypes.string,
     a_quote: PropTypes.string,
+    credits: PropTypes.string,
+    force_sensitive: PropTypes.bool,
+    dexterity: PropTypes.number,
+    knowledge: PropTypes.number,
+    mechanical: PropTypes.number,
+    perception: PropTypes.number,
+    strength: PropTypes.number,
+    technical: PropTypes.number,
+    force_control: PropTypes.number,
+    force_sense: PropTypes.number,
+    force_alter: PropTypes.number,
+    force_points: PropTypes.number,
+    dark_side_points: PropTypes.number,
+    force_strength: PropTypes.number,
   }),
+  id: PropTypes.string,
 };
 
+// Set default values for props
 HeroForm.defaultProps = {
-  id: null,
-  hero: null,
+  hero: {
+    uid: '',
+    NPC: true,
+    user: '',
+    image: '',
+    name: '',
+    archetype: '',
+    species: '',
+    homeworld: '',
+    gender: '',
+    age: '',
+    height: '',
+    weight: '',
+    physical_description: '',
+    personality: '',
+    background: '',
+    objectives: '',
+    a_quote: '',
+    credits: '',
+    force_sensitive: false,
+    dexterity: '',
+    knowledge: '',
+    mechanical: '',
+    perception: '',
+    strength: '',
+    technical: '',
+    force_control: '',
+    force_sense: '',
+    force_alter: '',
+    force_points: '',
+    dark_side_points: '',
+    force_strength: '',
+  },
+  id: '',
 };
 
 export default HeroForm;

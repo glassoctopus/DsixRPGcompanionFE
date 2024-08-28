@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import { Button, Form, FormLabel } from 'react-bootstrap';
-import { createNote, updateNote } from '../utils/data/noteData';
+import { createNote, updateNote } from '../../utils/data/noteData';
 
 const initialState = {
   title: '',

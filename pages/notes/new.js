@@ -1,5 +1,5 @@
 import React from 'react';
-import TodoForm from '../../components/NoteForm';
+import TodoForm from '../../components/notes/NoteForm';
 import { useAuth } from '../../utils/context/authContext';
 
 const NewNote = () => {
