@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import NoteForm from '../../../components/NoteForm';
+import NoteForm from '../../../components/notes/NoteForm';
 import { useAuth } from '../../../utils/context/authContext';
 import { getSingleNote } from '../../../utils/data/noteData';
 

@@ -28,15 +28,9 @@ const NavBar = () => (
           <Link passHref href="/heros">
             <Nav.Link>Make a Hero?</Nav.Link>
           </Link>
-          <Link passHref href="/heros/archetypes/new">
-            <Nav.Link>Make/Edit an Archetype</Nav.Link>
+          <Link passHref href="/heros/archetypes/">
+            <Nav.Link>Hero Templates</Nav.Link>
           </Link>
-          {/* <Link passHref href="/equipment">
-            <Nav.Link>Equipment</Nav.Link>
-          </Link>
-          <Link passHref href="/equipment/new">
-            <Nav.Link>New Equipment</Nav.Link>
-          </Link> */}
           <Link passHref href="/skills">
             <Nav.Link>skills</Nav.Link>
           </Link>

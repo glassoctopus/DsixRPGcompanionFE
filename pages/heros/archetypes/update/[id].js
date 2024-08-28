@@ -16,7 +16,11 @@ const NewArchetype = () => {
   return (
     <div className="hero-container">
       <div className="hero-content">
-        <h2>Create a new character Archtype</h2>
+        <h2>
+          {user?.admin
+            ? 'You can edit or add Archetypes as an admin.'
+            : 'Create a NPC Archetype for fun!'}
+        </h2>
         <ArchtypeForm user={user} id={Number(id)} update={anArchtype} />
       </div>
     </div>

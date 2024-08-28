@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Button } from 'react-bootstrap';
-import NoteCard from '../../components/NoteCard';
+import NoteCard from '../../components/notes/NoteCard';
 import { getSingleNote } from '../../utils/data/noteData';
 
 const Note = () => {

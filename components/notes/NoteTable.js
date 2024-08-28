@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import Button from 'react-bootstrap/Button';
 import { useRouter } from 'next/router';
-import { deleteNote } from '../utils/data/noteData';
+import { deleteNote } from '../../utils/data/noteData';
 
 const NoteTable = ({ notes }) => {
   const router = useRouter();

@@ -69,7 +69,7 @@ const ArchetypeForm = ({ archetype, id }) => {
   }) => {
     setCurrentArchetype((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value, // this inputChange handles both text input and checkbox
+      [name]: type === 'checkbox' ? checked : value,
     }));
   };
 
@@ -113,267 +113,275 @@ const ArchetypeForm = ({ archetype, id }) => {
 
   return (
     <>
-      <Form onSubmit={handleSubmit}>
+      <Form
+        onSubmit={handleSubmit}
+        style={{
+          maxHeight: '80vh', overflowY: 'auto', margin: '13px', border: '13px ', padding: '13px',
+        }}
+        className="container-fluid"
+      >
         <Form.Group className="mb-3">
-          <div className="row">
-            <div className="col">
+          <div style={{ margin: '13px', border: '13px', padding: '13px' }}>
+            <div className="row">
               <div className="col">
-                <div className="row">
-                  <div className="col">
-                    <FormLabel>Archetype Name</FormLabel>
-                    <Form.Control
-                      className="form-control-sm"
-                      type="text"
-                      placeholder="Archetype Name"
-                      name="Archetype Name"
-                      required
-                      value={currentArchetype.name}
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                  <div className="col">
-                    <div className="row align-items-center">
-                      <div className="col-auto">
-                        <FormLabel>Starting Credits</FormLabel>
+                <div className="col">
+                  <div className="row">
+                    <div className="col">
+                      <FormLabel>Archetype Name</FormLabel>
+                      <FloatingLabel controlId="floatingTextarea" label="Archetype Name" className="mb-3">
                         <Form.Control
-                          className="form-control form-control-sm"
-                          type="text"
-                          placeholder="Starting Credits"
-                          name="startingCredits"
+                          as="textarea"
+                          placeholder="Archetype Name"
+                          name="name"
                           required
-                          value={currentArchetype.credits}
+                          value={currentArchetype.name}
                           onChange={handleInputChange}
                         />
-                      </div>
-                      <div className="col-auto">
-                        <Button
-                          variant={currentArchetype.NPC ? 'info' : 'success'}
-                          onClick={toggleIsNPC}
-                          className="ml-2 mt-3"
-                        >
-                          {currentArchetype.NPC ? 'Is not a NPC Archetype' : 'Is a NPC Archetype'}
-                        </Button>
-                      </div>
-                      <div className="col-auto">
-                        <Button
-                          variant={currentArchetype.force_sensitive ? 'info' : 'success'}
-                          onClick={toggleForceSensitive}
-                          className="ml-2 mt-3"
-                        >
-                          {currentArchetype.force_sensitive ? 'Is not Force Sensitive' : 'Is Force Sensitive'}
-                        </Button>
+                      </FloatingLabel>
+                    </div>
+                    <div className="col">
+                      <div className="row align-items-center">
+                        <div className="col-auto">
+                          <FormLabel>Starting Credits</FormLabel>
+                          <Form.Control
+                            className="form-control form-control-sm"
+                            type="text"
+                            placeholder="Starting Credits"
+                            name="startingCredits"
+                            required
+                            value={currentArchetype.credits}
+                            onChange={handleInputChange}
+                          />
+                        </div>
+                        <div className="col-auto">
+                          <Button
+                            variant={currentArchetype.NPC ? 'info' : 'success'}
+                            onClick={toggleIsNPC}
+                            className="ml-2 mt-3"
+                          >
+                            {currentArchetype.NPC ? 'Is not a NPC Archetype' : 'Is a NPC Archetype'}
+                          </Button>
+                        </div>
+                        <div className="col-auto">
+                          <Button
+                            variant={currentArchetype.force_sensitive ? 'info' : 'success'}
+                            onClick={toggleForceSensitive}
+                            className="ml-2 mt-3"
+                          >
+                            {currentArchetype.force_sensitive ? 'Is not Force Sensitive' : 'Is Force Sensitive'}
+                          </Button>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="row">
-                <div className="col">
-                  <FormLabel>Dexterity</FormLabel>
-                  <Form.Control
-                    className="form-control-sm"
-                    type="text"
-                    placeholder="Dexterity"
-                    name="dexterity"
-                    required
-                    value={currentArchetype.dexterity}
-                    onChange={handleInputChange}
-                  />
+                <div className="row">
+                  <div className="col">
+                    <div className="row">
+                      <div className="col">
+                        <FormLabel>Dexterity</FormLabel>
+                        <Form.Control
+                          className="form-control-sm"
+                          type="text"
+                          placeholder="Dexterity"
+                          name="dexterity"
+                          required
+                          value={currentArchetype.dexterity}
+                          onChange={handleInputChange}
+                        />
+                      </div>
+
+                      <div className="col">
+                        <FormLabel>Knowledge</FormLabel>
+                        <Form.Control
+                          className="form-control-sm"
+                          type="text"
+                          placeholder="Knowledge"
+                          name="knowledge"
+                          required
+                          value={currentArchetype.knowledge}
+                          onChange={handleInputChange}
+                        />
+                      </div>
+
+                      <div className="col">
+                        <FormLabel>Mechanical</FormLabel>
+                        <Form.Control
+                          className="form-control-sm"
+                          type="text"
+                          placeholder="Mechanical"
+                          name="mechanical"
+                          required
+                          value={currentArchetype.mechanical}
+                          onChange={handleInputChange}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="row">
+                      <div className="col">
+                        <FormLabel>Perception</FormLabel>
+                        <Form.Control
+                          className="form-control-sm"
+                          type="text"
+                          placeholder="Perception"
+                          name="perception"
+                          required
+                          value={currentArchetype.perception}
+                          onChange={handleInputChange}
+                        />
+                      </div>
+
+                      <div className="col">
+                        <FormLabel>Strength</FormLabel>
+                        <Form.Control
+                          className="form-control-sm"
+                          type="text"
+                          placeholder="Strength"
+                          name="strength"
+                          required
+                          value={currentArchetype.strength}
+                          onChange={handleInputChange}
+                        />
+                      </div>
+
+                      <div className="col">
+                        <FormLabel>Technical</FormLabel>
+                        <Form.Control
+                          className="form-control-sm"
+                          type="text"
+                          placeholder="Technical"
+                          name="technical"
+                          required
+                          value={currentArchetype.technical}
+                          onChange={handleInputChange}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="row">
+                      <div className="col">
+                        <FormLabel>Force Control</FormLabel>
+                        <Form.Control
+                          className="form-control-sm"
+                          type="text"
+                          placeholder="Control"
+                          name="control"
+                          required
+                          value={currentArchetype.control}
+                          onChange={handleInputChange}
+                        />
+                      </div>
+
+                      <div className="col">
+                        <FormLabel>Force Sense</FormLabel>
+                        <Form.Control
+                          className="form-control-sm"
+                          type="text"
+                          placeholder="Sense"
+                          name="sense"
+                          required
+                          value={currentArchetype.sense}
+                          onChange={handleInputChange}
+                        />
+                      </div>
+
+                      <div className="col">
+                        <FormLabel>Force Alter</FormLabel>
+                        <Form.Control
+                          className="form-control-sm"
+                          type="text"
+                          placeholder="Alter"
+                          name="alter"
+                          required
+                          value={currentArchetype.alter}
+                          onChange={handleInputChange}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="col">
+                    <div style={{ margin: '13px', border: '13px', padding: '13px' }}>
+                      <FormLabel>Personality</FormLabel>
+                      <FloatingLabel controlId="floatingTextarea" label="Personality" className="mb-3">
+                        <Form.Control
+                          as="textarea"
+                          placeholder="Personality"
+                          name="personality"
+                          required
+                          value={currentArchetype.personality}
+                          onChange={handleInputChange}
+                        />
+                      </FloatingLabel>
+                    </div>
+
+                    <div style={{ margin: '13px', border: '13px', padding: '13px' }}>
+                      <FormLabel>Background</FormLabel>
+                      <FloatingLabel controlId="floatingTextarea" label="Background" className="mb-3">
+                        <Form.Control
+                          as="textarea"
+                          placeholder="Background"
+                          name="background"
+                          required
+                          value={currentArchetype.background}
+                          onChange={handleInputChange}
+                        />
+                      </FloatingLabel>
+                    </div>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col">
+                    <FormLabel>Objectives</FormLabel>
+                    <FloatingLabel controlId="floatingTextarea" label="Objectives" className="mb-3">
+                      <Form.Control
+                        as="textarea"
+                        placeholder="Objectives"
+                        name="objectives"
+                        required
+                        value={currentArchetype.objectives}
+                        onChange={handleInputChange}
+                      />
+                    </FloatingLabel>
+                  </div>
                 </div>
 
-                <div className="col">
-                  <FormLabel>Knowledge</FormLabel>
-                  <Form.Control
-                    className="form-control-sm"
-                    type="text"
-                    placeholder="Knowledge"
-                    name="knowledge"
-                    required
-                    value={currentArchetype.knowledge}
-                    onChange={handleInputChange}
-                  />
-                </div>
-              </div>
-
-              <div className="row">
-                <div className="col">
-                  <FormLabel>Mechanical</FormLabel>
-                  <Form.Control
-                    className="form-control-sm"
-                    type="text"
-                    placeholder="Mechanical"
-                    name="mechanical"
-                    required
-                    value={currentArchetype.mechanical}
-                    onChange={handleInputChange}
-                  />
-                </div>
-
-                <div className="col">
-                  <FormLabel>Perception</FormLabel>
-                  <Form.Control
-                    className="form-control-sm"
-                    type="text"
-                    placeholder="Perception"
-                    name="perception"
-                    required
-                    value={currentArchetype.perception}
-                    onChange={handleInputChange}
-                  />
-                </div>
-              </div>
-
-              <div className="row">
-                <div className="col">
-                  <FormLabel>Strength</FormLabel>
-                  <Form.Control
-                    className="form-control-sm"
-                    type="text"
-                    placeholder="Strength"
-                    name="strength"
-                    required
-                    value={currentArchetype.strength}
-                    onChange={handleInputChange}
-                  />
-                </div>
-
-                <div className="col">
-                  <FormLabel>Technical</FormLabel>
-                  <Form.Control
-                    className="form-control-sm"
-                    type="text"
-                    placeholder="Technical"
-                    name="technical"
-                    required
-                    value={currentArchetype.technical}
-                    onChange={handleInputChange}
-                  />
-                </div>
-              </div>
-
-              <div className="row">
-                <div className="col">
-                  <FormLabel>Force Control</FormLabel>
-                  <Form.Control
-                    className="form-control-sm"
-                    type="text"
-                    placeholder="Control"
-                    name="control"
-                    required
-                    value={currentArchetype.Control}
-                    onChange={handleInputChange}
-                  />
-                </div>
-
-                <div className="col">
-                  <FormLabel>Force Sense</FormLabel>
-                  <Form.Control
-                    className="form-control-sm"
-                    type="text"
-                    placeholder="Sense"
-                    name="sense"
-                    required
-                    value={currentArchetype.sense}
-                    onChange={handleInputChange}
-                  />
-                </div>
-
-                <div className="col">
-                  <FormLabel>Force Alter</FormLabel>
-                  <Form.Control
-                    className="form-control-sm"
-                    type="text"
-                    placeholder="Alter"
-                    name="alter"
-                    required
-                    value={currentArchetype.alter}
-                    onChange={handleInputChange}
-                  />
-                </div>
-              </div>
-
-              <div className="row">
-                <div className="col">
-                  <FormLabel>Personality</FormLabel>
-                  <FloatingLabel controlId="floatingTextarea" label="Personality" className="mb-3">
+                <div className="row">
+                  <div className="col">
+                    <FormLabel>A Quote</FormLabel>
                     <Form.Control
-                      as="textarea"
-                      placeholder="Personality"
-                      name="personality"
+                      className="form-control-sm"
+                      type="text"
+                      placeholder="A Quote"
+                      name="a_quote"
                       required
-                      value={currentArchetype.personality}
+                      value={currentArchetype.a_quote}
                       onChange={handleInputChange}
                     />
-                  </FloatingLabel>
+                  </div>
                 </div>
-              </div>
-
-              <div className="row">
-                <div className="col">
-                  <FormLabel>Background</FormLabel>
-                  <FloatingLabel controlId="floatingTextarea" label="Background" className="mb-3">
+                <div className="row">
+                  <div className="col">
+                    <FormLabel>Source</FormLabel>
                     <Form.Control
-                      as="textarea"
-                      placeholder="Background"
-                      name="background"
+                      className="form-control-sm"
+                      type="text"
+                      placeholder="Source"
+                      name="source"
                       required
-                      value={currentArchetype.background}
+                      value={currentArchetype.source}
                       onChange={handleInputChange}
                     />
-                  </FloatingLabel>
-                </div>
-              </div>
-
-              <div className="row">
-                <div className="col">
-                  <FormLabel>Objectives</FormLabel>
-                  <FloatingLabel controlId="floatingTextarea" label="Objectives" className="mb-3">
-                    <Form.Control
-                      as="textarea"
-                      placeholder="Objectives"
-                      name="objectives"
-                      required
-                      value={currentArchetype.objectives}
-                      onChange={handleInputChange}
-                    />
-                  </FloatingLabel>
-                </div>
-              </div>
-
-              <div className="row">
-                <div className="col">
-                  <FormLabel>A Quote</FormLabel>
-                  <Form.Control
-                    className="form-control-sm"
-                    type="text"
-                    placeholder="A Quote"
-                    name="a_quote"
-                    required
-                    value={currentArchetype.a_quote}
-                    onChange={handleInputChange}
-                  />
-                </div>
-              </div>
-              <div className="row">
-                <div className="col">
-                  <FormLabel>Source</FormLabel>
-                  <Form.Control
-                    className="form-control-sm"
-                    type="text"
-                    placeholder="Source"
-                    name="source"
-                    required
-                    value={currentArchetype.source}
-                    onChange={handleInputChange}
-                  />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div>
-            <Button variant="primary" type="submit" className="mt-3">
-              Submit
-            </Button>
+            <div>
+              <Button variant="primary" type="submit" className="mt-3">
+                Submit
+              </Button>
+            </div>
           </div>
         </Form.Group>
       </Form>

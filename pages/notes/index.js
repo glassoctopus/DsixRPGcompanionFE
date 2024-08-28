@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Button } from 'react-bootstrap';
 import { getNotes } from '../../utils/data/noteData';
-import NoteTable from '../../components/NoteTable';
+import NoteTable from '../../components/notes/NoteTable';
 import { useAuth } from '../../utils/context/authContext';
 
 const Note = () => {
