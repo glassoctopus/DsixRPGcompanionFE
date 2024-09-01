@@ -95,20 +95,18 @@ const ArchetypeForm = ({ archetype, id }) => {
     }
   };
 
-  const toggleIsNPC = () => {
-    const updatedArchetype = {
-      ...currentArchetype,
-      NPC: !currentArchetype.NPC,
-    };
-    setCurrentArchetype(updatedArchetype);
+  const toggleForceSensitive = () => {
+    setCurrentArchetype((prevState) => ({
+      ...prevState,
+      force_sensitive: !prevState.force_sensitive,
+    }));
   };
 
-  const toggleForceSensitive = () => {
-    const updatedArchetype = {
-      ...currentArchetype,
-      force_sensitive: !currentArchetype.force_sensitive,
-    };
-    setCurrentArchetype(updatedArchetype);
+  const toggleIsNPC = () => {
+    setCurrentArchetype((prevState) => ({
+      ...prevState,
+      NPC: !prevState.NPC,
+    }));
   };
 
   return (
@@ -155,21 +153,28 @@ const ArchetypeForm = ({ archetype, id }) => {
                         </div>
                         <div className="col-auto">
                           <Button
-                            variant={currentArchetype.NPC ? 'info' : 'success'}
+                            variant={currentArchetype.NPC ? 'info' : 'warning'}
                             onClick={toggleIsNPC}
                             className="ml-2 mt-3"
                           >
-                            {currentArchetype.NPC ? 'Is not a NPC Archetype' : 'Is a NPC Archetype'}
+                            {currentArchetype.NPC ? 'Is not a NPC' : 'Is a NPC'}
                           </Button>
+                          <h5 style={{ display: 'inline-block', marginLeft: '15px' }}>
+                            {currentArchetype.NPC ? 'Archetype is not a NPC, click to make a NPC' : 'Archetype is an NPC, click the button make a Character' }
+                          </h5>
                         </div>
+
                         <div className="col-auto">
                           <Button
-                            variant={currentArchetype.force_sensitive ? 'info' : 'success'}
+                            variant={currentArchetype.force_sensitive ? 'info' : 'warning'}
                             onClick={toggleForceSensitive}
                             className="ml-2 mt-3"
                           >
                             {currentArchetype.force_sensitive ? 'Is not Force Sensitive' : 'Is Force Sensitive'}
                           </Button>
+                          <h5 style={{ display: 'inline-block', marginLeft: '15px' }}>
+                            {currentArchetype.force_sensitive ? 'Archetype is not Force Sensitive, click the button to revert' : 'Archetype is Force Sensitive, click the button to revert'}
+                          </h5>
                         </div>
                       </div>
                     </div>

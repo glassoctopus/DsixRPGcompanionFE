@@ -59,10 +59,8 @@ const updateSkill = (id, Skill) => new Promise((resolve, reject) => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-    //   return response.json();
     })
     .then((data) => {
-      console.log('Update Skill Response:', data); // Log the response data
       resolve(data);
     })
     .catch((error) => {

@@ -1,20 +1,20 @@
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
-import { useState, useEffect } from 'react';
-import {
-  Button, Form, FloatingLabel,
-} from 'react-bootstrap';
-import {
-  createHero, getSingleHero, updateHero, isForceSensitive, isNotForceSensitive,
-} from '../../../utils/data/heroData';
+import { useState, useEffect, useMemo } from 'react';
+import { Button, Form, FloatingLabel } from 'react-bootstrap';
+import { useAuth } from '../../../utils/context/authContext';
+import { createHero, updateHero } from '../../../utils/data/heroData';
+import ArchetypeDropdown from '../../ArchetypeDropDown';
+import { useArchetypes } from '../../../utils/context/archetypeContext';
 
 const initialState = {
+  id: 0,
   uid: '',
   NPC: true,
-  user: '',
+  user: 0,
   image: '',
   name: '',
-  archetype: '',
+  archetype: null,
   species: '',
   homeworld: '',
   gender: '',
@@ -26,73 +26,86 @@ const initialState = {
   background: '',
   objectives: '',
   a_quote: '',
-  credits: '',
+  credits: 0,
   force_sensitive: false,
-  dexterity: '',
-  knowledge: '',
-  mechanical: '',
-  perception: '',
-  strength: '',
-  technical: '',
-  force_control: '',
-  force_sense: '',
-  force_alter: '',
-  force_points: '',
-  dark_side_points: '',
-  force_strength: '',
-  skills: '',
+  dexterity: 0.0,
+  knowledge: 0.0,
+  mechanical: 0.0,
+  perception: 0.0,
+  strength: 0.0,
+  technical: 0.0,
+  force_control: 0.0,
+  force_sense: 0.0,
+  force_alter: 0.0,
+  force_points: 0,
+  dark_side_points: 0,
+  force_strength: 0,
 };
 
 const HeroForm = ({ hero, id }) => {
   const [currentHero, setCurrentHero] = useState(initialState);
+  const [selectedArchetype, setSelectedArchetype] = useState(null);
+  const { archetypes } = useArchetypes();
   const router = useRouter();
+  const { user } = useAuth();
 
   useEffect(() => {
     if (hero) {
-      setCurrentHero({
-        uid: hero.uid,
-        NPC: hero.NPC,
-        user: hero.user,
-        image: hero.image,
-        name: hero.name,
-        archetype: hero.archetype,
-        species: hero.species,
-        homeworld: hero.homeworld,
-        gender: hero.gender,
-        age: hero.age,
-        height: hero.height,
-        weight: hero.weight,
-        physical_description: hero.physical_description,
-        personality: hero.personality,
-        background: hero.background,
-        objectives: hero.objectives,
-        a_quote: hero.a_quote,
-        credits: hero.credits,
-        force_sensitive: hero.force_sensitive,
-        dexterity: hero.dexterity,
-        knowledge: hero.knowledge,
-        mechanical: hero.mechanical,
-        perception: hero.perception,
-        strength: hero.strength,
-        technical: hero.technical,
-        force_control: hero.force_control,
-        force_sense: hero.force_sense,
-        force_alter: hero.force_alter,
-        force_points: hero.force_points,
-        dark_side_points: hero.dark_side_points,
-        force_strength: hero.force_strength,
-      });
-    }
-  }, [id, hero]);
+      const validatedHero = {
+        ...hero,
+        id: typeof hero.id === 'number' ? hero.id : 0,
+        user: typeof hero.user === 'string' ? hero.user : '',
+      };
 
-  const handleInputChange = ({
-    target: {
-      name, value, type, checked,
-    },
-  }) => {
-    setCurrentHero((prev) => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value,
+      setCurrentHero(validatedHero);
+      const archetypeObject = archetypes.find((a) => a.id === validatedHero.archetype);
+      setSelectedArchetype(archetypeObject || null);
+    }
+  }, [hero, archetypes]);
+
+  // trying to useMemo to avoid bugs on form page reffreshes.
+  const memoizedCurrentHero = useMemo(() => currentHero, [currentHero]);
+  const memoizedSelectedArchetype = useMemo(() => selectedArchetype, [selectedArchetype]);
+
+  const handleArchetypeSelect = (newArchetype) => {
+    if (!newArchetype) return;
+
+    const confirmSelection = window.confirm(
+      `Are you sure you want to select ${newArchetype.archetype_name}? This will override certain fields.`,
+    );
+
+    if (confirmSelection) {
+      setSelectedArchetype(newArchetype);
+
+      setCurrentHero((prevHero) => ({
+        ...prevHero,
+        archetype: newArchetype.id,
+        personality: newArchetype.archetype_personality || prevHero.personality,
+        background: newArchetype.archetype_background || prevHero.background,
+        objectives: newArchetype.archetype_objectives || prevHero.objectives,
+        a_quote: newArchetype.archetype_a_quote || prevHero.a_quote,
+        credits: newArchetype.archetype_starting_credits ?? prevHero.credits,
+        force_sensitive: newArchetype.archetype_force_sensitive ?? prevHero.force_sensitive,
+        dexterity: newArchetype.archetype_dexterity || prevHero.dexterity,
+        knowledge: newArchetype.archetype_knowledge || prevHero.knowledge,
+        mechanical: newArchetype.archetype_mechanical || prevHero.mechanical,
+        perception: newArchetype.archetype_perception || prevHero.perception,
+        strength: newArchetype.archetype_strength || prevHero.strength,
+        technical: newArchetype.archetype_technical || prevHero.technical,
+        force_control: newArchetype.archetype_force_control || prevHero.force_control,
+        force_sense: newArchetype.archetype_force_sense || prevHero.force_sense,
+        force_alter: newArchetype.archetype_force_alter || prevHero.force_alter,
+      }));
+    } else {
+      alert('Archetype selection canceled');
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setCurrentHero((prevState) => ({
+      ...prevState,
+      [name]: value,
     }));
   };
 
@@ -100,38 +113,39 @@ const HeroForm = ({ hero, id }) => {
     e.preventDefault();
 
     const updatedHero = {
-      ...currentHero,
+      ...memoizedCurrentHero,
+      archetype: memoizedSelectedArchetype?.id ?? memoizedCurrentHero.archetype,
+      user: user.id,
+      uid: user.id + memoizedCurrentHero.name + Math.floor(1000000 + Math.random() * 9000000),
     };
 
     if (!id) {
       createHero(updatedHero)
-        .then(() => router.push('/heroes'))
+        .then(() => router.push('/heros'))
         .catch((error) => {
           console.error('Error creating this hero:', error);
         });
     } else {
       updateHero(updatedHero, id)
-        .then(() => router.push(`/heroes/${id}`))
+        .then(() => router.push(`/heros/${id}`))
         .catch((error) => {
           console.error('Error updating this hero:', error);
         });
     }
   };
 
-  const toggleIsNPC = () => {
-    const updatedHero = {
-      ...currentHero,
-      NPC: !currentHero.NPC,
-    };
-    setCurrentHero(updatedHero);
+  const toggleForceSensitive = () => {
+    setCurrentHero((prevState) => ({
+      ...prevState,
+      force_sensitive: !prevState.force_sensitive,
+    }));
   };
 
-  const toggleForceSensitive = () => {
-    const updatedHero = {
-      ...currentHero,
-      force_sensitive: !currentHero.force_sensitive,
-    };
-    setCurrentHero(updatedHero);
+  const toggleIsNPC = () => {
+    setCurrentHero((prevState) => ({
+      ...prevState,
+      NPC: !prevState.NPC,
+    }));
   };
 
   return (
@@ -149,9 +163,16 @@ const HeroForm = ({ hero, id }) => {
       >
         <Form.Group className="mb-3">
           <div style={{ margin: '13px', border: '13px', padding: '13px' }}>
-
             <div className="row">
               <div className="col">
+                <Form.Group controlId="archetypeSelect">
+                  <Form.Label>fix this charID: {id}</Form.Label>
+                  <ArchetypeDropdown
+                    selectedArchetype={selectedArchetype}
+                    onSelect={handleArchetypeSelect}
+                  >select a character template
+                  </ArchetypeDropdown>
+                </Form.Group>
 
                 <Form.Label>Name</Form.Label>
                 <Form.Control
@@ -160,7 +181,7 @@ const HeroForm = ({ hero, id }) => {
                   placeholder="Name"
                   name="name"
                   required
-                  value={hero.name}
+                  value={currentHero.name}
                   onChange={handleInputChange}
                 />
                 <Form.Label>Species</Form.Label>
@@ -170,35 +191,10 @@ const HeroForm = ({ hero, id }) => {
                   placeholder="Species"
                   name="species"
                   required
-                  value={hero.species}
+                  value={currentHero.species}
                   onChange={handleInputChange}
                 />
-                <div className="row">
-                  <div className="col">
-                    <Form.Label>Gender</Form.Label>
-                    <Form.Control
-                      className="form-control-sm"
-                      type="text"
-                      placeholder="Gender"
-                      name="gender"
-                      required
-                      value={hero.gender}
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                  <div className="col">
-                    <Form.Label>Age</Form.Label>
-                    <Form.Control
-                      className="form-control-sm"
-                      type="number"
-                      placeholder="Age"
-                      name="age"
-                      required
-                      value={hero.age}
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                </div>
+
               </div>
 
               <div className="col" style={{ margin: '13px', border: '13px', padding: '13px' }}>
@@ -211,7 +207,7 @@ const HeroForm = ({ hero, id }) => {
                       placeholder="Dexterity"
                       name="dexterity"
                       required
-                      value={hero.dexterity}
+                      value={currentHero.dexterity}
                       onChange={handleInputChange}
                     />
                   </div>
@@ -223,7 +219,7 @@ const HeroForm = ({ hero, id }) => {
                       placeholder="Knowledge"
                       name="knowledge"
                       required
-                      value={hero.knowledge}
+                      value={currentHero.knowledge}
                       onChange={handleInputChange}
                     />
                   </div>
@@ -235,7 +231,7 @@ const HeroForm = ({ hero, id }) => {
                       placeholder="Mechanical"
                       name="mechanical"
                       required
-                      value={hero.mechanical}
+                      value={currentHero.mechanical}
                       onChange={handleInputChange}
                     />
                   </div>
@@ -249,7 +245,7 @@ const HeroForm = ({ hero, id }) => {
                       placeholder="Perception"
                       name="perception"
                       required
-                      value={hero.perception}
+                      value={currentHero.perception}
                       onChange={handleInputChange}
                     />
                   </div>
@@ -261,7 +257,7 @@ const HeroForm = ({ hero, id }) => {
                       placeholder="Strength"
                       name="strength"
                       required
-                      value={hero.strength}
+                      value={currentHero.strength}
                       onChange={handleInputChange}
                     />
                   </div>
@@ -273,7 +269,7 @@ const HeroForm = ({ hero, id }) => {
                       placeholder="Technical"
                       name="technical"
                       required
-                      value={hero.technical}
+                      value={currentHero.technical}
                       onChange={handleInputChange}
                     />
                   </div>
@@ -287,7 +283,7 @@ const HeroForm = ({ hero, id }) => {
                       placeholder="Force Control"
                       name="force_control"
                       required
-                      value={hero.force_control}
+                      value={currentHero.force_control}
                       onChange={handleInputChange}
                     />
                   </div>
@@ -299,7 +295,7 @@ const HeroForm = ({ hero, id }) => {
                       placeholder="Force Sense"
                       name="force_sense"
                       required
-                      value={hero.force_sense}
+                      value={currentHero.force_sense}
                       onChange={handleInputChange}
                     />
                   </div>
@@ -311,7 +307,7 @@ const HeroForm = ({ hero, id }) => {
                       placeholder="Force Alter"
                       name="force_alter"
                       required
-                      value={hero.force_alter}
+                      value={currentHero.force_alter}
                       onChange={handleInputChange}
                     />
                   </div>
@@ -319,16 +315,6 @@ const HeroForm = ({ hero, id }) => {
               </div>
 
               <div className="col">
-                <Form.Label>Archetype</Form.Label>
-                <Form.Control
-                  className="form-control-sm"
-                  type="text"
-                  placeholder="Archetype"
-                  name="archetype"
-                  required
-                  value={hero.archetype}
-                  onChange={handleInputChange}
-                />
                 <Form.Label>Homeworld</Form.Label>
                 <Form.Control
                   className="form-control-sm"
@@ -336,11 +322,10 @@ const HeroForm = ({ hero, id }) => {
                   placeholder="Homeworld"
                   name="homeworld"
                   required
-                  value={hero.homeworld}
+                  value={currentHero.homeworld}
                   onChange={handleInputChange}
                 />
                 <div className="row">
-
                   <div className="col">
                     <Form.Label>Height</Form.Label>
                     <Form.Control
@@ -349,7 +334,7 @@ const HeroForm = ({ hero, id }) => {
                       placeholder="Height"
                       name="height"
                       required
-                      value={hero.height}
+                      value={currentHero.height}
                       onChange={handleInputChange}
                     />
                   </div>
@@ -361,7 +346,33 @@ const HeroForm = ({ hero, id }) => {
                       placeholder="Weight"
                       name="weight"
                       required
-                      value={hero.weight}
+                      value={currentHero.weight}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col">
+                    <Form.Label>Gender</Form.Label>
+                    <Form.Control
+                      className="form-control-sm"
+                      type="text"
+                      placeholder="Gender"
+                      name="gender"
+                      required
+                      value={currentHero.gender}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div className="col">
+                    <Form.Label>Age</Form.Label>
+                    <Form.Control
+                      className="form-control-sm"
+                      type="number"
+                      placeholder="Age"
+                      name="age"
+                      required
+                      value={currentHero.age}
                       onChange={handleInputChange}
                     />
                   </div>
@@ -378,7 +389,7 @@ const HeroForm = ({ hero, id }) => {
                     placeholder="Personality"
                     name="personality"
                     required
-                    value={hero.personality}
+                    value={currentHero.personality}
                     onChange={handleInputChange}
                   />
                 </FloatingLabel>
@@ -391,7 +402,7 @@ const HeroForm = ({ hero, id }) => {
                     placeholder="Background"
                     name="background"
                     required
-                    value={hero.background}
+                    value={currentHero.background}
                     onChange={handleInputChange}
                   />
                 </FloatingLabel>
@@ -407,7 +418,7 @@ const HeroForm = ({ hero, id }) => {
                     placeholder="Physical Description"
                     name="physical_description"
                     required
-                    value={hero.physical_description}
+                    value={currentHero.physical_description}
                     onChange={handleInputChange}
                   />
                 </FloatingLabel>
@@ -421,7 +432,7 @@ const HeroForm = ({ hero, id }) => {
                     placeholder="Objectives"
                     name="objectives"
                     required
-                    value={hero.objectives}
+                    value={currentHero.objectives}
                     onChange={handleInputChange}
                   />
                 </FloatingLabel>
@@ -436,7 +447,7 @@ const HeroForm = ({ hero, id }) => {
                   placeholder="A Quote"
                   name="a_quote"
                   required
-                  value={hero.a_quote}
+                  value={currentHero.a_quote}
                   onChange={handleInputChange}
                 />
               </div>
@@ -452,27 +463,33 @@ const HeroForm = ({ hero, id }) => {
                     placeholder="Credits"
                     name="credits"
                     required
-                    value={hero.credits}
+                    value={currentHero.credits}
                     onChange={handleInputChange}
                   />
                 </div>
                 <div className="col-auto">
                   <Button
-                    variant={currentHero.NPC ? 'info' : 'success'}
-                    onClick={toggleIsNPC}
-                    className="ml-2 mt-3"
-                  >
-                    {currentHero.NPC ? 'Is not a NPC' : 'Is a NPC'}
-                  </Button>
-                </div>
-                <div className="col-auto">
-                  <Button
-                    variant={currentHero.force_sensitive ? 'info' : 'success'}
+                    variant={currentHero.force_sensitive ? 'info' : 'warning'}
                     onClick={toggleForceSensitive}
                     className="ml-2 mt-3"
                   >
-                    {currentHero.force_sensitive ? 'Is not Force Sensitive' : 'Is Force Sensitive'}
+                    {currentHero.force_sensitive ? 'Is Force Sensitive' : 'Is not Force Sensitive'}
                   </Button>
+                  <h5 style={{ display: 'inline-block', marginLeft: '15px' }}>
+                    {currentHero.force_sensitive ? 'Character is Force Sensitive, click the button to revert' : 'Character is not Force Sensitive, click the button to revert'}
+                  </h5>
+                </div>
+                <div className="col-auto">
+                  <Button
+                    variant={currentHero.NPC ? 'warning' : 'info'}
+                    onClick={toggleIsNPC}
+                    className="ml-2 mt-3"
+                  >
+                    {currentHero.NPC ? 'Is a NPC' : 'Is not a NPC'}
+                  </Button>
+                  <h5 style={{ display: 'inline-block', marginLeft: '15px' }}>
+                    {currentHero.NPC ? 'Character is an NPC, click the button make a Character' : 'Character is not an NPC, click the button make an NPC'}
+                  </h5>
                 </div>
               </div>
             </div>
@@ -489,16 +506,17 @@ const HeroForm = ({ hero, id }) => {
 
 HeroForm.propTypes = {
   hero: PropTypes.shape({
+    id: PropTypes.number,
     uid: PropTypes.string,
     NPC: PropTypes.bool,
-    user: PropTypes.string,
+    user: PropTypes.number,
     image: PropTypes.string,
     name: PropTypes.string,
-    archetype: PropTypes.string,
+    archetype: PropTypes.number,
     species: PropTypes.string,
     homeworld: PropTypes.string,
     gender: PropTypes.string,
-    age: PropTypes.string,
+    age: PropTypes.number,
     height: PropTypes.string,
     weight: PropTypes.string,
     physical_description: PropTypes.string,
@@ -506,7 +524,7 @@ HeroForm.propTypes = {
     background: PropTypes.string,
     objectives: PropTypes.string,
     a_quote: PropTypes.string,
-    credits: PropTypes.string,
+    credits: PropTypes.number,
     force_sensitive: PropTypes.bool,
     dexterity: PropTypes.number,
     knowledge: PropTypes.number,
@@ -521,7 +539,7 @@ HeroForm.propTypes = {
     dark_side_points: PropTypes.number,
     force_strength: PropTypes.number,
   }),
-  id: PropTypes.string,
+  id: PropTypes.number,
 };
 
 // Set default values for props
@@ -529,14 +547,13 @@ HeroForm.defaultProps = {
   hero: {
     uid: '',
     NPC: true,
-    user: '',
+    user: 0,
     image: '',
     name: '',
-    archetype: '',
-    species: '',
+    archetype: 0,
     homeworld: '',
     gender: '',
-    age: '',
+    age: 0,
     height: '',
     weight: '',
     physical_description: '',
@@ -544,22 +561,22 @@ HeroForm.defaultProps = {
     background: '',
     objectives: '',
     a_quote: '',
-    credits: '',
+    credits: 0,
     force_sensitive: false,
-    dexterity: '',
-    knowledge: '',
-    mechanical: '',
-    perception: '',
-    strength: '',
-    technical: '',
-    force_control: '',
-    force_sense: '',
-    force_alter: '',
-    force_points: '',
-    dark_side_points: '',
-    force_strength: '',
+    dexterity: 0.0,
+    knowledge: 0.0,
+    mechanical: 0.0,
+    perception: 0.0,
+    strength: 0.0,
+    technical: 0.0,
+    force_control: 0.0,
+    force_sense: 0.0,
+    force_alter: 0.0,
+    force_points: 0,
+    dark_side_points: 0,
+    force_strength: 0,
   },
-  id: '',
+  id: 0,
 };
 
 export default HeroForm;

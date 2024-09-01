@@ -31,7 +31,7 @@ const Skills = () => {
   };
 
   const handleSearch = (term) => {
-    // console.log('Search term:', term); // Debugging line
+    // console.log('Search term:', term);
     setSearchTerm(term);
   };
 
@@ -39,7 +39,7 @@ const Skills = () => {
     .filter((skill) => selectedAttribute === 'All' || skill.attribute === selectedAttribute)
     .filter((skill) => skill.skill_name.toLowerCase().includes(searchTerm.toLowerCase()));
 
-  // console.log('Filtered skills:', filteredSkills); // Debugging line
+  // console.log('Filtered skills:', filteredSkills);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
@@ -135,10 +135,10 @@ const Skills = () => {
         >
           <div
             style={{
-              flex: '1', // Takes up remaining space
+              flex: '1',
               overflowY: 'auto',
-              overflowX: 'hidden', // Prevent horizontal scrolling
-              boxSizing: 'border-box', // Include padding and border in the element's total width and height
+              overflowX: 'hidden',
+              boxSizing: 'border-box',
             }}
           >
             {filteredSkills.length > 0 ? (

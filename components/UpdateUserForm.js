@@ -3,10 +3,9 @@ import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useRouter } from 'next/router';
-import { registerUser } from '../utils/auth';
-// import { updateGameMasterStatus } from '../utils/data/user';
+import { updateThisUser } from '../utils/data/user';
 
-function UpdateUserForm({ user, onUserUpdate }) {
+const UpdateUserForm = ({ user }) => {
   const router = useRouter();
   const [userData, setUserData] = useState({
     uid: user.uid,
@@ -18,18 +17,21 @@ function UpdateUserForm({ user, onUserUpdate }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    registerUser(userData)
+    updateThisUser(user.id, userData)
       .then(() => {
-        onUserUpdate(user.uid);
         router.push('/users');
       })
       .catch((error) => {
-        console.error('Error registering or updating user:', error);
+        console.error('Error updating user:', error);
       });
   };
 
-  const handleCheckboxChange = (e) => {
-    setUserData((prev) => ({ ...prev, gameMaster: e.target.checked, admin: e.target.checked }));
+  const toggleGameMaster = () => {
+    setUserData((prev) => ({ ...prev, gameMaster: !prev.gameMaster }));
+  };
+
+  const toggleAdmin = () => {
+    setUserData((prev) => ({ ...prev, admin: !prev.admin }));
   };
 
   return (
@@ -62,23 +64,21 @@ function UpdateUserForm({ user, onUserUpdate }) {
       </Form.Group>
 
       <Form.Group className="mb-3" controlId="formGameMaster">
-        <Form.Check
-          type="checkbox"
-          name="gameMaster"
-          label="Game Master"
-          checked={userData.gameMaster}
-          onChange={handleCheckboxChange}
-        />
+        <Button variant={userData.gameMaster ? 'success' : 'secondary'} onClick={toggleGameMaster}>
+          {userData.gameMaster ? 'a Game Master' : 'Not a Game Master'}
+        </Button>
+        <h5 style={{ display: 'inline-block', marginLeft: '15px' }}>
+          {userData.gameMaster ? 'You are a Game Master, click the button to leave this role' : 'You are not a Game Master, click the button to be a GM in this community!'}
+        </h5>
       </Form.Group>
 
       <Form.Group className="mb-3" controlId="formAdmin">
-        <Form.Check
-          type="checkbox"
-          name="admin"
-          label="Admin"
-          checked={userData.admin}
-          onChange={handleCheckboxChange}
-        />
+        <Button variant={userData.admin ? 'success' : 'secondary'} onClick={toggleAdmin}>
+          {userData.admin ? 'Admin' : 'Not Admin'}
+        </Button>
+        <h5 style={{ display: 'inline-block', marginLeft: '15px' }}>
+          {userData.admin ? 'You are potentially an Admin' : 'You are not an Admin, click the button to submit a request to apply for admin memebership in this community.'}
+        </h5>
       </Form.Group>
 
       <Button variant="primary" type="submit">
@@ -86,17 +86,17 @@ function UpdateUserForm({ user, onUserUpdate }) {
       </Button>
     </Form>
   );
-}
+};
 
 UpdateUserForm.propTypes = {
   user: PropTypes.shape({
+    id: PropTypes.number.isRequired,
     uid: PropTypes.string.isRequired,
     handle: PropTypes.string,
     bio: PropTypes.string,
     gameMaster: PropTypes.bool,
     admin: PropTypes.bool,
   }).isRequired,
-  onUserUpdate: PropTypes.func.isRequired, // Ensure onUserUpdate is defined here
 };
 
 export default UpdateUserForm;

@@ -59,10 +59,8 @@ const updateEquipment = (id, equipment) => new Promise((resolve, reject) => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-    //   return response.json();
     })
     .then((data) => {
-      console.log('Update equipment Response:', data); // Log the response data
       resolve(data);
     })
     .catch((error) => {

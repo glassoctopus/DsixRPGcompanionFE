@@ -4,7 +4,7 @@ import '../styles/globals.css';
 import { AuthProvider } from '../utils/context/authContext';
 import ViewDirectorBasedOnUserAuthStatus from '../utils/ViewDirector';
 import StarField from '../components/StarField'; // procedural background element
-import { ArchetypeProvider } from '../utils/context/archetype';
+import { ArchetypeProvider } from '../utils/context/archetypeContext';
 
 const MyApp = ({ Component, pageProps }) => (
   <AuthProvider>

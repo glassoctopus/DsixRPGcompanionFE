@@ -16,7 +16,6 @@ const updateThisUser = (id, User) => new Promise((resolve, reject) => {
       }
     })
     .then((data) => {
-      console.log('Update User Response:', data);
       resolve(data);
     })
     .catch((error) => {
@@ -40,7 +39,6 @@ const updateGameMasterStatus = (id, isGameMaster) => new Promise((resolve, rejec
       return response.json();
     })
     .then((data) => {
-      console.log('Update User Response:', data);
       resolve(data);
     })
     .catch((error) => {

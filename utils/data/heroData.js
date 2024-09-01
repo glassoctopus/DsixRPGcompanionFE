@@ -47,7 +47,7 @@ const getHeros = () => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const updateHero = (id, hero) => new Promise((resolve, reject) => {
+const updateHero = (hero, id) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/heros/${id}`, {
     method: 'PUT',
     headers: {
@@ -59,10 +59,8 @@ const updateHero = (id, hero) => new Promise((resolve, reject) => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-    //   return response.json();
     })
     .then((data) => {
-      console.log('Update Hero Response:', data); // Log the response data
       resolve(data);
     })
     .catch((error) => {
