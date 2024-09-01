@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useArchetypes } from '../utils/context/archetype';
+import { useArchetypes } from '../utils/context/archetypeContext';
 
 const ArchetypeDropdown = ({ selectedArchetype, onSelect }) => {
   const { archetypes } = useArchetypes();
 
   const handleChange = (event) => {
-    onSelect(event.target.value);
+    const selectedId = Number(event.target.value);
+    const selectedArchetypeObject = archetypes.find((archetype) => archetype.id === selectedId);
+    onSelect(selectedArchetypeObject); // Pass the full object to the onSelect handler
   };
 
   return (
@@ -16,7 +18,7 @@ const ArchetypeDropdown = ({ selectedArchetype, onSelect }) => {
       </label>
       <select
         id="archetype-select"
-        value={selectedArchetype}
+        value={selectedArchetype?.id || ''} // Use selectedArchetype.id if available
         onChange={handleChange}
         style={{
           padding: '10px',
@@ -45,8 +47,15 @@ const ArchetypeDropdown = ({ selectedArchetype, onSelect }) => {
 };
 
 ArchetypeDropdown.propTypes = {
-  selectedArchetype: PropTypes.string.isRequired,
+  selectedArchetype: PropTypes.shape({
+    id: PropTypes.number,
+    archetype_name: PropTypes.string,
+  }),
   onSelect: PropTypes.func.isRequired,
+};
+
+ArchetypeDropdown.defaultProps = {
+  selectedArchetype: null,
 };
 
 export default ArchetypeDropdown;

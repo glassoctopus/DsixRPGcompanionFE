@@ -13,6 +13,7 @@ const NewArchetype = () => {
   useEffect(() => {
     getSingleArchetype(id).then(setAnArchtype);
   }, [id, setAnArchtype]);
+
   return (
     <div className="hero-container">
       <div className="hero-content">
