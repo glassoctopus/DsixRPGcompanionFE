@@ -63,10 +63,10 @@ const ArchetypeCard = ({
         {archetypeGameNotes && <Card.Text>Game Notes: {archetypeGameNotes}</Card.Text>}
         {archetypeSource && <Card.Text>Source: {archetypeSource}</Card.Text>}
 
-        <Link href={`/archetypes/${id}`} passHref>
+        <Link href={`/heros/archetypes/${id}`} passHref>
           <Button variant="primary" className="m-2">VIEW</Button>
         </Link>
-        <Link href={`/archetypes/update/${id}`} passHref>
+        <Link href={`/heros/archetypes/update/${id}`} passHref>
           <Button variant="info" className="m-2">EDIT</Button>
         </Link>
         <Button variant="danger" onClick={deleteThisArchetype} className="m-2">

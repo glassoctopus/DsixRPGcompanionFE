@@ -17,8 +17,10 @@ export const ArchetypeProvider = ({ children }) => {
     });
   }, []);
 
+  const getArchetypeById = (id) => archetypes.find((archetype) => archetype.id === id);
+
   return (
-    <ArchetypeContext.Provider value={{ archetypes }}>
+    <ArchetypeContext.Provider value={{ archetypes, getArchetypeById }}>
       {children}
     </ArchetypeContext.Provider>
   );

@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { formatDiceCode } from '../../../utils/d6LogicForUI';
 import { useArchetypes } from '../../../utils/context/archetypeContext';
 
-const HeroCard = ({
+const HeroAndSkillsCard = ({
   id,
   image,
   uid,
@@ -37,6 +37,7 @@ const HeroCard = ({
   aQuote,
   credits,
   forceStrength,
+  characterSkills,
 }) => {
   const { archetypes } = useArchetypes();
   const profession = archetypes.find((job) => job.id === archetype);
@@ -51,6 +52,30 @@ const HeroCard = ({
     router.push(`/heros/${id}`);
   };
 
+  // Group skills by attribute
+  const groupedSkills = characterSkills.reduce((acc, skill) => {
+    if (!acc[skill.attribute]) acc[skill.attribute] = [];
+    acc[skill.attribute].push(skill);
+    return acc;
+  }, {});
+
+  const renderSkills = (attribute) => groupedSkills[attribute]?.map((skill, index) => (
+    // eslint-disable-next-line react/no-array-index-key
+    <div key={`${attribute}-${index}-${skill.skill_name}`}>
+      <strong>{skill.skill_name}:</strong> {formatDiceCode(skill.skill_code)}
+      {skill.specializations.length > 0 && (
+      <ul>
+        {skill.specializations.map((spec, idx) => (
+          // eslint-disable-next-line react/no-array-index-key
+          <li key={`${spec.specialization_name}-${idx}`}>
+            {spec.specialization_name} ({formatDiceCode(spec.specialization_code)})
+          </li>
+        ))}
+      </ul>
+      )}
+    </div>
+  ));
+
   return (
     <div style={{
       border: '1px solid #ddd',
@@ -58,7 +83,7 @@ const HeroCard = ({
       boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
       padding: '1rem',
       color: '#4F7942',
-      maxWidth: '33rem',
+      maxWidth: '69rem',
       margin: '1rem',
       overflow: 'auto',
       backgroundColor: '#fff',
@@ -69,7 +94,7 @@ const HeroCard = ({
         borderRadius: '8px',
         boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
         padding: '1rem',
-        maxWidth: '33rem',
+        maxWidth: '69rem',
         margin: '1rem',
         overflow: 'auto',
         backgroundColor: '#fff',
@@ -93,77 +118,71 @@ const HeroCard = ({
         {forceSensitive && <p><strong>Force Sensitive:</strong> Yes</p>}
         {NPC && <p><strong>is a NPC</strong></p>}
         {userHandle && <p><strong>User Handle:</strong> {userHandle}</p>}
+
         <div style={{
           display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px', marginTop: '7px',
         }}
         >
-          {dexterity !== null && <div><strong>Dexterity:</strong> {formatDiceCode(dexterity)}</div>}
-          {knowledge !== null && <div><strong>Knowledge:</strong> {formatDiceCode(knowledge)}</div>}
-          {mechanical !== null && <div><strong>Mechanical:</strong> {formatDiceCode(mechanical)}</div>}
-          {perception !== null && <div><strong>Perception:</strong> {formatDiceCode(perception)}</div>}
-          {strength !== null && <div><strong>Strength:</strong> {formatDiceCode(strength)}</div>}
-          {technical !== null && <div><strong>Technical:</strong> {formatDiceCode(technical)}</div>}
+          {dexterity !== null && (
+            <div>
+              <h4><strong>Dexterity:</strong> {formatDiceCode(dexterity)}</h4>
+              {renderSkills('Dexterity')}
+            </div>
+          )}
+          {knowledge !== null && (
+            <div>
+              <h4><strong>Knowledge:</strong> {formatDiceCode(knowledge)}</h4>
+              {renderSkills('Knowledge')}
+            </div>
+          )}
+          {mechanical !== null && (
+            <div>
+              <h4><strong>Mechanical:</strong> {formatDiceCode(mechanical)}</h4>
+              {renderSkills('Mechanical')}
+            </div>
+          )}
+          {perception !== null && (
+            <div>
+              <h4><strong>Perception:</strong> {formatDiceCode(perception)}</h4>
+              {renderSkills('Perception')}
+            </div>
+          )}
+          {strength !== null && (
+            <div>
+              <h4><strong>Strength:</strong> {formatDiceCode(strength)}</h4>
+              {renderSkills('Strength')}
+            </div>
+          )}
+          {technical !== null && (
+            <div>
+              <h4><strong>Technical:</strong> {formatDiceCode(technical)}</h4>
+              {renderSkills('Technical')}
+            </div>
+          )}
           {forceControl !== null && <div><strong>Force Control:</strong> {formatDiceCode(forceControl)}</div>}
           {forceSense !== null && <div><strong>Force Sense:</strong> {formatDiceCode(forceSense)}</div>}
           {forceAlter !== null && <div><strong>Force Alter:</strong> {formatDiceCode(forceAlter)}</div>}
         </div>
-        {forcePoints !== null && (
-        <p><strong>Force Points:</strong> {forcePoints}</p>
-        )}
-        {darkSidePoints !== null && (
-        <p><strong>Dark Side Points:</strong> {darkSidePoints}</p>
-        )}
+
+        {forcePoints !== null && <p><strong>Force Points:</strong> {forcePoints}</p>}
+        {darkSidePoints !== null && <p><strong>Dark Side Points:</strong> {darkSidePoints}</p>}
         {physicalDescription && <p><strong>Physical Description:</strong> {physicalDescription}</p>}
         {personality && <p><strong>Personality:</strong> {personality}</p>}
         {background && <p><strong>Background:</strong> {background}</p>}
         {objectives && <p><strong>Objectives:</strong> {objectives}</p>}
-        {aQuote && <p><strong>Quote:</strong> &quot;{aQuote}&quot;</p>}
+        {aQuote && <p><strong>A Quote:</strong> {aQuote}</p>}
         {credits !== null && <p><strong>Credits:</strong> {credits}</p>}
         {forceStrength !== null && <p><strong>Force Strength:</strong> {forceStrength}</p>}
-      </div>
-      <div>
-        <button
-          onClick={editHero}
-          type="button"
-          style={{
-            display: 'inline-block',
-            backgroundColor: '#F5F5DC',
-            color: '#003366',
-            padding: '10px 20px',
-            borderRadius: '5px',
-            margin: '13px',
-            fontSize: '1.3vh',
-            textAlign: 'center',
-            cursor: 'pointer',
-          }}
-        >
-          EDIT {id}
-        </button>
-        <button
-          onClick={viewHero}
-          type="button"
-          style={{
-            display: 'inline-block',
-            backgroundColor: '#F5F5DC',
-            color: '#003366',
-            padding: '10px 20px',
-            borderRadius: '5px',
-            margin: '13px',
-            fontSize: '1.3vh',
-            textAlign: 'center',
-            cursor: 'pointer',
-          }}
-        >
-          VIEW {id}
-        </button>
+        <button type="button" onClick={viewHero}>View {id}</button>
+        <button type="button" onClick={editHero}>Edit {id}</button>
       </div>
     </div>
   );
 };
 
-HeroCard.propTypes = {
+HeroAndSkillsCard.propTypes = {
   id: PropTypes.number,
-  image: PropTypes.string,
+  image: PropTypes.node,
   uid: PropTypes.string,
   NPC: PropTypes.bool,
   userHandle: PropTypes.string,
@@ -194,11 +213,20 @@ HeroCard.propTypes = {
   aQuote: PropTypes.string,
   credits: PropTypes.number,
   forceStrength: PropTypes.number,
+  characterSkills: PropTypes.arrayOf(PropTypes.shape({
+    attribute: PropTypes.string.isRequired,
+    skill_name: PropTypes.string.isRequired,
+    skill_code: PropTypes.number.isRequired,
+    specializations: PropTypes.arrayOf(PropTypes.shape({
+      specialization_name: PropTypes.string.isRequired,
+      specialization_code: PropTypes.number.isRequired,
+    })),
+  })),
 };
 
-HeroCard.defaultProps = {
+HeroAndSkillsCard.defaultProps = {
   id: 0,
-  image: '',
+  image: null,
   uid: '',
   NPC: false,
   userHandle: '',
@@ -211,24 +239,25 @@ HeroCard.defaultProps = {
   height: '',
   weight: '',
   forceSensitive: false,
-  dexterity: null,
-  knowledge: null,
-  mechanical: null,
-  perception: null,
-  strength: null,
-  technical: null,
-  forceControl: null,
-  forceSense: null,
-  forceAlter: null,
-  forcePoints: null,
-  darkSidePoints: null,
+  dexterity: 0,
+  knowledge: 0,
+  mechanical: 0,
+  perception: 0,
+  strength: 0,
+  technical: 0,
+  forceControl: 0,
+  forceSense: 0,
+  forceAlter: 0,
+  forcePoints: 0,
+  darkSidePoints: 0,
   physicalDescription: '',
   personality: '',
   background: '',
   objectives: '',
   aQuote: '',
-  credits: null,
-  forceStrength: null,
+  credits: 0,
+  forceStrength: 0,
+  characterSkills: [],
 };
 
-export default HeroCard;
+export default HeroAndSkillsCard;

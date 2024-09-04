@@ -5,12 +5,11 @@ import {
   Navbar, //
   Container,
   Nav,
-  Button,
 } from 'react-bootstrap';
 import { signOut } from '../utils/auth';
 
 const NavBar = () => (
-  <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+  <Navbar collapseOnSelect expand="lg" bg="transparent" variant="dark">
     <Container>
       <Link passHref href="/heros">
         <Navbar.Brand>D6 RPG Companion</Navbar.Brand>
@@ -34,10 +33,14 @@ const NavBar = () => (
           <Link passHref href="/skills">
             <Nav.Link>skills</Nav.Link>
           </Link>
-          <Button variant="danger" onClick={signOut}>
-            Sign Out
-          </Button>
+          <Link passHref href="/heros/update/heroCodes/1">
+            <Nav.Link>edit skills</Nav.Link>
+          </Link>
+
         </Nav>
+        <button type="button" onClick={signOut}>
+          Sign Out
+        </button>
       </Navbar.Collapse>
     </Container>
   </Navbar>

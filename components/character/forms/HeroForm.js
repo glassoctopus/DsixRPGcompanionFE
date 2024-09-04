@@ -8,7 +8,6 @@ import ArchetypeDropdown from '../../ArchetypeDropDown';
 import { useArchetypes } from '../../../utils/context/archetypeContext';
 
 const initialState = {
-  id: 0,
   uid: '',
   NPC: true,
   user: 0,
@@ -18,15 +17,9 @@ const initialState = {
   species: '',
   homeworld: '',
   gender: '',
-  age: '',
+  age: 0,
   height: '',
   weight: '',
-  physical_description: '',
-  personality: '',
-  background: '',
-  objectives: '',
-  a_quote: '',
-  credits: 0,
   force_sensitive: false,
   dexterity: 0.0,
   knowledge: 0.0,
@@ -40,6 +33,12 @@ const initialState = {
   force_points: 0,
   dark_side_points: 0,
   force_strength: 0,
+  physical_description: '',
+  personality: '',
+  background: '',
+  objectives: '',
+  a_quote: '',
+  credits: 0,
 };
 
 const HeroForm = ({ hero, id }) => {
@@ -101,8 +100,9 @@ const HeroForm = ({ hero, id }) => {
     }
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+
     setCurrentHero((prevState) => ({
       ...prevState,
       [name]: value,
@@ -191,7 +191,7 @@ const HeroForm = ({ hero, id }) => {
                   placeholder="Species"
                   name="species"
                   required
-                  value={currentHero.species}
+                  value={currentHero.species || ''}
                   onChange={handleInputChange}
                 />
 

@@ -22,7 +22,10 @@ body {
   /* overflow: hidden; */
   background: black;
   color: white;
-  text-shadow: 1px 1px 2px black;
+  
+  text-shadow: /* 1px 1px white, -1px -1px #444, */
+ .5px .5px 1px whitesmoke,
+ 1px 1px 2px black;
 }
 
 /* StarField.css */
