@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Button } from 'react-bootstrap';
 // import { useAuth } from '../../../utils/context/authContext';
 import { getArchetypes } from '../../../utils/data/archetypeData';
-import ArchetypeCard from '../../../components/character/cards/Archetype';
+import ArchetypeCard from '../../../components/character/cards/ArchetypeCard';
 import SearchTextField from '../../../components/Searchbar';
 
 const Archetypes = () => {
