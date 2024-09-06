@@ -3,6 +3,8 @@ import React from 'react';
 import Link from 'next/link';
 import { Card, Button } from 'react-bootstrap';
 import { useRouter } from 'next/router';
+import { formatDiceCode } from '../../../utils/d6LogicForUI';
+import { useAuth } from '../../../utils/context/authContext';
 
 const ArchetypeCard = ({
   id,
@@ -27,12 +29,14 @@ const ArchetypeCard = ({
   archetypeSource,
 }) => {
   const router = useRouter();
+  const { user } = useAuth();
 
   const deleteThisArchetype = () => {
     if (window.confirm(`Delete ${archetypeName}?`)) {
       // Logic to delete the archetype here
-      window.location.reload();
-      router.push('/archetypes');
+      console.warn('Its a ', user.admin, ' Admin');
+      // window.location.reload();
+      router.push('/heros/archetypes');
     }
   };
 
@@ -41,18 +45,39 @@ const ArchetypeCard = ({
       <Card.Header>{archetypeName}</Card.Header>
       <Card.Body>
         {archetypeForNPC && <Card.Text>This is an NPC archetype.</Card.Text>}
-        {archetypeForceSensitive !== null && (
-          <Card.Text>Force Sensitive: {archetypeForceSensitive ? 'Yes' : 'No'}</Card.Text>
+        <Card.Text>Archetype starting Attributes</Card.Text>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(3, 1fr)',
+          gap: '3px',
+          marginTop: '15px',
+        }}
+        >
+          {archetypeDexterity !== null && <Card.Text>Dexterity: {formatDiceCode(archetypeDexterity)}</Card.Text>}
+          {archetypeKnowledge !== null && <Card.Text>Knowledge: {formatDiceCode(archetypeKnowledge)}</Card.Text>}
+          {archetypeMechanical !== null && <Card.Text>Mechanical: {formatDiceCode(archetypeMechanical)}</Card.Text>}
+          {archetypePerception !== null && <Card.Text>Perception: {formatDiceCode(archetypePerception)}</Card.Text>}
+          {archetypeStrength !== null && <Card.Text>Strength: {formatDiceCode(archetypeStrength)}</Card.Text>}
+          {archetypeTechnical !== null && <Card.Text>Technical: {formatDiceCode(archetypeTechnical)}</Card.Text>}
+        </div>
+        {archetypeForceSensitive && <Card.Text>Force Sensitive: {archetypeForceSensitive ? 'Yes' : 'No'}</Card.Text>}
+        {(archetypeForceControl > 0 || archetypeForceSense > 0 || archetypeForceAlter > 0) ? (
+          <Card.Text>Force skills</Card.Text>
+        ) : (
+          <Card.Text>...</Card.Text>
         )}
-        {archetypeDexterity !== null && <Card.Text>Dexterity: {archetypeDexterity}</Card.Text>}
-        {archetypeKnowledge !== null && <Card.Text>Knowledge: {archetypeKnowledge}</Card.Text>}
-        {archetypeMechanical !== null && <Card.Text>Mechanical: {archetypeMechanical}</Card.Text>}
-        {archetypePerception !== null && <Card.Text>Perception: {archetypePerception}</Card.Text>}
-        {archetypeStrength !== null && <Card.Text>Strength: {archetypeStrength}</Card.Text>}
-        {archetypeTechnical !== null && <Card.Text>Technical: {archetypeTechnical}</Card.Text>}
-        {archetypeForceControl !== null && <Card.Text>Force Control: {archetypeForceControl}</Card.Text>}
-        {archetypeForceSense !== null && <Card.Text>Force Sense: {archetypeForceSense}</Card.Text>}
-        {archetypeForceAlter !== null && <Card.Text>Force Alter: {archetypeForceAlter}</Card.Text>}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(3, 1fr)',
+          gap: '8px',
+          marginTop: '15px',
+        }}
+        >
+          {archetypeForceControl > 0 && <Card.Text>Control: {formatDiceCode(archetypeForceControl)}</Card.Text>}
+          {archetypeForceSense > 0 && <Card.Text>Sense: {formatDiceCode(archetypeForceSense)}</Card.Text>}
+          {archetypeForceAlter > 0 && <Card.Text>Alter: {formatDiceCode(archetypeForceAlter)}</Card.Text>}
+        </div>
+
         {archetypeStartingCredits !== null && (
           <Card.Text>Starting Credits: {archetypeStartingCredits}</Card.Text>
         )}
@@ -69,9 +94,11 @@ const ArchetypeCard = ({
         <Link href={`/heros/archetypes/update/${id}`} passHref>
           <Button variant="info" className="m-2">EDIT</Button>
         </Link>
+        {user.admin && (
         <Button variant="danger" onClick={deleteThisArchetype} className="m-2">
           DELETE
         </Button>
+        )}
       </Card.Body>
     </Card>
   );

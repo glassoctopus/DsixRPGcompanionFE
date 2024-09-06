@@ -50,9 +50,16 @@ const NewHero = () => {
     }
   }, [id]);
 
+  const editSkills = () => {
+    router.push(`/heros/update/heroCodes/${id}`);
+  };
+
   return (
     <div>
       <h2>Update Hero</h2>
+      <button type="button" onClick={editSkills}>
+        Edit Skills
+      </button>
       {aHero ? (
         <div>
           <HeroForm hero={aHero} id={numericId} />

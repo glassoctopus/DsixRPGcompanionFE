@@ -6,6 +6,7 @@ import { useAuth } from '../../../utils/context/authContext';
 import { createHero, updateHero } from '../../../utils/data/heroData';
 import ArchetypeDropdown from '../../ArchetypeDropDown';
 import { useArchetypes } from '../../../utils/context/archetypeContext';
+import { formatDiceCode } from '../../../utils/d6LogicForUI';
 
 const initialState = {
   uid: '',
@@ -200,7 +201,7 @@ const HeroForm = ({ hero, id }) => {
               <div className="col" style={{ margin: '13px', border: '13px', padding: '13px' }}>
                 <div className="row">
                   <div className="col">
-                    <Form.Label>Dexterity</Form.Label>
+                    <Form.Label>Dexterity:<br />{formatDiceCode(currentHero.dexterity)}</Form.Label>
                     <Form.Control
                       className="form-control-sm"
                       type="text"
@@ -212,7 +213,7 @@ const HeroForm = ({ hero, id }) => {
                     />
                   </div>
                   <div className="col">
-                    <Form.Label>Knowledge</Form.Label>
+                    <Form.Label>Knowledge:<br />{formatDiceCode(currentHero.knowledge)}</Form.Label>
                     <Form.Control
                       className="form-control-sm"
                       type="text"
@@ -224,7 +225,7 @@ const HeroForm = ({ hero, id }) => {
                     />
                   </div>
                   <div className="col">
-                    <Form.Label>Mechanical</Form.Label>
+                    <Form.Label>Mechanical:<br />{formatDiceCode(currentHero.mechanical)}</Form.Label>
                     <Form.Control
                       className="form-control-sm"
                       type="text"
@@ -238,7 +239,7 @@ const HeroForm = ({ hero, id }) => {
                 </div>
                 <div className="row">
                   <div className="col">
-                    <Form.Label>Perception</Form.Label>
+                    <Form.Label>Perception:<br />{formatDiceCode(currentHero.perception)}</Form.Label>
                     <Form.Control
                       className="form-control-sm"
                       type="text"
@@ -250,7 +251,7 @@ const HeroForm = ({ hero, id }) => {
                     />
                   </div>
                   <div className="col">
-                    <Form.Label>Strength</Form.Label>
+                    <Form.Label>Strength:<br />{formatDiceCode(currentHero.strength)}</Form.Label>
                     <Form.Control
                       className="form-control-sm"
                       type="text"
@@ -262,7 +263,7 @@ const HeroForm = ({ hero, id }) => {
                     />
                   </div>
                   <div className="col">
-                    <Form.Label>Technical</Form.Label>
+                    <Form.Label>Technical:<br />{formatDiceCode(currentHero.technical)}</Form.Label>
                     <Form.Control
                       className="form-control-sm"
                       type="text"
@@ -274,9 +275,10 @@ const HeroForm = ({ hero, id }) => {
                     />
                   </div>
                 </div>
+                <div className="row"><Form.Label>Force Skills</Form.Label></div>
                 <div className="row">
                   <div className="col">
-                    <Form.Label>Force Control</Form.Label>
+                    <Form.Label>Control:<br />{formatDiceCode(currentHero.force_control)}</Form.Label>
                     <Form.Control
                       className="form-control-sm"
                       type="text"
@@ -288,7 +290,7 @@ const HeroForm = ({ hero, id }) => {
                     />
                   </div>
                   <div className="col">
-                    <Form.Label>Force Sense</Form.Label>
+                    <Form.Label>Sense:<br />{formatDiceCode(currentHero.force_sense)}</Form.Label>
                     <Form.Control
                       className="form-control-sm"
                       type="text"
@@ -300,7 +302,7 @@ const HeroForm = ({ hero, id }) => {
                     />
                   </div>
                   <div className="col">
-                    <Form.Label>Force Alter</Form.Label>
+                    <Form.Label>Alter:<br />{formatDiceCode(currentHero.force_alter)}</Form.Label>
                     <Form.Control
                       className="form-control-sm"
                       type="text"
@@ -496,9 +498,9 @@ const HeroForm = ({ hero, id }) => {
           </div>
 
         </Form.Group>
-        <Button variant="primary" type="submit">
-          Save
-        </Button>
+        <button type="submit">
+          commit changes
+        </button>
       </Form>
     </>
   );
