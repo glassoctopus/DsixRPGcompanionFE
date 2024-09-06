@@ -28,7 +28,7 @@ const HeroCodes = () => {
 
   return (
     <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <h2>Your Hero</h2>
+      <h2>{user.handle}&apos;s Hero</h2>
       <div
         style={{
           padding: '13px',

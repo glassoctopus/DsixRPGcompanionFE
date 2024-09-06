@@ -21,22 +21,21 @@ const NavBar = () => (
           <Link passHref href="/">
             <Nav.Link>Home</Nav.Link>
           </Link>
-          <Link passHref href="/notes">
-            <Nav.Link>What is next</Nav.Link>
-          </Link>
           <Link passHref href="/heros">
-            <Nav.Link>Make a Hero?</Nav.Link>
+            <Nav.Link>Make a Hero</Nav.Link>
           </Link>
           <Link passHref href="/heros/archetypes/">
             <Nav.Link>Hero Templates</Nav.Link>
           </Link>
           <Link passHref href="/skills">
-            <Nav.Link>skills</Nav.Link>
+            <Nav.Link>Skill DB</Nav.Link>
           </Link>
-          <Link passHref href="/heros/update/heroCodes/1">
-            <Nav.Link>edit skills</Nav.Link>
+          <Link passHref href="/Groups">
+            <Nav.Link>Groups</Nav.Link>
           </Link>
-
+          <Link passHref href="/notes">
+            <Nav.Link>What is next</Nav.Link>
+          </Link>
         </Nav>
         <button type="button" onClick={signOut}>
           Sign Out
