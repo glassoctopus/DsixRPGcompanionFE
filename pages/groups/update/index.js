@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import HeroCarousel from '../../components/carousels/HeroCarousel';
-import GroupForm from '../../components/character/forms/GroupForm';
-import GroupCarousel from '../../components/carousels/GroupCarousel';
-import { getUsers } from '../../utils/data/user';
-import { getCharacterGroups } from '../../utils/data/groupData';
+import HeroCarousel from '../../../components/carousels/HeroCarousel';
+import GroupForm from '../../../components/character/forms/GroupForm';
+import GroupCarousel from '../../../components/carousels/GroupCarousel';
+import { getUsers } from '../../../utils/data/user';
+import { getCharacterGroups } from '../../../utils/data/groupData';
 
 const Index = () => {
   const [characterGroups, setCharacterGroups] = useState([]);
@@ -13,7 +13,7 @@ const Index = () => {
   useEffect(() => {
     const fetchData = async () => {
       const allUsers = await getUsers();
-      setGameMasters(allUsers.filter((user) => user.game_master === true));
+      setGameMasters(allUsers.filter((thisUser) => thisUser.game_master === true));
 
       const groups = await getCharacterGroups();
       setCharacterGroups(groups || []);
@@ -31,7 +31,7 @@ const Index = () => {
     >
       {/* Top: HeroCarousel */}
       <div style={{ width: '100%', marginBottom: '16px' }}>
-        <GroupCarousel groups={characterGroups} />
+        <HeroCarousel />
       </div>
 
       {/* Middle: GroupForm */}
@@ -59,8 +59,9 @@ const Index = () => {
         )}
       </div>
 
+      {/* Bottom: GroupCarousel */}
       <div style={{ width: '100%', maxWidth: '800px' }}>
-        <HeroCarousel />
+        <GroupCarousel groups={characterGroups} />
       </div>
     </div>
   );

@@ -79,9 +79,22 @@ const getUsers = () => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
+const getGameMasters = () => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/users`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => resolve(data))
+    .catch(reject);
+});
+
 export {
   updateThisUser,
   getSingleUser,
   getUsers,
   updateGameMasterStatus,
+  getGameMasters,
 };

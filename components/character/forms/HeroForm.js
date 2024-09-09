@@ -4,9 +4,12 @@ import { useState, useEffect, useMemo } from 'react';
 import { Button, Form, FloatingLabel } from 'react-bootstrap';
 import { useAuth } from '../../../utils/context/authContext';
 import { createHero, updateHero } from '../../../utils/data/heroData';
-import ArchetypeDropdown from '../../ArchetypeDropDown';
+import ArchetypeDropdown from '../../dropDowns/ArchetypeDropDown';
 import { useArchetypes } from '../../../utils/context/archetypeContext';
 import { formatDiceCode } from '../../../utils/d6LogicForUI';
+import names from '../../../utils/names';
+import species from '../../../utils/species';
+import planets from '../../../utils/planets';
 
 const initialState = {
   uid: '',
@@ -101,6 +104,21 @@ const HeroForm = ({ hero, id }) => {
     }
   };
 
+  const randomHero = () => {
+    currentHero.archetype = Math.floor(Math.random() * archetypes.length);
+    handleArchetypeSelect(archetypes.find((archetype) => archetype.id === currentHero.archetype));
+    currentHero.name = names[Math.floor(Math.random() * names.length)];
+    const randSpecies = Object.keys(species);
+    currentHero.species = randSpecies[Math.floor(Math.random() * randSpecies.length)];
+    currentHero.physical_description = species[currentHero.species];
+    const randPlanet = Object.keys(planets);
+    currentHero.homeworld = randPlanet[Math.floor(Math.random() * randPlanet.length)];
+    currentHero.height = Math.floor(Math.random() * (200 - 150) + 150);
+    currentHero.weight = Math.floor(Math.random() * (90 - 50) + 50);
+    currentHero.age = Math.floor(Math.random() * (70 - 23) + 23);
+    currentHero.gender = 'if applicable';
+  };
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
 
@@ -166,6 +184,7 @@ const HeroForm = ({ hero, id }) => {
           <div style={{ margin: '13px', border: '13px', padding: '13px' }}>
             <div className="row">
               <div className="col">
+                <button type="button" onClick={randomHero}>Roll 4 me</button>
                 <Form.Group controlId="archetypeSelect">
                   <Form.Label>fix this charID: {id}</Form.Label>
                   <ArchetypeDropdown

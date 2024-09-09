@@ -6,22 +6,26 @@ import ViewDirectorBasedOnUserAuthStatus from '../utils/ViewDirector';
 import StarField from '../components/StarField'; // procedural background element
 import { ArchetypeProvider } from '../utils/context/archetypeContext';
 import { SkillProvider } from '../utils/context/skillContext';
+import { HeroProvider } from '../utils/context/heroContext';
 
 const MyApp = ({ Component, pageProps }) => (
   <AuthProvider>
     <ArchetypeProvider>
-      <SkillProvider>
-        {/* gives children components access to user and auth methods */}
-        <StarField>
-          <ViewDirectorBasedOnUserAuthStatus
+      <HeroProvider>
+        <SkillProvider>
+
+          {/* gives children components access to user and auth methods */}
+          <StarField>
+            <ViewDirectorBasedOnUserAuthStatus
           // if status is pending === loading
           // if status is logged in === view app
           // if status is logged out === sign in page
-            component={Component}
-            pageProps={pageProps}
-          />
-        </StarField>
-      </SkillProvider>
+              component={Component}
+              pageProps={pageProps}
+            />
+          </StarField>
+        </SkillProvider>
+      </HeroProvider>
     </ArchetypeProvider>
   </AuthProvider>
 );

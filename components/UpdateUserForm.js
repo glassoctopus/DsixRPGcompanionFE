@@ -8,10 +8,11 @@ import { updateThisUser } from '../utils/data/user';
 const UpdateUserForm = ({ user }) => {
   const router = useRouter();
   const [userData, setUserData] = useState({
+    id: user.id,
     uid: user.uid,
     handle: user.handle || '',
     bio: user.bio || '',
-    gameMaster: user.gameMaster || false,
+    game_master: user.game_master || false,
     admin: user.admin || false,
   });
 
@@ -27,7 +28,7 @@ const UpdateUserForm = ({ user }) => {
   };
 
   const toggleGameMaster = () => {
-    setUserData((prev) => ({ ...prev, gameMaster: !prev.gameMaster }));
+    setUserData((prev) => ({ ...prev, game_master: !prev.game_master }));
   };
 
   const toggleAdmin = () => {
@@ -63,12 +64,12 @@ const UpdateUserForm = ({ user }) => {
         </Form.Text>
       </Form.Group>
 
-      <Form.Group className="mb-3" controlId="formGameMaster">
-        <Button variant={userData.gameMaster ? 'success' : 'secondary'} onClick={toggleGameMaster}>
-          {userData.gameMaster ? 'a Game Master' : 'Not a Game Master'}
+      <Form.Group className="mb-3" controlId="formGame_master">
+        <Button variant={userData.game_master ? 'success' : 'secondary'} onClick={toggleGameMaster}>
+          {userData.game_master ? 'a Game Master' : 'Not a Game Master'}
         </Button>
         <h5 style={{ display: 'inline-block', marginLeft: '15px' }}>
-          {userData.gameMaster ? 'You are a Game Master, click the button to leave this role' : 'You are not a Game Master, click the button to be a GM in this community!'}
+          {userData.game_master ? 'You are a Game Master, click the button to leave this role' : 'You are not a Game Master, click the button to be a GM in this community!'}
         </h5>
       </Form.Group>
 
@@ -94,7 +95,7 @@ UpdateUserForm.propTypes = {
     uid: PropTypes.string.isRequired,
     handle: PropTypes.string,
     bio: PropTypes.string,
-    gameMaster: PropTypes.bool,
+    game_master: PropTypes.bool,
     admin: PropTypes.bool,
   }).isRequired,
 };
