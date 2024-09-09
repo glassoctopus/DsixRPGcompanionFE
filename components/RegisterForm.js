@@ -11,7 +11,7 @@ function RegisterForm({ user, updateUser }) {
     uid: user.uid || '',
     handle: '',
     bio: '',
-    gameMaster: false,
+    game_master: false,
     admin: false,
   });
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useArchetypes } from '../utils/context/archetypeContext';
+import { useArchetypes } from '../../utils/context/archetypeContext';
 
 const ArchetypeDropdown = ({ selectedArchetype, onSelect }) => {
   const { archetypes } = useArchetypes();

@@ -43,7 +43,14 @@ const getHeros = () => new Promise((resolve, reject) => {
     },
   })
     .then((response) => response.json())
-    .then((data) => resolve(data))
+    .then((data) => {
+      // Assuming the response is in the format: { "They are": [/* array of heroes */] }
+      if (data && Array.isArray(data['They are'])) {
+        resolve(data['They are']); // Resolve with the array under "They are"
+      } else {
+        reject(new Error('Invalid response format'));
+      }
+    })
     .catch(reject);
 });
 

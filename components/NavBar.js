@@ -30,7 +30,7 @@ const NavBar = () => (
           <Link passHref href="/skills">
             <Nav.Link>Skill DB</Nav.Link>
           </Link>
-          <Link passHref href="/Groups">
+          <Link passHref href="/groups">
             <Nav.Link>Groups</Nav.Link>
           </Link>
           <Link passHref href="/notes">

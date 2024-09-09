@@ -16,7 +16,7 @@ const Hero = () => {
   useEffect(() => {
     if (user && user.uid) {
       getHeros().then((data) => {
-        setHeros(data['They are']);
+        setHeros(data);
       });
     }
   }, [user]);
