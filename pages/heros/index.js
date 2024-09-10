@@ -6,11 +6,17 @@ import HeroCard from '../../components/character/cards/HeroCard';
 
 const Hero = () => {
   const [heros, setHeros] = useState([]);
+  const [myHeros, setMyHeros] = useState([]);
+  const [showMine, setShowMine] = useState(true); // New state to toggle between mine and all heroes
   const { user } = useAuth();
   const router = useRouter();
 
   const handleClick = () => {
     router.push('/heros/new');
+  };
+
+  const handleToggleView = () => {
+    setShowMine(!showMine); // Toggle the state between true and false
   };
 
   useEffect(() => {
@@ -20,6 +26,11 @@ const Hero = () => {
       });
     }
   }, [user]);
+
+  useEffect(() => {
+    const userHeros = heros.filter((mines) => mines.user === user.id);
+    setMyHeros(userHeros);
+  }, [heros, user]);
 
   return (
     <div style={{
@@ -32,6 +43,23 @@ const Hero = () => {
         }}
         >
           <h2 style={{ fontSize: '2rem', margin: '0' }}>Hero List</h2>
+
+          {/* Button to toggle between "mine" and "all" */}
+          <button
+            type="button"
+            onClick={handleToggleView}
+            style={{
+              padding: '10px 20px',
+              backgroundColor: '#ccc',
+              textDecoration: 'none',
+              borderRadius: '5px',
+              fontSize: '1rem',
+              marginRight: '10px',
+            }}
+          >
+            {showMine ? 'Show All' : 'Show Mine'}  {/* Button label */}
+          </button>
+
           <button
             type="button"
             onClick={handleClick}
@@ -46,12 +74,13 @@ const Hero = () => {
             Create New Hero
           </button>
         </div>
+
         <div style={{
           maxHeight: '80vh', overflowY: 'auto', display: 'flex', flexWrap: 'wrap', gap: '20px', padding: '10px', boxSizing: 'border-box',
         }}
         >
-          {heros.length > 0 ? (
-            heros.map((hero) => (
+          {(showMine ? myHeros : heros).length > 0 ? (
+            (showMine ? myHeros : heros).map((hero) => (
               <div
                 key={hero.id}
                 style={{
@@ -68,7 +97,7 @@ const Hero = () => {
                   image={hero.image}
                   uid={hero.uid}
                   NPC={hero.NPC}
-                  userHandle={hero.user?.handle}
+                  userHandle={hero.user_handle}
                   name={hero.name}
                   archetype={hero.archetype}
                   species={hero.species}

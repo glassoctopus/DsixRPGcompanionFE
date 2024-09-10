@@ -11,14 +11,15 @@ const HeroOverviewCard = ({
     padding: '1rem',
     // minWidth: '333px',
     margin: '1rem',
-    backgroundColor: '#fff',
+    color: '#0A3324',
+    backgroundColor: '#EEDDCC',
   }}
   >
     <h2>{name}</h2>
     <p><strong>User Handle:</strong> {userHandle}</p>
     <p><strong>Archetype:</strong> {archetypeName}</p>
     <p><strong>Group:</strong> {groupName}</p>
-    <p>{id}</p>
+    {userHandle ? <p>hero</p> : <p>{id}</p>}
   </div>
 );
 

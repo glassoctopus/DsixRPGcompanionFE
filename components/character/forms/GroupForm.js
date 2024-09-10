@@ -1,13 +1,53 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useRouter } from 'next/router';
+import { createCharacterGroup } from '../../../utils/data/groupData';
+import { getUsers } from '../../../utils/data/user';
+import { useAuth } from '../../../utils/context/authContext';
 
-const GroupForm = ({ gameMasters, onSubmit, onCancel }) => {
+const GroupForm = ({ onCancel }) => {
+  const router = useRouter();
+  const { user } = useAuth();
   const [newGroup, setNewGroup] = useState({
     group_name: '',
     private: false,
     is_adventure_party: false,
     game_master: '',
   });
+  const [gameMasters, setGameMasters] = useState([]);
+
+  // Fetch game masters on component mount
+  useEffect(() => {
+    const fetchGameMasters = async () => {
+      try {
+        const allUsers = await getUsers();
+        const filteredGameMasters = allUsers.filter((formUser) => formUser.game_master === true);
+        setGameMasters(filteredGameMasters);
+      } catch (error) {
+        console.error('Error fetching game masters:', error);
+      }
+    };
+
+    fetchGameMasters();
+  }, []);
+
+  const handleCreateGroup = async (workingGroup) => {
+    const groupData = {
+      user: user.id,
+      group_name: workingGroup.group_name,
+      private: workingGroup.private,
+      is_adventure_party: workingGroup.is_adventure_party,
+      game_master: workingGroup.game_master || '',
+    };
+
+    createCharacterGroup(groupData)
+      .then(() => {
+        router.push('/groups');
+      })
+      .catch((error) => {
+        console.error('Error creating this group:', error);
+      });
+  };
 
   const handleInputChange = (e) => {
     const {
@@ -36,7 +76,7 @@ const GroupForm = ({ gameMasters, onSubmit, onCancel }) => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    onSubmit(newGroup);
+    handleCreateGroup(newGroup);
   };
 
   return (
@@ -151,11 +191,6 @@ const GroupForm = ({ gameMasters, onSubmit, onCancel }) => {
 };
 
 GroupForm.propTypes = {
-  gameMasters: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    handle: PropTypes.string.isRequired,
-  })).isRequired,
-  onSubmit: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
 };
 

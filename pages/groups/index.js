@@ -1,53 +1,73 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 import HeroCarousel from '../../components/carousels/HeroCarousel';
-import GroupForm from '../../components/character/forms/GroupForm';
 import GroupCarousel from '../../components/carousels/GroupCarousel';
-import { getUsers } from '../../utils/data/user';
-import { getCharacterGroups } from '../../utils/data/groupData';
 
 const Index = () => {
-  const [characterGroups, setCharacterGroups] = useState([]);
-  const [gameMasters, setGameMasters] = useState([]);
-  const [showForm, setShowForm] = useState(false);
+  const [showHeroCarousel, setShowHeroCarousel] = useState(false); // State to manage HeroCarousel visibility
+  const router = useRouter();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const allUsers = await getUsers();
-      setGameMasters(allUsers.filter((user) => user.game_master === true));
+  const createNewGroup = () => {
+    router.push('/groups/new');
+  };
 
-      const groups = await getCharacterGroups();
-      setCharacterGroups(groups || []);
-    };
-    fetchData();
-  }, []);
+  const toggleHeroCarousel = () => {
+    setShowHeroCarousel((prev) => !prev);
+  };
 
   return (
-    <div style={{
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      padding: '13px',
-    }}
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        height: '100vh', // Use 100vh to make sure it takes up the full viewport height
+        overflowY: 'auto', // Enable vertical scrolling
+      }}
     >
-      {/* Top: HeroCarousel */}
-      <div style={{ width: '100%', marginBottom: '16px' }}>
-        <GroupCarousel groups={characterGroups} />
-      </div>
-
-      {/* Middle: GroupForm */}
-      <div style={{ width: '100%', maxWidth: '800px', marginBottom: '16px' }}>
-        {showForm ? (
-          <GroupForm
-            gameMasters={gameMasters}
-            onCancel={() => setShowForm(false)}
-          />
-        ) : (
+      {/* Content Wrapper */}
+      <div
+        style={{
+          flex: 1, // Ensures the content can grow and take up available space
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          padding: '16px',
+        }}
+      >
+        {/* Toggle Button */}
+        <div style={{ margin: '20px 0' }}>
           <button
             type="button"
-            onClick={() => setShowForm(true)}
+            onClick={toggleHeroCarousel}
             style={{
               padding: '10px 16px',
-              backgroundColor: '#00b300',
+              backgroundColor: '#593A80',
+              color: '#ffffcc',
+              borderRadius: '4px',
+              border: 'none',
+              cursor: 'pointer',
+            }}
+          >
+            {showHeroCarousel ? 'Hide Hero Carousel' : 'Show Hero Carousel'}
+          </button>
+        </div>
+
+        {/* Conditionally Render HeroCarousel */}
+        {showHeroCarousel && (
+          <div style={{ width: '100%', maxWidth: '900px' }}>
+            <HeroCarousel />
+          </div>
+        )}
+
+        {/* Middle: Create New Group Button */}
+        <div style={{ margin: '20px 0' }}>
+          <button
+            type="button"
+            onClick={createNewGroup}
+            style={{
+              padding: '10px 16px',
+              backgroundColor: '#593A80',
               color: '#ffffcc',
               borderRadius: '4px',
               border: 'none',
@@ -56,11 +76,12 @@ const Index = () => {
           >
             Create New Group
           </button>
-        )}
-      </div>
+        </div>
 
-      <div style={{ width: '100%', maxWidth: '800px' }}>
-        <HeroCarousel />
+        {/* Bottom: GroupCarousel */}
+        <div style={{ width: '100%', maxWidth: '1300px' }}>
+          <GroupCarousel />
+        </div>
       </div>
     </div>
   );

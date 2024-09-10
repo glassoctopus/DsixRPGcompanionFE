@@ -64,6 +64,7 @@ const HeroCard = ({
       backgroundColor: '#fff',
     }}
     >
+      <div><p>{userHandle}&apos;s</p></div>
       <div style={{
         border: '1px solid #ddd',
         borderRadius: '8px',
