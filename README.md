@@ -17,10 +17,10 @@ Right now it is a D6 Starwwars Character Sheet.
 2. Group them with other players and their characters, in public groups.  
    
 What this also is;
-a database manger for the D6 ruleset that a GameMaster could use for their adventure party. 
-albeit we are a ton of stretch goals away form this now. But i plan on continuing this project till completion and setting up a home lab that I can host it from. (See you next year... ;^)
-Too ambitious for a 1 month Capstone porject, but I am excited to see it through as a learning tool for the technologies involved. After completion, I want to take what i have learned to a new stack or at least backend, and see what i cannot do better the second time around. 
--hopes and dreams, that this is a full fledge, working with the core game rules logic intact in all the forms, that users could use to play a d6 campagin, via the living character sheets. 
--This is not meant to be a commerical product, nut it aims to be more than a typical throw away school project. 
+1. A database manger for the D6 ruleset that a GameMaster could use for their adventure party.
+2. Albeit we are a ton of stretch goals away form this now. But I plan on continuing this project till completion and setting up a home lab that I can host it from. (See you next year... ;^)
+3. Too ambitious for a 1 month Capstone porject, but I am excited to see it through as a learning tool for the technologies involved. After completion, I want to take what i have learned to a new stack or at least backend, and see what i cannot do better the second time around.
+4. -hopes and dreams, that this is a full fledge, working with the core game rules logic intact in all the forms, that users could use to play a d6 campagin, via the living character sheets.
+5. -This is not meant to be a commerical product, but it aims to be more than a typical throw away school project. And a tool that i use to really master React and Django. 
 
 
