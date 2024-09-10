@@ -9,7 +9,7 @@ ___
 #### 1. The next step is to host this from my next project, my home lab. Until then, you could pull the front and back down, and I am creating Postman calls instead of fixtuers for canon material for the instantiation of the app, and set this little rpg database toy up yourself... 
 https://github.com/glassoctopus/DsixRPGcompanionBE
 
-#### 2. This is to be a Player,Game Master digital rpg companion. So it's forms, database readers, and player gm grouping tool. 
+#### 2. This is to be a Player, Game Master digital rpg companion. So it's forms, database readers, and player gm grouping tool. 
 Right now it is a D6 Starwwars Character Sheet. 
 
 ## Starting the Project
