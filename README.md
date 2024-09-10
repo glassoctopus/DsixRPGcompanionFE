@@ -1,7 +1,7 @@
-# React/Next.js Django Auth Template
+# DsixRPGcompanionFE
 
 ## Topics
-- [Get Started](#getting-started)
+- [Why We Are Here](#getting-started)
 - [Starting the Project](#starting-the-project)
 ___
 ## Getting Started
