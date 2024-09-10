@@ -20,8 +20,8 @@ Right now it is a D6 Starwwars Character Sheet.
 What this also is;
 1. A database manger for the D6 ruleset that a GameMaster could use for their adventure party.
 2. Albeit we are a ton of stretch goals away form this now. But I plan on continuing this project till completion and setting up a home lab that I can host it from. (See you next year... ;^)
-3. Too ambitious for a 1 month Capstone porject, but I am excited to see it through as a learning tool for the technologies involved. After completion, I want to take what I have learned to a new stack or at least backend, and see what i cannot do better the second time around.
-4. -Hopes and Dreams, that this is a full fledge, working with the core game rules logic intact in all the forms, that users could use to play a d6 campagin, via the living character sheets.
-5. -This is not meant to be a commerical product, but it aims to be more than a typical throw away school project. And a tool that I use to work towards mastering React and Django. 
+3. Too ambitious for a 1 month Capstone porject, but I am excited to see it through as a learning tool for the technologies involved. After completion, I want to take what I have learned to a new stack or at least backend, and see what I cannot do better the second time around.
+4. -Hopes and Dreams, that this matuers into a full fledge RPG companion, working with the core game rules logic intact in all the forms, and views, etc., that users could use to play a d6 campagin, via the living character sheets, with a Game Master controlling the allowance of changes. 
+5. -This is not meant to be a commerical product, but it aims to be more than a typical throw away school project. And a tool that I use to work towards mastering React and Django. It's grown into a labor of love now as I truly do miss this system and would love to preserve it. West End Games Rocks!
 
 
