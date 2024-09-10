@@ -24,4 +24,5 @@ What this also is;
 4. -Hopes and Dreams, that this matuers into a full fledge RPG companion, working with the core game rules logic intact in all the forms, and views, etc., that users could use to play a d6 campagin, via the living character sheets, with a Game Master controlling the allowance of changes. 
 5. -This is not meant to be a commerical product, but it aims to be more than a typical throw away school project. And a tool that I use to work towards mastering React and Django. It's grown into a labor of love now as I truly do miss this system and would love to preserve it. West End Games Rocks!
 
-
+Walkthrough Video:
+https://youtu.be/lFYaog4q3ac
