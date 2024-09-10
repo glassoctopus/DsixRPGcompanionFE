@@ -13,8 +13,9 @@ https://github.com/glassoctopus/DsixRPGcompanionBE
 Right now it is a D6 Starwwars Character Sheet. 
 
 ## Starting the Project
-1. Make a Hero, & manage their skill codes, a living character sheet
-2. Group them with other players and their characters, in public groups.  
+(To be Fair in it's current state would take downloading and marrying the FE and BE repos and running it on your machine locally, so not the easiest of setups, but if you've done that...)
+1. Make a Hero, & manage their skill codes, it's a simple living character sheet
+2. You can also group your characters with other players (on your local machine ;^) and their characters, in public groups.  
    
 What this also is;
 1. A database manger for the D6 ruleset that a GameMaster could use for their adventure party.
