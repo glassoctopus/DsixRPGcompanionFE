@@ -26,3 +26,6 @@ What this also is;
 
 Walkthrough Video:
 https://youtu.be/lFYaog4q3ac
+
+Project Board:
+https://github.com/users/glassoctopus/projects/7
