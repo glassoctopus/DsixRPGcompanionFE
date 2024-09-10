@@ -64,7 +64,10 @@ const GroupIdView = () => {
     }
   };
 
-  // Ensure allCharacters is an array
+  const backToGroups = () => {
+    router.push('/groups');
+  };
+
   const availableCharacters = Array.isArray(allCharacters) ? allCharacters : [];
 
   if (!group || !availableCharacters.length) {
@@ -72,7 +75,7 @@ const GroupIdView = () => {
   }
 
   return (
-    <div>
+    <div style={{ maxHeight: '80vh', overflow: 'auto' }}>
       <div
         style={{
           border: '1px solid #ddd',
@@ -81,20 +84,25 @@ const GroupIdView = () => {
           padding: '1rem',
           color: '#4F7942',
           maxWidth: '33rem',
-          margin: '1rem',
-          overflow: 'auto',
-          backgroundColor: '#fff',
+          margin: '1rem auto',
+          backgroundColor: 'transparent',
         }}
       >
-        <h2>{group.group_name || 'Unnamed Group'}</h2>
-        <p><strong>User:</strong> {group.user_handle || 'Unknown User'}</p>
-        <p><strong>Game Master:</strong> {group.game_master || 'No GM Assigned'}</p>
+        <h2>{group.group_name || 'Unnamed Group'}</h2><button type="button" onClick={backToGroups}>Back To Groups</button>
+        <p><strong>Group Owner:</strong> {group.user_handle || 'Unknown User'}</p>
+        <p><strong>Game Master:</strong> {group.game_master_handle || 'No GM Assigned'}</p>
 
         {/* Add Character Dropdown */}
         <div style={{ marginBottom: '16px' }}>
           <select
             value={selectedAddCharacterId || ''}
             onChange={(e) => setSelectedAddCharacterId(parseInt(e.target.value, 10))}
+            style={{
+              padding: '8px',
+              borderRadius: '4px',
+              border: '1px solid #ccc',
+              marginRight: '8px',
+            }}
           >
             <option value="" disabled>Select character to add</option>
             {availableCharacters.map((character) => (
@@ -111,6 +119,12 @@ const GroupIdView = () => {
           <select
             value={selectedRemoveCharacterId || ''}
             onChange={(e) => setSelectedRemoveCharacterId(parseInt(e.target.value, 10))}
+            style={{
+              padding: '8px',
+              borderRadius: '4px',
+              border: '1px solid #ccc',
+              marginRight: '8px',
+            }}
           >
             <option value="" disabled>Select character to remove</option>
             {group.characters.map((character) => (
@@ -123,13 +137,13 @@ const GroupIdView = () => {
         </div>
 
         {/* Display Heroes in the Group */}
-        <div>
+        <div style={{ maxHeight: '200px', overflowY: 'auto' }}>
           {group?.characters?.length > 0 ? (
             <div>
               <h3>Characters in Group</h3>
-              <div style={{ display: 'flex' }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                 {group.characters.map((hero) => (
-                  <div key={hero.id} style={{ margin: '0 16px' }}>
+                  <div key={hero.id} style={{ margin: '0 16px', flex: '1 0 45%' }}>
                     <HeroOverviewCard
                       id={hero.id}
                       userHandle={hero.user_handle}

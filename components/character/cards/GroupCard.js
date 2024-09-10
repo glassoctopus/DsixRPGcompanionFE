@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import HeroOverviewCard from './HeroOverviewCard';
+import { deleteCharacterGroup } from '../../../utils/data/groupData';
 
 const GroupCard = ({
-  group, onCreateGroup, onTogglePrivate, onToggleAdventureParty, onAddHero,
+  group, onCreateGroup, onTogglePrivate, onToggleAdventureParty, onGroupDeleted,
 }) => {
   const router = useRouter();
 
@@ -13,7 +14,14 @@ const GroupCard = ({
   };
 
   const handleDeleteGroup = () => {
-    // Implement delete logic or call from parent
+    const confirmed = window.confirm(`Are you sure you want to delete the group with ID: ${group.id}?`);
+    if (confirmed) {
+      deleteCharacterGroup(group.id).then(() => {
+        // Call the callback function to notify parent component
+        onGroupDeleted();
+        router.push('/groups');
+      });
+    }
   };
 
   return (
@@ -32,40 +40,8 @@ const GroupCard = ({
         <>
           <h2>{group.group_name || 'Unnamed Group'}</h2>
           <p><strong>User:</strong> {group.user || 'Unknown User'}</p>
-          <p><strong>Game Master:</strong> {group.game_master || 'No GM Assigned'}</p>
-
-          <div style={{ marginBottom: '16px' }}>
-            <button type="button" onClick={() => onTogglePrivate(group.id)}>
-              {group.private ? 'Private Group' : 'Public Group'}
-            </button>
-            <button type="button" onClick={() => onToggleAdventureParty(group.id)}>
-              {group.is_adventure_party ? 'Adventure Party' : 'Regular Group'}
-            </button>
-            <button
-              type="button"
-              onClick={handleUpdateGroup}
-            >
-              Update Group
-            </button>
-            <button
-              type="button"
-              onClick={handleDeleteGroup}
-            >
-              Delete Group
-            </button>
-            <button
-              type="button"
-              onClick={() => router.push(`/groups/${group.id}`)}
-            >
-              View Group
-            </button>
-            <button
-              type="button"
-              onClick={() => onAddHero(group.id)}
-            >
-              Add Hero
-            </button>
-          </div>
+          <p><strong>Game Master:</strong> {group.game_master_handle || 'No GM Assigned'}</p>
+          <div><p><strong>Heroes in {group.group_name}</strong></p></div>
 
           <div style={{ overflowX: 'auto', padding: '16px 0' }}>
             <div style={{
@@ -100,10 +76,27 @@ const GroupCard = ({
                   }}
                 >
                   <p>No heroes in this group.</p>
-                  <button type="button" onClick={() => onAddHero(group.id)}>Add Hero</button>
                 </div>
               )}
             </div>
+          </div>
+
+          <div style={{ marginBottom: '16px' }}>
+            <button type="button" onClick={() => onTogglePrivate(group.id)}>
+              {group.private ? 'Private Group' : 'Public Group'}
+            </button>
+            <button type="button" onClick={() => onToggleAdventureParty(group.id)}>
+              {group.is_adventure_party ? 'Adventure Party' : 'Regular Group'}
+            </button>
+            <button type="button" onClick={handleUpdateGroup}>
+              Update Group
+            </button>
+            <button type="button" onClick={handleDeleteGroup}>
+              Delete Group
+            </button>
+            <button type="button" onClick={() => router.push(`/groups/${group.id}`)}>
+              View Group
+            </button>
           </div>
         </>
       ) : (
@@ -122,6 +115,7 @@ GroupCard.propTypes = {
     group_name: PropTypes.string,
     user: PropTypes.number,
     game_master: PropTypes.number,
+    game_master_handle: PropTypes.string,
     private: PropTypes.bool,
     is_adventure_party: PropTypes.bool,
     characters: PropTypes.arrayOf(PropTypes.shape({
@@ -134,7 +128,7 @@ GroupCard.propTypes = {
   onCreateGroup: PropTypes.func,
   onTogglePrivate: PropTypes.func,
   onToggleAdventureParty: PropTypes.func,
-  onAddHero: PropTypes.func,
+  onGroupDeleted: PropTypes.func, // Add prop type for the callback
 };
 
 GroupCard.defaultProps = {
@@ -142,7 +136,7 @@ GroupCard.defaultProps = {
   onCreateGroup: () => {},
   onTogglePrivate: () => {},
   onToggleAdventureParty: () => {},
-  onAddHero: () => {},
+  onGroupDeleted: () => {}, // Default to no-op function
 };
 
 export default GroupCard;
