@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import HeroForm from '../../../components/character/forms/HeroForm';
 import { getSingleHero } from '../../../utils/data/heroData';
+import FancyButton from '../../../components/FancyButton';
 
 const NewHero = () => {
   const router = useRouter();
@@ -57,9 +58,9 @@ const NewHero = () => {
   return (
     <div>
       <h2>Update Hero</h2>
-      <button type="button" onClick={editSkills}>
+      <FancyButton onClick={editSkills}>
         Edit Skills
-      </button>
+      </FancyButton>
       {aHero ? (
         <div>
           <HeroForm hero={aHero} id={numericId} />

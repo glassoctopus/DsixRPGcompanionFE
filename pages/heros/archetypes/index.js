@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import Link from 'next/link';
-import { Button } from 'react-bootstrap';
-// import { useAuth } from '../../../utils/context/authContext';
+import { useRouter } from 'next/router';
 import { getArchetypes } from '../../../utils/data/archetypeData';
 import ArchetypeCard from '../../../components/character/cards/ArchetypeCard';
 import SearchTextField from '../../../components/Searchbar';
+import FancyButton from '../../../components/FancyButton';
 
 const Archetypes = () => {
   const [archetypes, setArchetypes] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const router = useRouter();
 
   const handleSearch = (term) => {
     // console.log('Search term:', term); // Debugging line
     setSearchTerm(term);
+  };
+
+  const createNewHero = () => {
+    router.push('/heros/archetypes/new');
   };
 
   const filteredArchetypes = archetypes
@@ -32,12 +36,14 @@ const Archetypes = () => {
       <div className="archetype-container">
         <div className="archetype-content">
           <article className="Archetypes">
-            <div className="d-flex justify-content-between align-items-center mb-4">
-              <h2 className="mb-0">Archetype List</h2>
-              <SearchTextField placeholder="Search by name..." onSubmit={handleSearch} />
-              <Button as={Link} href="/heros/archetypes/new" className="btn btn-primary">
-                Add Archetype
-              </Button>
+            <div className="cardOfForm">
+              <div className="d-flex justify-content-between align-items-center mb-4">
+                <h2 className="mb-0">Archetype List</h2>
+                <SearchTextField placeholder="Search by name..." onSubmit={handleSearch} />
+                <FancyButton onClick={createNewHero}>
+                  Add Archetype
+                </FancyButton>
+              </div>
             </div>
             <div
               className="archetype-list"

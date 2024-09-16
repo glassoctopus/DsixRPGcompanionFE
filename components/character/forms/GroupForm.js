@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import { createCharacterGroup } from '../../../utils/data/groupData';
 import { getUsers } from '../../../utils/data/user';
 import { useAuth } from '../../../utils/context/authContext';
+import FancyButton from '../../FancyButton';
+import FancyCardLong from '../cards/FancyCard copy';
 
-const GroupForm = ({ onCancel }) => {
+const GroupForm = () => {
   const router = useRouter();
   const { user } = useAuth();
   const [newGroup, setNewGroup] = useState({
@@ -79,119 +80,98 @@ const GroupForm = ({ onCancel }) => {
     handleCreateGroup(newGroup);
   };
 
+  const onCancel = () => {
+    router.push('/groups');
+  };
+
   return (
+
     <form onSubmit={handleFormSubmit}>
-      <label>
-        Group Name:
-        <input
-          style={{
-            padding: '8px',
-            borderRadius: '4px',
-            border: '1px solid #ccc',
-            margin: '8px 0',
-          }}
-          type="text"
-          name="group_name"
-          value={newGroup.group_name}
-          onChange={handleInputChange}
-          required
-        />
-      </label>
-      <label style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: '8px',
-      }}
-      >
-        <input
-          type="checkbox"
-          name="private"
-          checked={newGroup.private}
-          onChange={handleInputChange}
-        />
-        Private Group
-      </label>
-      <label style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: '8px',
-      }}
-      >
-        <input
-          type="checkbox"
-          name="is_adventure_party"
-          checked={newGroup.is_adventure_party}
-          onChange={handleInputChange}
-        />
-        Is Adventure Party
-      </label>
+      <FancyCardLong>
 
-      {/* Conditionally render the Game Master field if Is Adventure Party is checked */}
-      {newGroup.is_adventure_party && (
-        <select
-          value={newGroup.game_master}
-          onChange={handleGameMasterSelect}
-          style={{
-            padding: '3px',
-            borderRadius: '3px',
-            border: '1px solid #ccc',
-            fontSize: '16px',
-            color: 'black',
-            boxShadow: '0px 4px 8px rgba(255, 255, 255, 0.3)',
-            backgroundColor: 'white',
-            outline: 'none',
-            width: '100%',
-            maxWidth: '400px',
-            cursor: 'pointer',
-          }}
+        <label>
+          Group Name:
+          <input
+            type="text"
+            name="group_name"
+            value={newGroup.group_name}
+            onChange={handleInputChange}
+            required
+          />
+        </label>
+        <label style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+        }}
         >
-          <option value="">---Select Game Master---</option>
-          {gameMasters.map((gameMaster) => (
-            <option key={gameMaster.id} value={gameMaster.id}>
-              {gameMaster.handle}
-            </option>
-          ))}
-        </select>
-      )}
+          <input
+            type="checkbox"
+            name="private"
+            checked={newGroup.private}
+            onChange={handleInputChange}
+          />
+          Private Group
+        </label>
+        <label style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+        }}
+        >
+          <input
+            type="checkbox"
+            name="is_adventure_party"
+            checked={newGroup.is_adventure_party}
+            onChange={handleInputChange}
+          />
+          Is Adventure Party
+        </label>
 
-      <div>
-        <button
-          style={{
-            padding: '10px 16px',
-            backgroundColor: '#00b300',
-            color: '#ffffcc',
-            borderRadius: '4px',
-            border: 'none',
-            cursor: 'pointer',
-            marginTop: '10px',
-          }}
-          type="submit"
-        >
-          Create Group
-        </button>
-        <button
-          type="button"
-          onClick={onCancel}
-          style={{
-            padding: '10px 16px',
-            backgroundColor: '#ffcc00',
-            color: '#000',
-            borderRadius: '4px',
-            border: 'none',
-            cursor: 'pointer',
-            marginTop: '10px',
-            marginLeft: '10px',
-          }}
-        >
-          Cancel
-        </button>
-      </div>
+        {/* Conditionally render the Game Master field if Is Adventure Party is checked */}
+        {newGroup.is_adventure_party && (
+          <select
+            value={newGroup.game_master}
+            onChange={handleGameMasterSelect}
+            style={{
+              padding: '3px',
+              borderRadius: '3px',
+              border: '1px solid #ccc',
+              fontSize: '16px',
+              color: 'black',
+              boxShadow: '0px 4px 8px rgba(255, 255, 255, 0.3)',
+              backgroundColor: 'white',
+              outline: 'none',
+              width: '100%',
+              maxWidth: '400px',
+              cursor: 'pointer',
+            }}
+          >
+            <option value="">---Select Game Master---</option>
+            {gameMasters.map((gameMaster) => (
+              <option key={gameMaster.id} value={gameMaster.id}>
+                {gameMaster.handle}
+              </option>
+            ))}
+          </select>
+        )}
+
+        <div>
+          <FancyButton
+            onClick={handleFormSubmit}
+          >
+            Create Group
+          </FancyButton>
+          <FancyButton
+            onClick={onCancel}
+          >
+            Cancel
+          </FancyButton>
+        </div>
+      </FancyCardLong>
     </form>
-  );
-};
 
-GroupForm.propTypes = {
-  onCancel: PropTypes.func.isRequired,
+  );
 };
 
 export default GroupForm;

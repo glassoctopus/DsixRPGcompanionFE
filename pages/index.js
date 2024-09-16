@@ -1,15 +1,15 @@
-import { Button } from 'react-bootstrap';
 import { useRouter } from 'next/router';
 import { signOut } from '../utils/auth';
 import { useAuth } from '../utils/context/authContext';
+import FancyButton from '../components/FancyButton';
 
 function Home() {
-  const { user } = useAuth(); // Get user from context
-  const router = useRouter(); // Initialize router
+  const { user } = useAuth();
+  const router = useRouter();
 
   const handleShowForm = () => {
     if (user && user.uid) {
-      router.push(`/users/${user.id}`); // Navigate to the update form dynamically
+      router.push(`/users/${user.id}`);
     } else {
       console.error('User not found or not logged in');
     }
@@ -30,27 +30,18 @@ function Home() {
         <p>Your Bio: {user?.bio || 'No bio available.'}</p>
         <p>Click the button below to update your information!</p>
 
-        <Button
-          variant="success"
-          type="button"
-          size="lg"
-          className="copy-btn"
+        <FancyButton
           onClick={handleShowForm} // Show the form on click
         >
           Update Information
-        </Button>
+        </FancyButton>
+        <br />
 
         <p>Click the button below to logout!</p>
 
-        <Button
-          variant="danger"
-          type="button"
-          size="lg"
-          className="copy-btn"
-          onClick={signOut}
-        >
+        <FancyButton onClick={signOut}>
           Sign Out
-        </Button>
+        </FancyButton>
       </>
     </div>
   );

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import HeroCarousel from '../../components/carousels/HeroCarousel';
 import GroupCarousel from '../../components/carousels/GroupCarousel';
+import FancyButton from '../../components/FancyButton';
 
 const Index = () => {
   const [showHeroCarousel, setShowHeroCarousel] = useState(false); // State to manage HeroCarousel visibility
@@ -37,20 +38,9 @@ const Index = () => {
       >
         {/* Toggle Button */}
         <div style={{ margin: '20px 0' }}>
-          <button
-            type="button"
-            onClick={toggleHeroCarousel}
-            style={{
-              padding: '10px 16px',
-              backgroundColor: '#593A80',
-              color: '#ffffcc',
-              borderRadius: '4px',
-              border: 'none',
-              cursor: 'pointer',
-            }}
-          >
+          <FancyButton onClick={toggleHeroCarousel}>
             {showHeroCarousel ? 'Hide Hero Carousel' : 'Show Hero Carousel'}
-          </button>
+          </FancyButton>
         </div>
 
         {/* Conditionally Render HeroCarousel */}
@@ -62,20 +52,9 @@ const Index = () => {
 
         {/* Middle: Create New Group Button */}
         <div style={{ margin: '20px 0' }}>
-          <button
-            type="button"
-            onClick={createNewGroup}
-            style={{
-              padding: '10px 16px',
-              backgroundColor: '#593A80',
-              color: '#ffffcc',
-              borderRadius: '4px',
-              border: 'none',
-              cursor: 'pointer',
-            }}
-          >
+          <FancyButton onClick={createNewGroup}>
             Create New Group
-          </button>
+          </FancyButton>
         </div>
 
         {/* Bottom: GroupCarousel */}

@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import { formatDiceCode } from '../../../utils/d6LogicForUI';
 import { useArchetypes } from '../../../utils/context/archetypeContext';
+import FancyButton from '../../FancyButton';
+import { useAuth } from '../../../utils/context/authContext';
 
 const HeroCard = ({
   id,
@@ -42,6 +44,7 @@ const HeroCard = ({
   const profession = archetypes.find((job) => job.id === archetype);
   const jobName = profession ? profession.archetype_name : 'Ummmmmm...';
   const router = useRouter();
+  const user = useAuth();
 
   const editHero = () => {
     router.push(`/heros/update/${id}`);
@@ -54,32 +57,31 @@ const HeroCard = ({
   return (
     <div style={{
       border: '1px solid #ddd',
-      borderRadius: '8px',
+      borderRadius: '13px',
       boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
       padding: '1rem',
-      color: '#4F7942',
       maxWidth: '33rem',
       margin: '1rem',
       overflow: 'auto',
-      backgroundColor: '#fff',
+      backgroundColor: 'rgb(214, 223, 232)',
     }}
     >
       <div><p>{userHandle}&apos;s</p></div>
       <div style={{
         border: '1px solid #ddd',
-        borderRadius: '8px',
+        borderRadius: '13px',
         boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
         padding: '1rem',
         maxWidth: '33rem',
         margin: '1rem',
         overflow: 'auto',
-        backgroundColor: '#fff',
+        backgroundColor: 'rgb(77, 89, 111)',
       }}
       >
         {image}
         <h2>{name}</h2>
         {archetype && <p><strong>Archetype:</strong> {jobName}</p>}
-        {uid !== null && <div><strong>uid:</strong> {uid}</div>}
+        {user.admin ? uid !== null && <div><strong>uid:</strong> {uid}</div> : <div />}
 
         <div style={{ display: 'flex', gap: '10px' }}>
           {species && <p><strong>Species:</strong> {species}</p>}
@@ -109,10 +111,10 @@ const HeroCard = ({
           {forceAlter !== null && <div><strong>Force Alter:</strong> {formatDiceCode(forceAlter)}</div>}
         </div>
         {forcePoints !== null && (
-        <p><strong>Force Points:</strong> {forcePoints}</p>
+          <p><strong>Force Points:</strong> {forcePoints}</p>
         )}
         {darkSidePoints !== null && (
-        <p><strong>Dark Side Points:</strong> {darkSidePoints}</p>
+          <p><strong>Dark Side Points:</strong> {darkSidePoints}</p>
         )}
         {physicalDescription && <p><strong>Physical Description:</strong> {physicalDescription}</p>}
         {personality && <p><strong>Personality:</strong> {personality}</p>}
@@ -123,40 +125,8 @@ const HeroCard = ({
         {forceStrength !== null && <p><strong>Force Strength:</strong> {forceStrength}</p>}
       </div>
       <div>
-        <button
-          onClick={editHero}
-          type="button"
-          style={{
-            display: 'inline-block',
-            backgroundColor: '#F5F5DC',
-            color: '#003366',
-            padding: '10px 20px',
-            borderRadius: '5px',
-            margin: '13px',
-            fontSize: '1.3vh',
-            textAlign: 'center',
-            cursor: 'pointer',
-          }}
-        >
-          EDIT {id}
-        </button>
-        <button
-          onClick={viewHero}
-          type="button"
-          style={{
-            display: 'inline-block',
-            backgroundColor: '#F5F5DC',
-            color: '#003366',
-            padding: '10px 20px',
-            borderRadius: '5px',
-            margin: '13px',
-            fontSize: '1.3vh',
-            textAlign: 'center',
-            cursor: 'pointer',
-          }}
-        >
-          VIEW {id}
-        </button>
+        <FancyButton onClick={editHero} style={{ marginRight: '13px' }}>EDIT &gt; {name}</FancyButton>
+        <FancyButton onClick={viewHero} style={{ marginRight: '13px' }}>VIEW &gt; {name}</FancyButton>
       </div>
     </div>
   );

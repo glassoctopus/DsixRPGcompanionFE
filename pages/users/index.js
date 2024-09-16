@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Link from 'next/link';
-import { Button } from 'react-bootstrap';
 import { useAuth } from '../../utils/context/authContext';
 import { getUsers } from '../../utils/data/user';
 import UserCard from '../../components/UserCard';
@@ -23,9 +21,7 @@ const User = () => {
         <article className="User">
           <div className="d-flex justify-content-between align-items-center mb-4">
             <h2 className="mb-0">User List</h2>
-            <Button as={Link} href="/users/create" className="btn btn-primary">
-              Add User
-            </Button>
+
           </div>
           <div
             className="col-md-4"

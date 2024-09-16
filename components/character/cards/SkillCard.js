@@ -16,7 +16,7 @@ const SkillCard = ({
 }) => (
   <Card className="text-center" style={{ width: '420px', margin: '7px' }}>
     <Card.Header>{skillName}</Card.Header>
-    <Card.Body>
+    <Card.Body style={{ backgroundColor: 'rgba(35, 82, 128, 0.35)' }}>
       <Card.Text>Attribute: {attribute}</Card.Text>
       <Card.Text>Time Taken: {timeTaken || 'N/A'}</Card.Text>
       <Card.Text>Is a Reaction: {isAReaction ? 'Yes' : 'No'}</Card.Text>
@@ -26,7 +26,7 @@ const SkillCard = ({
       <Card.Text>{skillUseNotes ? `Skill Use Notes: ${skillUseNotes}` : 'No use notes'}</Card.Text>
       <Card.Text>{skillGameNotes ? `Skill Game Notes: ${skillGameNotes}` : 'No game notes'}</Card.Text>
     </Card.Body>
-    <Card.Footer className="text-muted">...- {id} -...</Card.Footer>
+    <Card.Footer style={{ backgroundColor: 'rgba(65, 116, 173, 0.95)' }} className="text-muted">...- {id} -...</Card.Footer>
   </Card>
 );
 
