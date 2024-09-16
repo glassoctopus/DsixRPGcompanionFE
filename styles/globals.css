@@ -1,4 +1,4 @@
-@import 'bootstrap/dist/css/bootstrap.css';
+/* @import 'bootstrap/dist/css/bootstrap.css'; */
 
 html,
 body {
@@ -52,9 +52,109 @@ body {
 .star {
   position: absolute;
   background: white;
-  border-radius: 50%;
+  border-radius: 69%;
   box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.8);
   pointer-events: none; /* work around to help ensure stars do not block interactions */
+}
+
+.button {
+  background-color: #4A4A4A; /* Dark grey */
+  color: #FFFFFF; /* White text */
+  border: none;
+  border-radius: 15px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-family: 'Arial', sans-serif;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.1s;
+}
+
+/* Hover effect */
+.button:hover {
+  background-color: #6D6D6D; /* Lighter grey */
+  transform: scale(1.05); /* Slightly enlarge the button */
+}
+
+/* Press effect */
+.button:active {
+  background-color: #3A3A3A; /* Darker grey */
+  transform: scale(0.98); /* Slightly shrink the button */
+}
+
+.fancy-button {
+  background-color: #1d1d1d; /* Dark gray for the button background */
+  color: #ffffff;
+  border: 2px solid #ffcc00;
+  border-radius: 12px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+.fancy-button--primary {
+  background-color: #1d1d1d;
+  border-color: #ffcc00;
+}
+
+.fancy-button--secondary {
+  background-color: #2a2a2a;
+  border-color: #00aaff;
+}
+
+/* Hover effect */
+.fancy-button:hover {
+  background-color: #333333;
+  border-color: #ffcc00;
+  box-shadow: 0 6px 12px rgba(113, 152, 157, 0.95);
+}
+
+/* Focus effect */
+.fancy-button:focus {
+  outline: none;
+  border-color: #ffcc00;
+  box-shadow: 0 0 0 4px rgba(255, 204, 0, 0.95);
+}
+
+/* Active effect */
+.fancy-button:active {
+  background-color: #444444;
+  border-color: #ffaa00;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.fancy-card {
+  background-color: rgba(35, 82, 128, 0.35);
+  border-radius: 15px;
+  padding: 20px;
+  margin: 20px;
+  box-shadow: 0 13px 17px 0 rgba(0, 0, 0, 0.1);
+  border: 5px solid rgba(255, 215, 0, 0.69);
+  max-width: 45%;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.fancy-card:hover {
+  background-color: rgba(64, 116, 173, 0.950);
+  border-color: rgba(64, 116, 173, 0.35);
+}
+
+.fancy-card-long {
+  background-color: rgba(35, 82, 128, 0.35);
+  border-radius: 15px;
+  padding: 20px;
+  margin: 20px;
+  box-shadow: 0 13px 17px 0 rgba(0, 0, 0, 0.1);
+  border: 5px solid rgba(255, 215, 0, 0.69);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.fancy-card-long:hover {
+  background-color: rgba(64, 116, 173, 0.950);
+  border-color: rgba(64, 116, 173, 0.35);
 }
 
 .content {
@@ -66,20 +166,38 @@ body {
 
 input, textarea {
   border-radius: 8px;
-  /* box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.8); */
-  border: 1px solid #ccc; /* Optional: Add border color */
-  padding: 8px; /* Optional: Add padding for better appearance */
-  box-sizing: border-box; /* Ensures padding and border are included in the total width and height */
+  border: 1px solid #ccc;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.cardOfForm {
+  min-width: 40%;
+}
+
+.cardOfForm input:hover,
+.cardOfForm textarea:hover,
+.cardOfForm select:hover,
+.cardOfForm input[type="number"]:hover  {
+  border: 1px solid rgb(64, 116, 173);
+  box-shadow: 3px 4px rgba(255, 215, 0, 0.85);
+}
+
+.cardOfForm input,
+.cardOfForm textarea,
+.cardOfForm select,
+.cardOfForm input[type="number"] {
+  border: 1px solid rgb(46, 195, 237);
+  box-shadow: 2px 3px rgba(255, 255, 255, 0.2);
+  box-Shadow: 0 13px 17px 0 rgba(0, 0, 0, 0.1);
 }
 
 .row {
   padding: 1px 1px 1px 1px;
-  /* box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.8); */
 }
 
 .col {
   padding: 1px 1px 1px 1px;
-  /* box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.8); */
 }
 
 .override-overflow {
@@ -88,8 +206,8 @@ input, textarea {
 }
 
 .scroll-container {
-  position: relative; /* Ensures positioning context for absolute positioning inside it */
-  overflow: visible; /* Allow child elements to overflow */
+  position: relative;
+  overflow: visible;
 }
 
 /* Todo Content */

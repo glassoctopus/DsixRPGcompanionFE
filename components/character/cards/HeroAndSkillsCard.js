@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import { formatDiceCode } from '../../../utils/d6LogicForUI';
 import { useArchetypes } from '../../../utils/context/archetypeContext';
+import FancyButton from '../../FancyButton';
+import { deleteHero } from '../../../utils/data/heroData';
 
 const HeroAndSkillsCard = ({
   id,
@@ -52,6 +54,13 @@ const HeroAndSkillsCard = ({
     router.push(`/heros/${id}`);
   };
 
+  const deleteThisHero = () => {
+    deleteHero(id);
+    router.push('/heros').then(() => {
+      window.location.reload();
+    });
+  };
+
   // Group skills by attribute
   const groupedSkills = characterSkills.reduce((acc, skill) => {
     if (!acc[skill.attribute]) acc[skill.attribute] = [];
@@ -78,15 +87,15 @@ const HeroAndSkillsCard = ({
 
   return (
     <div style={{
-      border: '1px solid #ddd',
-      borderRadius: '8px',
+      border: '13px solid rgba(255, 215, 0, 0.69)',
+      borderRadius: '13px',
       boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
       padding: '1rem',
-      color: '#4F7942',
+
       maxWidth: '69rem',
       margin: '1rem',
       overflow: 'auto',
-      backgroundColor: '#fff',
+      backgroundColor: 'rgb(214, 223, 232)',
     }}
     >
       <div style={{
@@ -97,7 +106,7 @@ const HeroAndSkillsCard = ({
         maxWidth: '69rem',
         margin: '1rem',
         overflow: 'auto',
-        backgroundColor: '#fff',
+        backgroundColor: 'rgb(77, 89, 111)',
       }}
       >
         {image}
@@ -173,8 +182,9 @@ const HeroAndSkillsCard = ({
         {aQuote && <p><strong>A Quote:</strong> {aQuote}</p>}
         {credits !== null && <p><strong>Credits:</strong> {credits}</p>}
         {forceStrength !== null && <p><strong>Force Strength:</strong> {forceStrength}</p>}
-        <button type="button" onClick={viewHero}>View {id}</button>
-        <button type="button" onClick={editHero}>Edit {id}</button>
+        <FancyButton onClick={viewHero} style={{ marginRight: '13px' }}>View {id}</FancyButton>
+        <FancyButton onClick={editHero} style={{ marginRight: '13px' }}>Edit {id}</FancyButton>
+        <FancyButton onClick={deleteThisHero} style={{ marginRight: '13px' }}>Delete {id}</FancyButton>
       </div>
     </div>
   );

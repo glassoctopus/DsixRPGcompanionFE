@@ -13,7 +13,6 @@ export const HeroProvider = ({ children }) => {
 
   useEffect(() => {
     getHeros().then((response) => {
-      console.log('API response:', response);
       setHeros(response);
     });
   }, []);

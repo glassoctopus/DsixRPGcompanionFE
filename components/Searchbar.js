@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
+import FancyButton from './FancyButton';
 
 const SearchTextField = ({ placeholder, onSubmit }) => {
   const [searchTerm, setSearchTerm] = useState('');
+  const formRef = useRef(null);
 
   const handleChange = (e) => {
     setSearchTerm(e.target.value);
@@ -17,8 +19,15 @@ const SearchTextField = ({ placeholder, onSubmit }) => {
     }
   };
 
+  const handleFancyButtonClick = () => {
+    if (formRef.current) {
+      const event = new Event('submit', { cancelable: true, bubbles: true });
+      formRef.current.dispatchEvent(event);
+    }
+  };
+
   return (
-    <form onSubmit={handleSubmit} style={{ display: 'flex', alignItems: 'center' }}>
+    <form ref={formRef} onSubmit={handleSubmit} style={{ display: 'flex', alignItems: 'center' }}>
       <input
         type="text"
         id="search-input"
@@ -35,20 +44,9 @@ const SearchTextField = ({ placeholder, onSubmit }) => {
           minWidth: '200px',
         }}
       />
-      <button
-        type="submit"
-        style={{
-          padding: '8px 16px',
-          fontSize: '16px',
-          backgroundColor: '#007bff',
-          color: '#fff',
-          border: 'none',
-          borderRadius: '4px',
-          cursor: 'pointer',
-        }}
-      >
+      <FancyButton onClick={handleFancyButtonClick}>
         Search
-      </button>
+      </FancyButton>
     </form>
   );
 };

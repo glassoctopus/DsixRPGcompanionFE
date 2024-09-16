@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { useAuth } from '../../utils/context/authContext';
 import { getHeros } from '../../utils/data/heroData';
 import HeroCard from '../../components/character/cards/HeroCard';
+import FancyButton from '../../components/FancyButton';
 
 const Hero = () => {
   const [heros, setHeros] = useState([]);
@@ -34,7 +35,7 @@ const Hero = () => {
 
   return (
     <div style={{
-      padding: '13px', backgroundColor: 'rgba(244, 244, 244, 0.5)', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center',
+      padding: '13px', backgroundColor: 'rgba(244, 244, 244, 0.1)', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center',
     }}
     >
       <div style={{ width: '100%', maxWidth: '1200px' }}>
@@ -45,34 +46,13 @@ const Hero = () => {
           <h2 style={{ fontSize: '2rem', margin: '0' }}>Hero List</h2>
 
           {/* Button to toggle between "mine" and "all" */}
-          <button
-            type="button"
-            onClick={handleToggleView}
-            style={{
-              padding: '10px 20px',
-              backgroundColor: '#ccc',
-              textDecoration: 'none',
-              borderRadius: '5px',
-              fontSize: '1rem',
-              marginRight: '10px',
-            }}
-          >
+          <FancyButton onClick={handleToggleView}>
             {showMine ? 'Show All' : 'Show Mine'}  {/* Button label */}
-          </button>
+          </FancyButton>
 
-          <button
-            type="button"
-            onClick={handleClick}
-            style={{
-              padding: '10px 20px',
-              backgroundColor: '#tan',
-              textDecoration: 'none',
-              borderRadius: '5px',
-              fontSize: '1rem',
-            }}
-          >
+          <FancyButton onClick={handleClick}>
             Create New Hero
-          </button>
+          </FancyButton>
         </div>
 
         <div style={{
@@ -84,7 +64,7 @@ const Hero = () => {
               <div
                 key={hero.id}
                 style={{
-                  background: 'white',
+                  background: 'rgba(255, 215, 0, 0.85)',
                   borderRadius: '8px',
                   overflow: 'hidden',
                   boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',

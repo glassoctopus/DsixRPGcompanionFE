@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import HeroOverviewCard from './HeroOverviewCard';
 import { deleteCharacterGroup } from '../../../utils/data/groupData';
+import FancyCardLong from './FancyCard copy';
+import FancyButton from '../../FancyButton';
 
 const GroupCard = ({
   group, onCreateGroup, onTogglePrivate, onToggleAdventureParty, onGroupDeleted,
@@ -25,87 +27,89 @@ const GroupCard = ({
   };
 
   return (
-    <div
-      style={{
-        border: '1px solid #ccc',
-        padding: '16px',
-        margin: '16px',
-        boxSizing: 'border-box',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'flex-start', // Ensures content starts at the top
-      }}
-    >
-      {group ? (
-        <>
-          <h2>{group.group_name || 'Unnamed Group'}</h2>
-          <p><strong>User:</strong> {group.user || 'Unknown User'}</p>
-          <p><strong>Game Master:</strong> {group.game_master_handle || 'No GM Assigned'}</p>
-          <div><p><strong>Heroes in {group.group_name}</strong></p></div>
+    <FancyCardLong>
+      <div
+        style={{
+          border: '1px solid #ccc',
+          padding: '16px',
+          margin: '16px',
+          boxSizing: 'border-box',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'flex-start', // Ensures content starts at the top
+        }}
+      >
+        {group ? (
+          <>
+            <h2>{group.group_name || 'Unnamed Group'}</h2>
+            <p><strong>User:</strong> {group.user || 'Unknown User'}</p>
+            <p><strong>Game Master:</strong> {group.game_master_handle || 'No GM Assigned'}</p>
+            <div><p><strong>Heroes in {group.group_name}</strong></p></div>
 
-          <div style={{ overflowX: 'auto', padding: '16px 0' }}>
-            <div style={{
-              display: 'flex',
-              gap: '16px',
-              paddingBottom: '16px',
-              alignItems: 'center',
-              whiteSpace: 'nowrap',
-            }}
-            >
-              {group?.characters?.length > 0 ? (
-                group.characters.map((hero) => (
-                  <HeroOverviewCard
-                    key={hero.id}
-                    id={hero.id}
-                    userHandle={hero.user_handle}
-                    name={hero.name}
-                    archetypeName={hero.archetype_name}
-                    groupName={group.group_name}
-                  />
-                ))
-              ) : (
-                <div
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    border: '1px dashed #ccc',
-                    margin: '16px 0',
-                    height: '100px', // Adjust height as needed
-                  }}
-                >
-                  <p>No heroes in this group.</p>
-                </div>
-              )}
+            <div style={{ overflowX: 'auto', padding: '16px 0' }}>
+              <div style={{
+                display: 'flex',
+                gap: '16px',
+                paddingBottom: '16px',
+                alignItems: 'center',
+                whiteSpace: 'nowrap',
+              }}
+              >
+                {group?.characters?.length > 0 ? (
+                  group.characters.map((hero) => (
+                    <HeroOverviewCard
+                      key={hero.id}
+                      id={hero.id}
+                      userHandle={hero.user_handle}
+                      name={hero.name}
+                      archetypeName={hero.archetype_name}
+                      groupName={group.group_name}
+                    />
+                  ))
+                ) : (
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      border: '1px dashed #ccc',
+                      margin: '16px 0',
+                      height: '100px', // Adjust height as needed
+                    }}
+                  >
+                    <p>No heroes in this group.</p>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
 
-          <div style={{ marginBottom: '16px' }}>
-            <button type="button" onClick={() => onTogglePrivate(group.id)}>
-              {group.private ? 'Private Group' : 'Public Group'}
-            </button>
-            <button type="button" onClick={() => onToggleAdventureParty(group.id)}>
-              {group.is_adventure_party ? 'Adventure Party' : 'Regular Group'}
-            </button>
-            <button type="button" onClick={handleUpdateGroup}>
-              Update Group
-            </button>
-            <button type="button" onClick={handleDeleteGroup}>
-              Delete Group
-            </button>
-            <button type="button" onClick={() => router.push(`/groups/${group.id}`)}>
-              View Group
-            </button>
-          </div>
-        </>
-      ) : (
-        <>
-          <h2>No Groups Available</h2>
-          <button type="button" onClick={onCreateGroup}>Create a Group</button>
-        </>
-      )}
-    </div>
+            <div style={{ marginBottom: '16px' }}>
+              <FancyButton onClick={() => onTogglePrivate(group.id)} style={{ padding: '13px', margin: '13px' }}>
+                {group.private ? 'Private Group' : 'Public Group'}
+              </FancyButton>
+              <FancyButton onClick={() => onToggleAdventureParty(group.id)} style={{ padding: '13px', margin: '13px' }}>
+                {group.is_adventure_party ? 'Adventure Party' : 'Regular Group'}
+              </FancyButton>
+              <FancyButton onClick={handleUpdateGroup} style={{ padding: '13px', margin: '13px' }}>
+                Update Group
+              </FancyButton>
+              <FancyButton onClick={handleDeleteGroup} style={{ padding: '13px', margin: '13px' }}>
+                Delete Group
+              </FancyButton>
+              <FancyButton onClick={() => router.push(`/groups/${group.id}`)} style={{ padding: '13px', margin: '13px' }}>
+                View Group
+              </FancyButton>
+            </div>
+          </>
+        ) : (
+          <>
+            <h2>No Groups Available</h2>
+            <button type="button" onClick={onCreateGroup}>Create a Group</button>
+          </>
+        )}
+      </div>
+    </FancyCardLong>
   );
 };
 

@@ -27,20 +27,25 @@ const HeroCodes = () => {
   }
 
   return (
+
     <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
       <h2>{user.handle}&apos;s Hero</h2>
+
       <div
         style={{
           padding: '13px',
-          backgroundColor: 'rgba(244, 244, 244, 0.5)',
+
           flexGrow: 1,
+          borderRadius: '15px',
           overflowY: 'auto', // Enable scrolling
         }}
       >
         <HeroSkillForm id={numericId} />
-        <HeroAndSkillsCard id={numericId} />
+        <HeroAndSkillsCard {...aHero} />
       </div>
+
     </div>
+
   );
 };
 

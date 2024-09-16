@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useRouter } from 'next/router';
 import { registerUser } from '../utils/auth';
+import FancyButton from './FancyButton';
 
 function RegisterForm({ user, updateUser }) {
   const router = useRouter();
@@ -70,9 +70,9 @@ function RegisterForm({ user, updateUser }) {
       <Form.Group className="mb-3" controlId="formGameMaster">
         <Form.Check
           type="checkbox"
-          name="gameMaster"
+          name="game_master"
           label="Game Master"
-          checked={userData.gameMaster}
+          checked={userData.game_master}
           onChange={handleInputChange}
         />
       </Form.Group>
@@ -87,9 +87,9 @@ function RegisterForm({ user, updateUser }) {
         />
       </Form.Group>
 
-      <Button variant="primary" type="submit">
+      <FancyButton onClick={handleSubmit}>
         Register
-      </Button>
+      </FancyButton>
     </Form>
   );
 }
