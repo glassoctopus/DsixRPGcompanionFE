@@ -1,15 +1,15 @@
 const planets = {
   Abafar: 'A desert planet located in the Outer Rim with a completely white surface. Known as The Void, the planet is barely populated but is home to massive amounts of rhydonium, a scarce and volatile fuel.',
   Agamar: 'A barren, rocky planet in the Outer Rim. Site of a still-active reserve of Separatist droids that became known for surviving the Clone Wars.',
-  Ahch_To: 'Largely oceanic planet on which Luke Skywalker has been hiding for several years, and the location of the first Jedi Temple and the Tree Library of sacred Jedi texts. Porgs, Lanai and thala-sirens are among the native species.',
+  Ahch_To: 'Largely oceanic planet on which Luke Skywalker has been hiding for several years, and the location of the first Jedi Temple and the Tree Library of sacred Jedi texts. Porgs, Lanai and thala-sirens are among the native planets.',
   Ajan_Kloss: 'A jungle moon which serves as a new base of operations for the Resistance. Years before, Leia and Luke were training there. Leia Organa dies here after using the last of her energy to reach out to her son through the Force.',
   Akiva: 'Jungle planet and home of Norra and Temmin Wexley, and a primary setting in Aftermath.',
   Alderaan: 'Forests, mountains; home planet of Princess Leia and the House of Organa. Destroyed by the first Death Star as punishment for involvement in the Rebel Alliance and also as a demonstration of power.',
   Aldhani: 'A temperate, alpine planet with highlands, valleys, forests, and lakes sacred to the indigenous Dhani people, until they were relocated by the Empire, having established a base situated within a dam housing a vault funding its military.',
-  Aleen: 'A subterranean world located in the Mid Rim. The native species include, the surface-dwelling beings called the Aleena and sentient tree-like beings called Kindalo.',
+  Aleen: 'A subterranean world located in the Mid Rim. The native planets include, the surface-dwelling beings called the Aleena and sentient tree-like beings called Kindalo.',
   Alzoc_III: 'Ice planet, with many glaciers, and on its surface lies a crashed separatist carrier, with an anti-gravitational device.',
   Anaxes: 'A rocky planet located in the Azure sector of the galaxy&apos;s Core Worlds region. A majority of its surface was covered with tall, red plant-like life. In the early years of the Imperial Era, the planet was destroyed in a cataclysm, with the remains becoming the Anaxes asteroid belt.',
-  Ando: 'A water-covered planet located in the Outer Rim, it is home to the amphibious Aqualish species and endures great turmoil during the Separatist Crisis.',
+  Ando: 'A water-covered planet located in the Outer Rim, it is home to the amphibious Aqualish planets and endures great turmoil during the Separatist Crisis.',
   Anoat: 'Polluted; A nearly inhospitable planet used by the Empire.',
   Atollon: 'Desert planet, site of Phoenix Squadron Rebel base. Home of the spider-like hexapods known as the Krykna, and the powerful force-wielder Bendu. The Battle of Atollon was allowed by Grand Admiral Thrawn himself, and destroyed most of the base, forcing the Phoenix Squadron to leave.',
   Barton_4: 'An icy planet where the Galactic Empire maintained a supply depot. The clone trooper CT-9904 "Crosshair" was sent to the outpost on the planet.',
@@ -22,7 +22,7 @@ const planets = {
   Brendok: 'A planet in the Outer Rim that is home to Osha and Mae Aniseya, as well as a coven of force-sensitive witches known as the Witches of Brendok.',
   Cantonica: 'An arid planet where the resort city of Canto Bight, home of the Canto Casino and Racetrack, is located.',
   Castilon: 'An ocean planet located in the Outer Rim near Wild Space. Home to the aircraft refueling station Colossus, as well as a destination for racers.',
-  Cato_Neimoidia: 'Colony world of the Neimoidian species. The site of battles throughout the Clone Wars, notable for its "Bridge Cities". Also the site of Plo Koon&apos;s death during the Great Jedi Purge.',
+  Cato_Neimoidia: 'Colony world of the Neimoidian planets. The site of battles throughout the Clone Wars, notable for its "Bridge Cities". Also the site of Plo Koon&apos;s death during the Great Jedi Purge.',
   Chandrila: 'Homeworld of Mon Mothma and Ben Solo, it serves as the first capital of the New Republic. Serene planet known for calm seas and rolling hills.',
   Christophsis: 'During the Clone Wars, the Battle of Christophsis occurs here, serving as an introduction to Ahsoka Tano.',
   Concord_Dawn: 'Home planet of Jango Fett. Habitable planet that is surrounded by a large amount of debris from many vicious wars. Formerly controlled by the Mandalorians.',
@@ -34,11 +34,11 @@ const planets = {
   Dagobah: 'Swamp planet and Yoda&apos;s residence after the fall of the Jedi.',
   Dantooine: 'Rural planet and the former site of a Rebel base. The writers of Rogue One considered depicting the Rebels evacuating the base for Yavin 4, but "it didn&apos;t move the story forward and it would have cost a ton of money."',
   Dathomir: 'Sith world and homeworld of the Nightsisters, including the Force-sensitive Asajj Ventress. Also the homeworld of the Zabrak warriors, including Darth Maul. A remote world, perpetually bathed in blood-red sunlight and home to numerous dangerous predators.',
-  Devaron: 'Forest planet with an ancient Jedi Temple. Home to the horned Devaronian species.',
+  Devaron: 'Forest planet with an ancient Jedi Temple. Home to the horned Devaronian planets.',
   Eadu: 'Rocky, mountainous planet beset by constant severe storms. Home to an Imperial weapons research facility. Its appearance was partly inspired by the fictitious planet LV-426 from the Alien franchise.',
   Endor: 'Blue gas giant with a complex planetary system, including moons like Sanctuary and Kef Bir, this system was controlled by the Empire until the second Death Star was destroyed.',
   Endor_Sanctuary: 'Forest moon that the second Death Star orbits, and house to an Imperial outpost. Inhabited by Ewoks. The location of the battle between the Rebel Alliance and the Empire leading to the destruction of the second Death Star.',
-  Er_kit: 'Desert planet located in the galaxy&apos;s Outer Rim Territories. Homeworld of the Er&apos;Kit species.',
+  Er_kit: 'Desert planet located in the galaxy&apos;s Outer Rim Territories. Homeworld of the Er&apos;Kit planets.',
   Eriadu: 'Planet located in the galaxy&apos;s Outer Rim. Homeworld of Grand Moff Tarkin and his family.',
   Esseles: 'Under Imperial Control. The Empire has a listening post concealed in Esseles icy ring.',
   Exegol: 'A stormy planet in the galaxy&apos;s "Unknown Regions", with its location deliberately obscured by Republic and Jedi efforts. An ancient bastion of the Sith, it serves as the lair of Darth Sidious and the Sith Eternal during the construction of a Sith armada known as the Final Order.',
@@ -74,11 +74,11 @@ const planets = {
   Mapuzo: 'Desertified planet where Ben Kenobi and Leia Organa are hiding. Site of the first rematch between Kenobi and Vader.',
   Maridun: 'Grassy planet remaining undiscovered until the Clone Wars.',
   Mimban: 'Swamp planet with perpetual fog and overcast sky.',
-  Mon_Cala: 'Ocean planet home to the Mon Calamari and Quarren species, also known as Mon Calamari or Dac.',
+  Mon_Cala: 'Ocean planet home to the Mon Calamari and Quarren planets, also known as Mon Calamari or Dac.',
   Moraband: 'Home planet of ancient Sith lords, known as Korriban in Legends.',
   Mortis: 'Planet existing in the spiritual realm within the Force, home to the Mortis Gods.',
   Mustafar: 'Volcanic planet used by the Techno Union to mine valuable materials. Site of the duel between Anakin Skywalker and Obi-Wan Kenobi and Darth Vader&apos;s personal stronghold.',
-  Mygeeto: 'Cold, urban planet and battle site in the final days of the Clone Wars. Colony world of the Muun species.',
+  Mygeeto: 'Cold, urban planet and battle site in the final days of the Clone Wars. Colony world of the Muun planets.',
   Naboo: 'Home planet of the Gungans and the Naboo, including Padmé Amidala and Palpatine.',
   Nal_Hutta: 'Home planet of Jabba and other Hutts, close to the urban moon of Nar Shaddaa.',
   Nevarro: 'Volcanic planet with black sands and lava flows. Hub of the Bounty Hunter Guild and home to a Mandalorian covert.',
@@ -90,8 +90,8 @@ const planets = {
   Onderon: 'Jungle planet where Anakin Skywalker and Ahsoka Tano lead a revolt against its Separatist-controlled usurpatory king. Birthplace of Saw Gerrera.',
   Ord_Mantell: 'Planet where Han Solo recounts a run-in with a bounty hunter.',
   Ossus: 'Verdant planet and home of Luke Skywalker&apos;s Jedi Temple.',
-  Pasaana: 'Desert planet on the edge of the galaxy, home to the Aki-Aki species.',
-  Pillio: 'Uncolonized aquatic planet with over 3 million species, and the location of one of Darth Sidious&apos; observatories.',
+  Pasaana: 'Desert planet on the edge of the galaxy, home to the Aki-Aki planets.',
+  Pillio: 'Uncolonized aquatic planet with over 3 million planets, and the location of one of Darth Sidious&apos; observatories.',
   Polis_Massa: 'Outer Rim planetoid within an asteroid field of the same name; birthplace of Luke Skywalker and Leia Organa.',
   Raada: 'Farming moon in the Outer Rim, where Ahsoka Tano hid under the name "Ashla" after Order 66.',
   Rishi: 'Tropical planet used by the Republic to monitor the nearby cloning facility on Kamino.',
@@ -126,7 +126,14 @@ const planets = {
   Yavin: 'Gas planet with several moons, including Yavin 4.',
   Yavin_4: 'Forest moon and base for the Rebel Alliance.',
   Zeffo: 'A planet with many mountains and stormy weather. Featuring ancient ruins and tombs, imperial excavations, and a crashed Venator near an ancient tomb.',
-  Zygerria: 'A planet in the Outer Rim Territories home of the Zygerrian species. Zygerria was also known for a slave empire.',
+  Zygerria: 'A planet in the Outer Rim Territories home of the Zygerrian planets. Zygerria was also known for a slave empire.',
 };
 
-export default planets;
+const randomPlanet = () => {
+  const planetsKeys = Object.keys(planets);
+  const planetsRoll = planetsKeys[Math.floor(Math.random() * planetsKeys.length)];
+  const description = planets[planetsRoll];
+  return [planetsRoll, description];
+};
+
+export default randomPlanet;

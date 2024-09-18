@@ -10,11 +10,12 @@ import ArchetypeDropdown from '../../dropDowns/ArchetypeDropDown';
 import { useArchetypes } from '../../../utils/context/archetypeContext';
 import { formatDiceCode } from '../../../utils/d6LogicForUI';
 import FancyButton from '../../FancyButton';
-import names from '../../../utils/names';
-import species from '../../../utils/species';
-import planets from '../../../utils/planets';
+import randomName from '../../../utils/names';
+import randomSpecies from '../../../utils/species';
+import randomPlanet from '../../../utils/planets';
 import FancyCard from '../cards/FancyCard';
-import FancyCardLong from '../cards/FancyCard copy';
+import FancyCardLong from '../cards/FancyCardLong';
+import Tooltip from '../../Tooltip';
 
 const initialState = {
   uid: '',
@@ -54,6 +55,7 @@ const HeroForm = ({ hero, id }) => {
   const [currentHero, setCurrentHero] = useState(initialState);
   const [selectedArchetype, setSelectedArchetype] = useState(null);
   const { archetypes } = useArchetypes();
+  const [planetDetails, setPlanetDetails] = useState("The Character's Homeworld");
   const router = useRouter();
   const { user } = useAuth();
   const formRef = useRef(null);
@@ -110,23 +112,65 @@ const HeroForm = ({ hero, id }) => {
     }
   };
 
-  const randomSpecies = () => {
-    const randSpecies = Object.keys(species);
-    currentHero.species = randSpecies[Math.floor(Math.random() * randSpecies.length)];
+  const randomNameForForm = () => {
+    const nameRoll = randomName();
+    setCurrentHero((prevFormState) => ({
+      ...prevFormState,
+      name: nameRoll,
+    }));
+  };
+
+  const randomSpeciesForForm = () => {
+    const [speciesRoll, physDescriptionRoll] = randomSpecies();
+    setCurrentHero((prevFormState) => ({
+      ...prevFormState,
+      species: speciesRoll,
+      physical_description: physDescriptionRoll,
+    }));
+  };
+
+  const randomHomeworld = () => {
+    const [planetRoll, planetDescription] = randomPlanet();
+    setPlanetDetails(planetDescription);
+    setCurrentHero((prevFormState) => ({
+      ...prevFormState,
+      homeworld: planetRoll,
+    }));
+  };
+
+  const randomHeight = () => {
+    const heightRoll = Math.floor(Math.random() * 50 + 150);
+    setCurrentHero((prevFormState) => ({
+      ...prevFormState,
+      height: heightRoll,
+    }));
+  };
+
+  const randomWeight = () => {
+    const weightRoll = Math.floor(Math.random() * 39 + 51);
+    setCurrentHero((prevFormState) => ({
+      ...prevFormState,
+      weight: weightRoll,
+    }));
+  };
+
+  const randomAge = () => {
+    const ageRoll = Math.floor(Math.random() * 69 + 19);
+    setCurrentHero((prevFormState) => ({
+      ...prevFormState,
+      age: ageRoll,
+    }));
   };
 
   const randomHero = () => {
     currentHero.archetype = Math.floor(Math.random() * archetypes.length);
     handleArchetypeSelect(archetypes.find((archetype) => archetype.id === currentHero.archetype));
-    currentHero.name = names[Math.floor(Math.random() * names.length)];
-
+    randomNameForForm();
     randomSpecies();
-    currentHero.physical_description = species[currentHero.species];
-    const randPlanet = Object.keys(planets);
-    currentHero.homeworld = randPlanet[Math.floor(Math.random() * randPlanet.length)];
-    currentHero.height = Math.floor(Math.random() * (200 - 150) + 150);
-    currentHero.weight = Math.floor(Math.random() * (90 - 50) + 50);
-    currentHero.age = Math.floor(Math.random() * (70 - 23) + 23);
+    randomHomeworld();
+    randomHeight();
+    randomWeight();
+    randomAge();
     currentHero.gender = 'if applicable';
   };
 
@@ -234,7 +278,7 @@ const HeroForm = ({ hero, id }) => {
                       {/* Name and Species in the same row */}
                       <div className="row" style={{ padding: '13px' }}>
                         <div className="col">
-                          <Form.Label>Name</Form.Label>
+                          <Form.Label>Name</Form.Label><button type="button" className="siteButton" onClick={randomNameForForm}>roll a name</button>
                           <Form.Control
                             className="form-control-sm"
                             type="text"
@@ -246,7 +290,7 @@ const HeroForm = ({ hero, id }) => {
                           />
                         </div>
                         <div className="col">
-                          <Form.Label>Species</Form.Label>
+                          <Form.Label>Species</Form.Label><button type="button" className="siteButton" onClick={randomSpeciesForForm}>roll a species</button>
                           <Form.Control
                             className="form-control-sm"
                             type="text"
@@ -256,10 +300,11 @@ const HeroForm = ({ hero, id }) => {
                             value={currentHero.species || ''}
                             onChange={handleInputChange}
                           />
+
                         </div>
                       </div>
 
-                      <Form.Label>Homeworld</Form.Label>
+                      <Form.Label>Homeworld</Form.Label><button type="button" className="siteButton" onClick={randomHomeworld}>roll a homeworld</button><Tooltip style={{ display: 'flex', justifyContent: 'flex-end' }} text="^" tooltip={planetDetails} />
                       <Form.Control
                         className="form-control-sm"
                         type="text"
@@ -272,7 +317,7 @@ const HeroForm = ({ hero, id }) => {
 
                       <div className="row" style={{ padding: '13px' }}>
                         <div className="col">
-                          <Form.Label>Height</Form.Label>
+                          <Form.Label>Height in cm</Form.Label><button type="button" className="siteButton" onClick={randomHeight}>roll cm</button>
                           <Form.Control
                             className="form-control-sm"
                             type="text"
@@ -284,7 +329,7 @@ const HeroForm = ({ hero, id }) => {
                           />
                         </div>
                         <div className="col">
-                          <Form.Label>Weight</Form.Label>
+                          <Form.Label>Weight in kilograms</Form.Label><button className="siteButton" type="button" onClick={randomWeight}>roll kgs </button>
                           <Form.Control
                             className="form-control-sm"
                             type="text"
@@ -299,7 +344,7 @@ const HeroForm = ({ hero, id }) => {
 
                       <div className="row" style={{ padding: '13px' }}>
                         <div className="col">
-                          <Form.Label>Gender</Form.Label>
+                          <Form.Label>Gender</Form.Label><button type="button" className="siteButton">...</button>
                           <Form.Control
                             className="form-control-sm"
                             type="text"
@@ -311,7 +356,7 @@ const HeroForm = ({ hero, id }) => {
                           />
                         </div>
                         <div className="col">
-                          <Form.Label>Age</Form.Label>
+                          <Form.Label>Age</Form.Label><button type="button" className="siteButton" onClick={randomAge}>roll an age</button>
                           <Form.Control
                             className="form-control-sm"
                             type="number"
@@ -330,7 +375,7 @@ const HeroForm = ({ hero, id }) => {
               </FancyCard>
               <FancyCard>
                 <div className="cardOfForm">
-                  <h4>Attributes are the things your born with and shaped by upbringing.</h4>
+                  <h4>Attributes are the things you&apos;re born with and shaped by upbringing.</h4>
 
                   <div className="col" style={{ margin: '13px', border: '13px', padding: '13px' }}>
                     <div className="row">
@@ -563,21 +608,21 @@ const HeroForm = ({ hero, id }) => {
                       onChange={handleInputChange}
                     />
 
-                  </div>
-                  <div className="col">
+                    <div className="col">
 
-                    <div className="col-auto">
+                      <div className="col-auto">
 
-                      <Form.Label>Credits</Form.Label>
-                      <Form.Control
-                        className="form-control-sm"
-                        type="number"
-                        placeholder="Credits"
-                        name="credits"
-                        required
-                        value={currentHero.credits}
-                        onChange={handleInputChange}
-                      />
+                        <Form.Label>Credits</Form.Label>
+                        <Form.Control
+                          className="form-control-sm"
+                          type="number"
+                          placeholder="Credits"
+                          name="credits"
+                          required
+                          value={currentHero.credits}
+                          onChange={handleInputChange}
+                        />
+                      </div>
                     </div>
                   </div>
 

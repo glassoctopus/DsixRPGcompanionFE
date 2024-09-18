@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form';
 import { useRouter } from 'next/router';
 import { registerUser } from '../utils/auth';
 import FancyButton from './FancyButton';
+import FancyCardLong from './character/cards/FancyCardLong';
 
 function RegisterForm({ user, updateUser }) {
   const router = useRouter();
@@ -39,58 +40,60 @@ function RegisterForm({ user, updateUser }) {
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Form.Group className="mb-3" controlId="formBasicHandle">
-        <Form.Label>User Handle</Form.Label>
-        <Form.Control
-          type="text"
-          name="handle"
-          required
-          placeholder="Enter your handle"
-          value={userData.handle}
-          onChange={handleInputChange}
-        />
-      </Form.Group>
+    <FancyCardLong>
+      <Form onSubmit={handleSubmit}>
+        <Form.Group className="mb-3" controlId="formBasicHandle">
+          <Form.Label>User Handle</Form.Label>
+          <Form.Control
+            type="text"
+            name="handle"
+            required
+            placeholder="Enter your handle"
+            value={userData.handle}
+            onChange={handleInputChange}
+          />
+        </Form.Group>
 
-      <Form.Group className="mb-3" controlId="formBasicBio">
-        <Form.Label>User Bio</Form.Label>
-        <Form.Control
-          as="textarea"
-          name="bio"
-          required
-          placeholder="Enter your Bio"
-          value={userData.bio}
-          onChange={handleInputChange}
-        />
-        <Form.Text className="text-muted">
-          Let other players know a little bit about you...
-        </Form.Text>
-      </Form.Group>
+        <Form.Group className="mb-3" controlId="formBasicBio">
+          <Form.Label>User Bio</Form.Label>
+          <Form.Control
+            as="textarea"
+            name="bio"
+            required
+            placeholder="Enter your Bio"
+            value={userData.bio}
+            onChange={handleInputChange}
+          />
+          <Form.Text className="text-muted">
+            Let other players know a little bit about you...
+          </Form.Text>
+        </Form.Group>
 
-      <Form.Group className="mb-3" controlId="formGameMaster">
-        <Form.Check
-          type="checkbox"
-          name="game_master"
-          label="Game Master"
-          checked={userData.game_master}
-          onChange={handleInputChange}
-        />
-      </Form.Group>
+        <Form.Group className="mb-3" controlId="formGameMaster">
+          <Form.Check
+            type="checkbox"
+            name="game_master"
+            label="Game Master"
+            checked={userData.game_master}
+            onChange={handleInputChange}
+          />
+        </Form.Group>
 
-      <Form.Group className="mb-3" controlId="formAdmin">
-        <Form.Check
-          type="checkbox"
-          name="admin"
-          label="Admin"
-          checked={userData.admin}
-          onChange={handleInputChange}
-        />
-      </Form.Group>
+        <Form.Group className="mb-3" controlId="formAdmin">
+          <Form.Check
+            type="checkbox"
+            name="admin"
+            label="Admin"
+            checked={userData.admin}
+            onChange={handleInputChange}
+          />
+        </Form.Group>
 
-      <FancyButton onClick={handleSubmit}>
-        Register
-      </FancyButton>
-    </Form>
+        <FancyButton onClick={handleSubmit}>
+          Register
+        </FancyButton>
+      </Form>
+    </FancyCardLong>
   );
 }
 

@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { formatDiceCode } from '../../../utils/d6LogicForUI';
 import { useAuth } from '../../../utils/context/authContext';
 import FancyButton from '../../FancyButton';
-import FancyCardLong from './FancyCard copy';
+import FancyCardLong from './FancyCardLong';
 
 const ArchetypeCard = ({
   id,

@@ -7,7 +7,6 @@ import {
   Nav,
 } from 'react-bootstrap';
 import { signOut } from '../utils/auth';
-import FancyButton from './FancyButton';
 
 const NavBar = () => (
   <Navbar collapseOnSelect expand="lg" bg="transparent" variant="dark">
@@ -38,9 +37,9 @@ const NavBar = () => (
             <Nav.Link>What is next</Nav.Link>
           </Link>
         </Nav>
-        <FancyButton onClick={signOut}>
+        <button type="button" className="siteButton" onClick={signOut}>
           Sign Out
-        </FancyButton>
+        </button>
       </Navbar.Collapse>
     </Container>
   </Navbar>

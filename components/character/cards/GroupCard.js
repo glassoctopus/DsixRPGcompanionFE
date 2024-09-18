@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import HeroOverviewCard from './HeroOverviewCard';
 import { deleteCharacterGroup } from '../../../utils/data/groupData';
-import FancyCardLong from './FancyCard copy';
+import FancyCardLong from './FancyCardLong';
 import FancyButton from '../../FancyButton';
 
 const GroupCard = ({

@@ -3,7 +3,7 @@ import SkillCard from '../../components/character/cards/SkillCard';
 import { getSkills } from '../../utils/data/skillData';
 import SearchTextField from '../../components/Searchbar';
 
-import FancyCardLong from '../../components/character/cards/FancyCard copy';
+import FancyCardLong from '../../components/character/cards/FancyCardLong';
 
 const Skills = () => {
   const [skills, setSkills] = useState([]);

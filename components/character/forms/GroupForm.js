@@ -4,7 +4,7 @@ import { createCharacterGroup } from '../../../utils/data/groupData';
 import { getUsers } from '../../../utils/data/user';
 import { useAuth } from '../../../utils/context/authContext';
 import FancyButton from '../../FancyButton';
-import FancyCardLong from '../cards/FancyCard copy';
+import FancyCardLong from '../cards/FancyCardLong';
 
 const GroupForm = () => {
   const router = useRouter();
@@ -42,7 +42,17 @@ const GroupForm = () => {
     };
 
     createCharacterGroup(groupData)
-      .then(() => {
+      .then((response) => {
+        console.warn('this is a debug TODO, need to navigate to get into this if below.');
+        console.warn('Group created successfully:', response.data);
+        if (response && response.data && response.data.id) {
+          const newGroupId = response.data.id;
+          console.warn('New Group ID:', newGroupId);
+
+          router.push(`/groups/update/${newGroupId}`);
+        } else {
+          console.error('Error: ID not found in the response');
+        }
         router.push('/groups');
       })
       .catch((error) => {
