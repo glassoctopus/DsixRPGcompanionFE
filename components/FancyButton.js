@@ -20,12 +20,12 @@ FancyButton.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   style: PropTypes.object,
   children: PropTypes.node.isRequired, // children should be any node (text, elements, etc.) and is required
-  disabled: PropTypes.bool, // disabled should be a boolean
+  disabled: PropTypes.bool,
 };
 
 FancyButton.defaultProps = {
   style: {},
-  disabled: false, // default disabled state
+  disabled: false,
 };
 
 export default FancyButton;

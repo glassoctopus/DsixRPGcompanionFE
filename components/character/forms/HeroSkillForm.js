@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { formatDiceCode, addOrSubtractPips } from '../../../utils/d6LogicForUI';
 import { useSkills } from '../../../utils/context/skillContext';
 import { getSingleHero, updateHeroSkills } from '../../../utils/data/heroData';
-import FancyCardLong from '../cards/FancyCard copy';
+import FancyCardLong from '../cards/FancyCardLong';
 import FancyButton from '../../FancyButton';
 
 const HeroSkillForm = ({ id }) => {
@@ -139,8 +139,8 @@ const HeroSkillForm = ({ id }) => {
             </div>
             <div>
               {attributes.map((attribute) => (
-                <FancyCardLong style={{ display: 'flex' }}>
-                  <div key={attribute} style={{ marginBottom: '30px' }}>
+                <FancyCardLong key={attribute} style={{ display: 'flex' }}>
+                  <div style={{ marginBottom: '30px' }}>
                     <div style={{
                       display: 'flex',
                       alignItems: 'center',

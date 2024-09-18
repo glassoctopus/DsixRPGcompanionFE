@@ -7,6 +7,7 @@ import HeroCarousel from '../../components/carousels/HeroCarousel';
 import GroupForm from '../../components/character/forms/GroupForm';
 import { getUsers } from '../../utils/data/user';
 import FancyButton from '../../components/FancyButton';
+import FancyCardLong from '../../components/character/cards/FancyCardLong';
 import FancyCard from '../../components/character/cards/FancyCard';
 
 const GroupCreationView = () => {
@@ -46,28 +47,18 @@ const GroupCreationView = () => {
   return (
 
     <div style={{ maxHeight: '80vh', overflow: 'auto' }}>
-      <FancyCard>
-        <div
-          style={{
-            border: '1px solid #ddd',
-            borderRadius: '8px',
-            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-            padding: '1rem',
-            maxWidth: '33rem',
-            margin: '1rem auto',
-            backgroundColor: 'transparent',
-          }}
-        >
+      <FancyCardLong>
+        <FancyCard>
           <h2>Create New Group</h2>
           <FancyButton onClick={() => router.push('/groups')}>Back To Groups</FancyButton>
-          <FancyCard>
-            <GroupForm
-              group={group}
-              onCreateGroup={handleCreateGroup}
-              gameMasters={gameMasters}
-              allCharacters={allCharacters}
-            />
-          </FancyCard>
+
+          <GroupForm
+            group={group}
+            onCreateGroup={handleCreateGroup}
+            gameMasters={gameMasters}
+            allCharacters={allCharacters}
+          />
+
           {/* Display Characters in the Group */}
           <div className="cardOfForm" style={{ maxHeight: '200px', overflowY: 'auto' }}>
             {group.characters.length > 0 ? (
@@ -97,14 +88,14 @@ const GroupCreationView = () => {
               <p>No heroes in this group.</p>
             )}
           </div>
-        </div>
+        </FancyCard>
 
         {/* HeroCarousel Section */}
         <div style={{ marginTop: '32px' }}>
           <h3>All Available Heroes</h3>
           <HeroCarousel characters={availableCharacters} />
         </div>
-      </FancyCard>
+      </FancyCardLong>
     </div>
 
   );

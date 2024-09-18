@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import FancyCardLong from './character/cards/FancyCard copy';
+import FancyCardLong from './character/cards/FancyCardLong';
 
 const UserCard = ({
   handle, bio, admin, gameMaster,

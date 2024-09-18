@@ -1,7 +1,7 @@
 import React from 'react';
 import { signIn } from '../utils/auth';
 import FancyButton from './FancyButton';
-import FancyCardLong from './character/cards/FancyCard copy';
+import FancyCardLong from './character/cards/FancyCardLong';
 
 function Signin() {
   return (

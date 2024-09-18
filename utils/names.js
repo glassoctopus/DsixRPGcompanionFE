@@ -107,4 +107,6 @@ const names = [
   'Sarin Vos', 'Jorra Kryze', 'Tarran Stark', 'Zalen Starkiller', 'Lexa Kreel', 'Tara Stark', 'Voss Krynn', 'Zora Val', 'Dorr Stark',
 ];
 
-export default names;
+const randomName = () => names[Math.floor(Math.random() * names.length)];
+
+export default randomName;
