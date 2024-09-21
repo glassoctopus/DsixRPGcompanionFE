@@ -2,8 +2,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../utils/context/authContext';
 import { getSingleHero } from '../../utils/data/heroData';
-// import HeroForm from '../../components/character/forms/HeroForm';
-import HeroCard from '../../components/character/cards/HeroAndSkillsCard';
+import HeroAndSkillsCard from '../../components/character/cards/HeroAndSkillsCard';
 
 const HeroById = () => {
   const router = useRouter();
@@ -34,7 +33,7 @@ const HeroById = () => {
         }}
       >
         <div>
-          <HeroCard
+          <HeroAndSkillsCard
             id={aHero.id}
             image={aHero.image}
             uid={aHero.uid}
@@ -70,8 +69,6 @@ const HeroById = () => {
             characterSkills={aHero.character_skills}
           />
         </div>
-        {/* <HeroForm hero={aHero} id={numericId} /> */}
-
       </div>
     </div>
   );

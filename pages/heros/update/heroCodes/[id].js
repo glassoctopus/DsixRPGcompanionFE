@@ -41,7 +41,41 @@ const HeroCodes = () => {
         }}
       >
         <HeroSkillForm id={numericId} />
-        <HeroAndSkillsCard {...aHero} />
+        <HeroAndSkillsCard
+          id={aHero.id}
+          image={aHero.image}
+          uid={aHero.uid}
+          NPC={aHero.NPC}
+          userHandle={user.userHandle}
+          name={aHero.name}
+          archetype={aHero.archetype}
+          species={aHero.species}
+          homeworld={aHero.homeworld}
+          gender={aHero.gender}
+          age={aHero.age}
+          height={aHero.height}
+          weight={aHero.weight}
+          forceSensitive={aHero.force_sensitive}
+          dexterity={aHero.dexterity}
+          knowledge={aHero.knowledge}
+          mechanical={aHero.mechanical}
+          perception={aHero.perception}
+          strength={aHero.strength}
+          technical={aHero.technical}
+          forceControl={aHero.force_control}
+          forceSense={aHero.force_sense}
+          forceAlter={aHero.force_alter}
+          forcePoints={aHero.force_points}
+          darkSidePoints={aHero.dark_side_points}
+          physicalDescription={aHero.physical_description}
+          personality={aHero.personality}
+          background={aHero.background}
+          objectives={aHero.objectives}
+          aQuote={aHero.a_quote}
+          credits={aHero.credits}
+          forceStrength={aHero.force_strength}
+          characterSkills={aHero.character_skills}
+        />
       </div>
 
     </div>
