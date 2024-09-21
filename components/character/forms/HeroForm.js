@@ -112,6 +112,15 @@ const HeroForm = ({ hero, id }) => {
     }
   };
 
+  const randomArchetype = () => {
+    const archetypeRoll = Math.floor(Math.random() * archetypes.length);
+    handleArchetypeSelect(archetypes.find((archetype) => archetype.id === currentHero.archetype));
+    setCurrentHero((prevFormState) => ({
+      ...prevFormState,
+      archetype: archetypeRoll,
+    }));
+  };
+
   const randomNameForForm = () => {
     const nameRoll = randomName();
     setCurrentHero((prevFormState) => ({
@@ -163,10 +172,9 @@ const HeroForm = ({ hero, id }) => {
   };
 
   const randomHero = () => {
-    currentHero.archetype = Math.floor(Math.random() * archetypes.length);
-    handleArchetypeSelect(archetypes.find((archetype) => archetype.id === currentHero.archetype));
+    randomArchetype();
     randomNameForForm();
-    randomSpecies();
+    randomSpeciesForForm();
     randomHomeworld();
     randomHeight();
     randomWeight();
@@ -266,10 +274,10 @@ const HeroForm = ({ hero, id }) => {
                     <div className="col">
 
                       <Form.Group controlId="archetypeSelect">
-
                         <ArchetypeDropdown
                           selectedArchetype={selectedArchetype}
                           onSelect={handleArchetypeSelect}
+                          random={randomArchetype}
                         >
                           select a character template
                         </ArchetypeDropdown>
@@ -344,7 +352,7 @@ const HeroForm = ({ hero, id }) => {
 
                       <div className="row" style={{ padding: '13px' }}>
                         <div className="col">
-                          <Form.Label>Gender</Form.Label><button type="button" className="siteButton">...</button>
+                          <Form.Label>Gender</Form.Label><button type="button" className="siteButton">enter yours</button>
                           <Form.Control
                             className="form-control-sm"
                             type="text"

@@ -14,6 +14,7 @@ const GroupIdView = () => {
   const { id } = router.query;
   const [group, setGroup] = useState(null);
   const [allCharacters, setAllCharacters] = useState([]);
+  const [pickMes, setPickMes] = useState([]);
   const [selectedAddCharacterId, setSelectedAddCharacterId] = useState(null);
   const [selectedRemoveCharacterId, setSelectedRemoveCharacterId] = useState(null);
 
@@ -41,6 +42,15 @@ const GroupIdView = () => {
     fetchGroup();
     fetchAllCharacters();
   }, [id]);
+
+  useEffect(() => {
+    if (group && Array.isArray(group.characters) && allCharacters.length > 0) {
+      const availForChoice = allCharacters.filter(
+        (filteredHero) => !group.characters.some((hero) => hero.id === filteredHero.id),
+      );
+      setPickMes(availForChoice);
+    }
+  }, [group, allCharacters]);
 
   const handleAddCharacter = async () => {
     if (selectedAddCharacterId) {
@@ -70,9 +80,7 @@ const GroupIdView = () => {
     router.push('/groups');
   };
 
-  const availableCharacters = Array.isArray(allCharacters) ? allCharacters : [];
-
-  if (!group || !availableCharacters.length) {
+  if (!group) {
     return <p>Loading...</p>;
   }
 
@@ -108,7 +116,7 @@ const GroupIdView = () => {
               }}
             >
               <option value="" disabled>Select character to add</option>
-              {availableCharacters.map((character) => (
+              {pickMes.map((character) => (
                 <option key={character.id} value={character.id}>
                   {character.name} ({character.archetype_name})
                 </option>

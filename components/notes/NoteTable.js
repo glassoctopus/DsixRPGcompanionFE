@@ -1,10 +1,10 @@
 /* eslint-disable camelcase */
 import PropTypes from 'prop-types';
 import React from 'react';
-import Link from 'next/link';
-import Button from 'react-bootstrap/Button';
 import { useRouter } from 'next/router';
 import { deleteNote } from '../../utils/data/noteData';
+import FancyCardLong from '../character/cards/FancyCardLong';
+import FancyButton from '../FancyButton';
 
 const NoteTable = ({ notes }) => {
   const router = useRouter();
@@ -18,32 +18,52 @@ const NoteTable = ({ notes }) => {
     window.location.reload();
   };
 
+  const viewNote = (id) => {
+    router.push(`/notes/${id}`);
+  };
+
   return (
-    <div className="note-table">
-      <h1 className="text-center mb-4">Notes</h1>
-      <table className="table">
-        <tbody>
-          {notes.map((note) => (
-            <tr key={`note--${note.id}`}>
-              <td>{note.title}</td>
-              <td>{note.completed ? 'Completed' : 'Incomplete'}</td>
-              <td>{note.description}</td>
-              <td>
-                <Link href={`/notes/${note.id}`} passHref>
-                  <Button variant="primary" className="m-2">VIEW</Button>
-                </Link>
-                <Button variant="info" onClick={() => updateThisNote(note.id)} className="m-2">
-                  EDIT
-                </Button>
-                <Button variant="danger" onClick={() => deleteThisNote(note.id)} className="m-2">
-                  DELETE
-                </Button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <FancyCardLong>
+      <div className="note-table" style={{ borderRadius: '13px', width: '100%' }}>
+        <h1 className="text-center mb-4">Notes</h1>
+        <table>
+          <tbody>
+            {notes.map((note) => (
+              <tr
+                key={`note--${note.id}`}
+                style={{
+                  borderRadius: '13px', backgroundColor: '#00aaff', margin: '13px', padding: '13px',
+                }}
+              >
+                <td style={{
+                  borderRadius: '13px 0px 0px 13px', margin: '13px', padding: '13px',
+                }}
+                >{note.title}
+                </td>
+                <td>{note.completed ? 'Completed' : 'Incomplete'}</td>
+                <td>{note.description}
+                </td>
+                <td style={{
+                  borderRadius: '0px 13px 13px 0px', margin: '13px', padding: '13px',
+                }}
+                >
+
+                  <FancyButton onClick={() => viewNote(note.id)} style={{ marginRight: '13px' }} className="m-2">
+                    VIEW
+                  </FancyButton>
+                  <FancyButton onClick={() => updateThisNote(note.id)} style={{ marginRight: '13px' }} className="m-2">
+                    EDIT
+                  </FancyButton>
+                  <FancyButton onClick={() => deleteThisNote(note.id)} style={{ marginRight: '13px' }} className="m-2">
+                    DELETE
+                  </FancyButton>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </FancyCardLong>
   );
 };
 

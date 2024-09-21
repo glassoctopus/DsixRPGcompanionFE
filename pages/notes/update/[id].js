@@ -1,13 +1,12 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import NoteForm from '../../../components/notes/NoteForm';
-import { useAuth } from '../../../utils/context/authContext';
 import { getSingleNote } from '../../../utils/data/noteData';
+import FancyCardLong from '../../../components/character/cards/FancyCardLong';
 
 const UpdateTask = () => {
   const router = useRouter();
   const { id } = router.query;
-  const { user } = useAuth();
   const [task, setTask] = useState({});
 
   useEffect(() => {
@@ -17,10 +16,12 @@ const UpdateTask = () => {
   }, [id]);
 
   return (
-    <div>
-      <h2>Update Task</h2>
-      {task && <NoteForm user={user} taskObject={task} />}
-    </div>
+    <FancyCardLong>
+      <div className="cardOfForm">
+        <h2>Update Task</h2>
+        {task && <NoteForm noteObject={task} />}
+      </div>
+    </FancyCardLong>
   );
 };
 

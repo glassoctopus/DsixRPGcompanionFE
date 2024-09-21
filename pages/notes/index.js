@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import Link from 'next/link';
-import { Button } from 'react-bootstrap';
+import { useRouter } from 'next/router';
 import { getNotes } from '../../utils/data/noteData';
-import NoteTable from '../../components/notes/NoteTable';
 import { useAuth } from '../../utils/context/authContext';
+import NoteTable from '../../components/notes/NoteTable';
+import FancyButton from '../../components/FancyButton';
 
 const Note = () => {
   const [notes, setNotes] = useState([]);
   const { user } = useAuth();
+  const router = useRouter();
 
   useEffect(() => {
     if (user && user.uid) {
@@ -17,17 +18,21 @@ const Note = () => {
     }
   }, [user]);
 
+  const newNote = () => {
+    router.push('/notes/new');
+  };
+
   return (
     <div className="note-container">
       <div className="note-content">
         <article className="note">
           <div className="d-flex justify-content-between align-items-center mb-4">
             <h2 className="mb-0">note List</h2>
-            <Link href="/notes/new" passHref>
-              <Button variant="primary">
-                New Note
-              </Button>
-            </Link>
+
+            <FancyButton onClick={newNote}>
+              New Note
+            </FancyButton>
+
           </div>
           <NoteTable notes={notes} />
         </article>

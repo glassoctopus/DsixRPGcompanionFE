@@ -23,4 +23,18 @@ const addOrSubtractPips = (currentValue, operator) => {
   return whole.decimal;
 };
 
-export { formatDiceCode, addOrSubtractPips };
+const clampPip = (currentValue) => {
+  let [whole, decimal] = currentValue.split('.');
+  if (decimal > 2) {
+    decimal = 2;
+    whole += 1;
+  } else if (decimal <= 0) {
+    if (whole > 0) {
+      whole -= 1;
+    }
+    decimal = 2;
+  }
+  return parseFloat(`${whole}.${decimal}`);
+};
+
+export { formatDiceCode, addOrSubtractPips, clampPip };

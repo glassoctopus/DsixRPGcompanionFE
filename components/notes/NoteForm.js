@@ -1,8 +1,9 @@
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
-import { useState, useEffect } from 'react';
-import { Button, Form, FormLabel } from 'react-bootstrap';
+import React, { useState, useEffect, useRef } from 'react';
+import { Form, FormLabel } from 'react-bootstrap';
 import { createNote, updateNote } from '../../utils/data/noteData';
+import FancyButton from '../FancyButton';
 
 const initialState = {
   title: '',
@@ -14,9 +15,10 @@ const initialState = {
 const NoteForm = ({ noteObject }) => {
   const router = useRouter();
   const [formInput, setFormInput] = useState(initialState);
+  const formRef = useRef(null);
 
   useEffect(() => {
-    if (noteObject && noteObject.id) {
+    if (noteObject) {
       setFormInput(noteObject);
     }
   }, [noteObject]);
@@ -47,8 +49,15 @@ const NoteForm = ({ noteObject }) => {
     }
   };
 
+  const handleFancyButtonClick = () => {
+    if (formRef.current) {
+      const event = new Event('submit', { cancelable: true, bubbles: true });
+      formRef.current.dispatchEvent(event);
+    }
+  };
+
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form ref={formRef} onSubmit={handleSubmit}>
       <Form.Group className="mb-3">
         <FormLabel>note Title</FormLabel>
         <Form.Control
@@ -83,9 +92,9 @@ const NoteForm = ({ noteObject }) => {
           }))}
         />
       </Form.Group>
-      <Button variant="primary" type="submit">
-        Submit
-      </Button>
+      <FancyButton onClick={handleFancyButtonClick}>
+        Commit Changes
+      </FancyButton>
     </Form>
   );
 };
