@@ -3,15 +3,16 @@ import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import { formatDiceCode, addOrSubtractPips } from '../../../utils/d6LogicForUI';
 import { useSkills } from '../../../utils/context/skillContext';
-import { getSingleHero, updateHeroSkills } from '../../../utils/data/heroData';
+import { getSingleHero, updateHeroSkills, createHeroSkills } from '../../../utils/data/heroData';
 import FancyCardLong from '../cards/FancyCardLong';
 import FancyButton from '../../FancyButton';
 
 const HeroSkillForm = ({ id }) => {
   const { skills } = useSkills();
   const [hero, setHero] = useState(null);
+  const [heroSkills, setHeroSkills] = useState({});
   const [attributeValues, setAttributeValues] = useState({});
-  const [skillValues, setSkillValues] = useState({});
+  const [skillFormValues, setSkillFormValues] = useState({});
   const [skillSpecializations, setSkillSpecializations] = useState({});
   const router = useRouter();
   const formRef = useRef(null);
@@ -38,13 +39,13 @@ const HeroSkillForm = ({ id }) => {
             initialSkillValues[skill.skill_name] = skill.skill_code;
             specializations[skill.skill_name] = skill.specializations || []; // Ensure it's an array to handle cases with Empty/no skills
           });
-          setSkillValues(initialSkillValues);
+          setHeroSkills(initialSkillValues);
+          setSkillFormValues(initialSkillValues);
           setSkillSpecializations(specializations);
         } catch (error) {
           console.error('Error fetching hero data:', error);
         }
       };
-
       fetchHero();
     }
   }, [id]);
@@ -57,8 +58,8 @@ const HeroSkillForm = ({ id }) => {
   };
 
   const handleSkillChange = (e, skillName) => {
-    setSkillValues((prevSkillValues) => ({
-      ...prevSkillValues,
+    setSkillFormValues((prevSkillFormValues) => ({
+      ...prevSkillFormValues,
       [skillName]: e.target.value,
     }));
   };
@@ -88,11 +89,11 @@ const HeroSkillForm = ({ id }) => {
 
   // need to implement this for all codes, even input fields??? can i even...
   // const handlePipChange = (skillName, operator) => {
-  //   setSkillValues((prevSkillValues) => {
-  //     const currentValue = prevSkillValues[skillName] || '0.0';
+  //   setSkillFormValues((prevSkillFormValues) => {
+  //     const currentValue = prevSkillFormValues[skillName] || '0.0';
   //     const newValue = addOrSubtractPips(currentValue, operator);
   //     return {
-  //       ...prevSkillValues,
+  //       ...prevSkillFormValues,
   //       [skillName]: newValue,
   //     };
   //   });
@@ -100,7 +101,18 @@ const HeroSkillForm = ({ id }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const payload = Object.entries(skillValues).map(([skillName, skillCode]) => ({
+    const existingSkills = [];
+    const newSkills = [];
+
+    Object.keys(skillFormValues).forEach((skill) => {
+      if (Object.hasOwn(heroSkills, skill)) {
+        existingSkills[skill] = skillFormValues[skill];
+      } else {
+        newSkills[skill] = skillFormValues[skill];
+      }
+    });
+
+    const payloadUpdate = Object.entries(existingSkills).map(([skillName, skillCode]) => ({
       character: id,
       skill_name: skillName,
       skill_code: parseFloat(skillCode),
@@ -110,11 +122,31 @@ const HeroSkillForm = ({ id }) => {
       })) || [],
     }));
 
-    updateHeroSkills(payload)
-      .then(() => router.push(`/heros/${id}`))
-      .catch((error) => {
-        console.error('Error updatng skills of this hero:', error);
-      });
+    if (payloadUpdate.length > 0) {
+      updateHeroSkills(payloadUpdate)
+        .then(() => router.push(`/heros/${id}`))
+        .catch((error) => {
+          console.error('Error updatng skills of this hero:', error);
+        });
+    }
+
+    const payloadNew = Object.entries(newSkills).map(([skillName, skillCode]) => ({
+      character: id,
+      skill_name: skillName,
+      skill_code: parseFloat(skillCode),
+      specializations: skillSpecializations[skillName]?.map((specialization) => ({
+        specialization_name: specialization.specialization_name,
+        specialization_code: parseFloat(specialization.specialization_code),
+      })) || [],
+    }));
+
+    if (payloadNew.length > 0) {
+      createHeroSkills(payloadNew)
+        .then(() => router.push(`/heros/${id}`))
+        .catch((error) => {
+          console.error('Error updatng skills of this hero:', error);
+        });
+    }
   };
 
   if (!hero) return <div>Loading...</div>;
@@ -183,7 +215,7 @@ const HeroSkillForm = ({ id }) => {
                             type="number"
                             id={`skill-${skill.id}`}
                             name={`skill-${skill.id}`}
-                            value={skillValues[skill.skill_name] || ''}
+                            value={skillFormValues[skill.skill_name] || ''}
                             onChange={(e) => handleSkillChange(e, skill.skill_name)}
                             step="0.1"
                             min="0"
@@ -192,7 +224,7 @@ const HeroSkillForm = ({ id }) => {
                           />
                           <label htmlFor={`skill-${skill.id}`} style={{ flex: '1', padding: '5px' }}>{skill.skill_name}:</label>
                           <div style={{ flex: '1', textAlign: 'right', paddingRight: '13px' }}>
-                            {formatDiceCode(skillValues[skill.skill_name] || 0)}
+                            {formatDiceCode(skillFormValues[skill.skill_name] || 0)}
                           </div>
                           <div style={{
                             display: 'grid',
@@ -228,7 +260,7 @@ const HeroSkillForm = ({ id }) => {
                                   />
                                   <span style={{ paddingLeft: '5px' }}>{specialization.specialization_name || `Specialization ${index + 1}`}</span>
                                   <div style={{ flex: '1', textAlign: 'right', paddingRight: '13px' }}>
-                                    {formatDiceCode(skillValues[specialization.specialization_code] || 0)}
+                                    {formatDiceCode(skillFormValues[specialization.specialization_code] || 0)}
                                   </div>
                                 </div>
                               ))}

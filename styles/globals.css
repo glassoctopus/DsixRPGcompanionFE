@@ -205,6 +205,7 @@ input, textarea {
 }
 
 .scroll-container {
+  margin: '13px';
   position: relative;
   overflow: visible;
 }
@@ -247,6 +248,16 @@ input, textarea {
   opacity: 1;
 }
 
+.hover-effect {
+  box-shadow: .5px 1px rgba(255, 215, 0, 0.85);
+  border: .5px solid rgb(64, 116, 173);
+  transition: box-shadow 0.3s ease;
+}
+
+.hover-effect:hover {
+  box-shadow: 3px 4px rgba(255, 215, 0, 0.85);
+  border: 1px solid rgb(64, 116, 173);
+}
 
 /* Todo Content */
 .todo-container {
@@ -328,6 +339,7 @@ input, textarea {
   cursor: pointer; 
   outline: none; 
   position: relative; 
+  text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #fff;
 }
 
 /* Underline effect on hover */

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { getSingleCharacterGroup } from '../../utils/data/groupData';
 import HeroOverviewCard from '../../components/character/cards/HeroOverviewCard';
+import FancyCardLong from '../../components/character/cards/FancyCardLong';
 
 const GroupIdView = () => {
   const router = useRouter();
@@ -28,59 +29,62 @@ const GroupIdView = () => {
   }
 
   return (
-    <div
-      style={{
-        border: '1px solid #ccc',
-        padding: '16px',
-        margin: '16px',
-        boxSizing: 'border-box',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'flex-start',
-      }}
-    >
-      <h2>{group.group_name || 'Unnamed Group'}</h2>
-      <p><strong>User:</strong> {group.user || 'Unknown User'}</p>
-      <p><strong>Game Master:</strong> {group.game_master || 'No GM Assigned'}</p>
-
-      <div style={{ overflowX: 'auto', padding: '16px 0' }}>
-        <div style={{
+    <FancyCardLong>
+      <div
+        style={{
+          border: '1px solid #ccc',
+          padding: '16px',
+          margin: '16px',
+          borderRadius: '13px',
+          boxSizing: 'border-box',
           display: 'flex',
-          gap: '16px',
-          paddingBottom: '16px',
-          alignItems: 'center',
-          whiteSpace: 'nowrap',
+          flexDirection: 'column',
+          justifyContent: 'flex-start',
         }}
-        >
-          {group?.characters?.length > 0 ? (
-            group.characters.map((hero) => (
-              <HeroOverviewCard
-                key={hero.id}
-                id={hero.id}
-                userHandle={hero.user_handle}
-                name={hero.name}
-                archetypeName={hero.archetype_name}
-                groupName={group.group_name}
-              />
-            ))
-          ) : (
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
-                border: '1px dashed #ccc',
-                margin: '16px 0',
-                height: '100px', // Adjust height as needed
-              }}
-            >
-              <p>No heroes in this group.</p>
-            </div>
-          )}
+      >
+        <h2>{group.group_name || 'Unnamed Group'}</h2>
+        <p><strong>User:</strong> {group.user || 'Unknown User'}</p>
+        <p><strong>Game Master:</strong> {group.game_master || 'No GM Assigned'}</p>
+
+        <div style={{ overflowX: 'auto', padding: '16px 0' }}>
+          <div style={{
+            display: 'flex',
+            gap: '16px',
+            paddingBottom: '16px',
+            alignItems: 'center',
+            whiteSpace: 'nowrap',
+          }}
+          >
+            {group?.characters?.length > 0 ? (
+              group.characters.map((hero) => (
+                <HeroOverviewCard
+                  key={hero.id}
+                  id={hero.id}
+                  userHandle={hero.user_handle}
+                  name={hero.name}
+                  archetypeName={hero.archetype_name}
+                  groupName={group.group_name}
+                />
+              ))
+            ) : (
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  border: '1px dashed #ccc',
+                  margin: '16px 0',
+                  height: '100px', // Adjust height as needed
+                }}
+              >
+                <p>No heroes in this group.</p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </FancyCardLong>
   );
 };
 

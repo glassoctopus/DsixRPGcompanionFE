@@ -76,6 +76,28 @@ const updateHero = (hero, id) => new Promise((resolve, reject) => {
     });
 });
 
+const createHeroSkills = (skills) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/heros/add-or-update-character-skills/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(skills),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+    })
+    .then((data) => {
+      resolve(data);
+    })
+    .catch((error) => {
+      console.error('Error updating Skills:', error);
+      reject(error);
+    });
+});
+
 const updateHeroSkills = (skills) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/heros/add-or-update-character-skills/`, {
     method: 'PUT',
@@ -153,5 +175,6 @@ export {
   isForceSensitive,
   isNotForceSensitive,
   deleteHero,
+  createHeroSkills,
   updateHeroSkills,
 };

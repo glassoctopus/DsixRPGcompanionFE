@@ -5,6 +5,7 @@ import { formatDiceCode } from '../../../utils/d6LogicForUI';
 import { useArchetypes } from '../../../utils/context/archetypeContext';
 import FancyButton from '../../FancyButton';
 import { deleteHero } from '../../../utils/data/heroData';
+import { useAuth } from '../../../utils/context/authContext';
 
 const HeroAndSkillsCard = ({
   id,
@@ -45,6 +46,7 @@ const HeroAndSkillsCard = ({
   const profession = archetypes.find((job) => job.id === archetype);
   const jobName = profession ? profession.archetype_name : 'Ummmmmm...';
   const router = useRouter();
+  const { user } = useAuth();
 
   const editHero = () => {
     router.push(`/heros/update/${id}`);
@@ -120,8 +122,8 @@ const HeroAndSkillsCard = ({
         </div>
         <div style={{ display: 'flex', gap: '10px' }}>
           {age && <p><strong>Age:</strong> {age}</p>}
-          {height && <p><strong>Height:</strong> {height}</p>}
-          {weight && <p><strong>Weight:</strong> {weight}</p>}
+          {height && <p><strong>Height:</strong> {height} cm</p>}
+          {weight && <p><strong>Weight:</strong> {weight} kgs</p>}
           {gender && <p><strong>Gender:</strong> {gender}</p>}
         </div>
         {forceSensitive && <p><strong>Force Sensitive:</strong> Yes</p>}
@@ -182,9 +184,9 @@ const HeroAndSkillsCard = ({
         {aQuote && <p><strong>A Quote:</strong> {aQuote}</p>}
         {credits !== null && <p><strong>Credits:</strong> {credits}</p>}
         {forceStrength !== null && <p><strong>Force Strength:</strong> {forceStrength}</p>}
-        <FancyButton onClick={viewHero} style={{ marginRight: '13px' }}>View {id}</FancyButton>
-        <FancyButton onClick={editHero} style={{ marginRight: '13px' }}>Edit {id}</FancyButton>
-        <FancyButton onClick={deleteThisHero} style={{ marginRight: '13px' }}>Delete {id}</FancyButton>
+        <FancyButton onClick={viewHero} style={{ marginRight: '13px' }}>View {user.admin ? id.toString() : ''}</FancyButton>
+        <FancyButton onClick={editHero} style={{ marginRight: '13px' }}>Edit {user.admin ? id.toString() : ''}</FancyButton>
+        <FancyButton onClick={deleteThisHero} style={{ marginRight: '13px' }}>Delete {user.admin ? id.toString() : ''}</FancyButton>
       </div>
     </div>
   );

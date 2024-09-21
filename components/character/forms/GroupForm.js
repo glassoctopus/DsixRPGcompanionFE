@@ -98,48 +98,58 @@ const GroupForm = () => {
 
     <form onSubmit={handleFormSubmit}>
       <FancyCardLong>
+        <div className="cardOfForm">
+          <div className="row">
+            <div className="col">
+              <label>
+                Group Name:
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                }}
+                />
+                <input
+                  type="text"
+                  name="group_name"
+                  value={newGroup.group_name}
+                  onChange={handleInputChange}
+                  required
+                />
+              </label>
+            </div>
+          </div>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            padding: '13px',
+          }}
+          />
 
-        <label>
-          Group Name:
-          <input
-            type="text"
-            name="group_name"
-            value={newGroup.group_name}
-            onChange={handleInputChange}
-            required
+          <label style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+          }}
+          >
+            <input
+              type="checkbox"
+              name="is_adventure_party"
+              checked={newGroup.is_adventure_party}
+              onChange={handleInputChange}
+            />
+            Is Adventure Party
+          </label>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            padding: '13px',
+          }}
           />
-        </label>
-        <label style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-        }}
-        >
-          <input
-            type="checkbox"
-            name="private"
-            checked={newGroup.private}
-            onChange={handleInputChange}
-          />
-          Private Group
-        </label>
-        <label style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-        }}
-        >
-          <input
-            type="checkbox"
-            name="is_adventure_party"
-            checked={newGroup.is_adventure_party}
-            onChange={handleInputChange}
-          />
-          Is Adventure Party
-        </label>
-
-        {/* Conditionally render the Game Master field if Is Adventure Party is checked */}
-        {newGroup.is_adventure_party && (
+          {/* Conditionally render the Game Master field if Is Adventure Party is checked */}
+          {newGroup.is_adventure_party && (
           <select
             value={newGroup.game_master}
             onChange={handleGameMasterSelect}
@@ -164,19 +174,49 @@ const GroupForm = () => {
               </option>
             ))}
           </select>
-        )}
+          )}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            padding: '13px',
+          }}
+          />
+          <label style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+          }}
+          >
+            <input
+              type="checkbox"
+              name="private"
+              checked={newGroup.private}
+              onChange={handleInputChange}
+            />
+            Private Group
+          </label>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            padding: '13px',
+          }}
+          />
 
-        <div>
-          <FancyButton
-            onClick={handleFormSubmit}
-          >
-            Create Group
-          </FancyButton>
-          <FancyButton
-            onClick={onCancel}
-          >
-            Cancel
-          </FancyButton>
+          <div>
+            <FancyButton
+              onClick={handleFormSubmit}
+              style={{ marginRight: '13px' }}
+            >
+              Create Group
+            </FancyButton>
+            <FancyButton
+              onClick={onCancel}
+            >
+              Cancel
+            </FancyButton>
+          </div>
         </div>
       </FancyCardLong>
     </form>
