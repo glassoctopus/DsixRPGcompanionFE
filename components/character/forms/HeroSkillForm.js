@@ -35,9 +35,14 @@ const HeroSkillForm = ({ id }) => {
 
           const initialSkillValues = {};
           const specializations = {};
+
           data.character_skills.forEach((skill) => {
-            initialSkillValues[skill.skill_name] = skill.skill_code;
-            specializations[skill.skill_name] = skill.specializations || []; // Ensure it's an array to handle cases with Empty/no skills
+            const { attribute } = skill;
+            const attributeLowerCase = attribute.toLowerCase();
+
+            initialSkillValues[skill.skill_name] = skill.skill_code < data[attributeLowerCase] ? data[attributeLowerCase] : skill.skill_code;
+
+            specializations[skill.skill_name] = skill.specializations || [];
           });
           setHeroSkills(initialSkillValues);
           setSkillFormValues(initialSkillValues);
@@ -58,27 +63,55 @@ const HeroSkillForm = ({ id }) => {
   };
 
   const handleSkillChange = (e, skillName) => {
-    setSkillFormValues((prevSkillFormValues) => ({
-      ...prevSkillFormValues,
-      [skillName]: e.target.value,
-    }));
+    let operator = '';
+    const attributeLowerCase = skillName.toLowerCase();
+
+    setSkillFormValues((prevSkillFormValues) => {
+      if (e.target.value < hero[attributeLowerCase]) {
+        return {
+          ...prevSkillFormValues,
+          [skillName]: hero[attributeLowerCase],
+        };
+      }
+      const currentValue = prevSkillFormValues[skillName] || '0.0';
+      if (currentValue > e.target.value) { operator = '-'; } else { operator = '+'; }
+      const newValue = addOrSubtractPips(currentValue, operator);
+      return {
+        ...prevSkillFormValues,
+        [skillName]: newValue,
+      };
+    });
   };
 
   const handleSpecializationChange = (e, skillName, specializationIndex) => {
+    let operator = '';
     const newSpecializations = [...(skillSpecializations[skillName] || [])];
     newSpecializations[specializationIndex] = {
       ...newSpecializations[specializationIndex],
       specialization_code: e.target.value,
     };
-    setSkillSpecializations((prev) => ({
-      ...prev,
-      [skillName]: newSpecializations,
-    }));
+    setSkillSpecializations((prev) => {
+      const updatedSpecializations = [...prev[skillName]];
+      const currentValue = prev[skillName][specializationIndex].specialization_code;
+      if (currentValue > e.target.value) { operator = '-'; } else { operator = '+'; }
+      const newValue = addOrSubtractPips(currentValue, operator);
+      updatedSpecializations[specializationIndex] = {
+        ...prev[skillName][specializationIndex],
+        specialization_code: newValue,
+      };
+      return {
+        ...prev,
+        [skillName]: updatedSpecializations,
+      };
+    });
   };
 
-  const handleAttributeChange = (attribute, operator) => {
+  const handleAttributeChange = (e, attribute) => {
+    let operator = '';
     setAttributeValues((prevAttributeValues) => {
       const currentValue = prevAttributeValues[attribute] || '0.0';
+      if (currentValue > e.target.value) { operator = '-'; } else { operator = '+'; }
+
       const newValue = addOrSubtractPips(currentValue, operator);
       return {
         ...prevAttributeValues,
@@ -87,17 +120,9 @@ const HeroSkillForm = ({ id }) => {
     });
   };
 
-  // need to implement this for all codes, even input fields??? can i even...
-  // const handlePipChange = (skillName, operator) => {
-  //   setSkillFormValues((prevSkillFormValues) => {
-  //     const currentValue = prevSkillFormValues[skillName] || '0.0';
-  //     const newValue = addOrSubtractPips(currentValue, operator);
-  //     return {
-  //       ...prevSkillFormValues,
-  //       [skillName]: newValue,
-  //     };
-  //   });
-  // };
+  const setSpecialization = (skill) => {
+    console.warn('specialization form:', skill);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -180,7 +205,7 @@ const HeroSkillForm = ({ id }) => {
                       borderBottom: '1px solid #ccc',
                       paddingBottom: '5px',
                     }}
-                    >
+                    ><button type="button" className="siteButton" onClick={setSpecialization}>.</button>
                       <input
                         type="number"
                         value={attributeValues[attribute] || 0}
@@ -190,7 +215,7 @@ const HeroSkillForm = ({ id }) => {
                         max="99.9"
                         style={{ width: '65px', marginRight: '10px' }}
                       />
-                      <h3 style={{ margin: 0 }}>{attribute.charAt(0).toUpperCase() + attribute.slice(1)}: {attributeValues[attribute]}</h3>
+                      <h3 style={{ margin: 0 }}>{attribute.charAt(0).toUpperCase() + attribute.slice(1)}: {formatDiceCode(attributeValues[attribute])}</h3>
                     </div>
                     <div style={{
                       display: 'grid',
@@ -204,72 +229,74 @@ const HeroSkillForm = ({ id }) => {
                           key={skill.id}
                           style={{
                             display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
+                            flexDirection: 'column', // Stack skill and specializations
                             padding: '5px',
                             border: '1px solid #ddd',
                             borderRadius: '4px',
                           }}
                         >
-                          <input
-                            type="number"
-                            id={`skill-${skill.id}`}
-                            name={`skill-${skill.id}`}
-                            value={skillFormValues[skill.skill_name] || ''}
-                            onChange={(e) => handleSkillChange(e, skill.skill_name)}
-                            step="0.1"
-                            min="0"
-                            max="99.9"
-                            style={{ width: '65px' }}
-                          />
-                          <label htmlFor={`skill-${skill.id}`} style={{ flex: '1', padding: '5px' }}>{skill.skill_name}:</label>
-                          <div style={{ flex: '1', textAlign: 'right', paddingRight: '13px' }}>
-                            {formatDiceCode(skillFormValues[skill.skill_name] || 0)}
-                          </div>
+                          {/* Main Skill Input */}
                           <div style={{
-                            display: 'grid',
-                            gridTemplateColumns: 'repeat(auto-fit, minmax(16rem, 1fr))',
-                            gap: '3px',
-                            overflowX: 'auto',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            paddingBottom: '5px',
                           }}
                           >
-                            {/* Specializations */}
-                            {(skillSpecializations[skill.skill_name] || []).length > 0 && (
-                            <div style={{ marginTop: '10px', paddingLeft: '20px' }}>
-                              {skillSpecializations[skill.skill_name].map((specialization, index) => (
-                                <div
-                                  key={specialization.specialization_name || index}
-                                  style={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'space-between',
-                                    padding: '5px',
-                                    border: '1px solid #ddd',
-                                    borderRadius: '4px',
-                                    marginBottom: '5px',
-                                  }}
-                                >
-                                  <input
-                                    type="number"
-                                    value={specialization.specialization_code || '0.0'}
-                                    onChange={(e) => handleSpecializationChange(e, skill.skill_name, index)}
-                                    step="0.1"
-                                    min="0"
-                                    max="99.9"
-                                    style={{ width: '65px' }}
-                                  />
-                                  <span style={{ paddingLeft: '5px' }}>{specialization.specialization_name || `Specialization ${index + 1}`}</span>
-                                  <div style={{ flex: '1', textAlign: 'right', paddingRight: '13px' }}>
-                                    {formatDiceCode(skillFormValues[specialization.specialization_code] || 0)}
-                                  </div>
-                                </div>
-                              ))}
+                            <button type="button" className="siteButton" onClick={setSpecialization}>.</button>
+                            <input
+                              type="number"
+                              id={`skill-${skill.id}`}
+                              name={`skill-${skill.id}`}
+                              value={skillFormValues[skill.skill_name] || ''}
+                              onChange={(e) => handleSkillChange(e, skill.skill_name)}
+                              step="0.1"
+                              min="0"
+                              max="99.9"
+                              style={{ width: '65px', marginRight: '10px' }}
+                            />
+                            <label htmlFor={`skill-${skill.id}`} style={{ flex: '1', padding: '5px' }}>{skill.skill_name}:</label>
+                            <div style={{ flex: '1', textAlign: 'right', paddingRight: '13px' }}>
+                              {formatDiceCode(skillFormValues[skill.skill_name] || 0)}
                             </div>
-                            )}
                           </div>
+
+                          {/* Specializations */}
+                          {skillSpecializations[skill.skill_name]?.length > 0 && (
+                          <div style={{ paddingLeft: '15px', marginTop: '5px' }}>
+                            {skillSpecializations[skill.skill_name].map((specialization, index) => (
+                              <div
+                                key={specialization.specialization_name || index}
+                                style={{
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  padding: '5px',
+                                  border: '1px solid rgb(255, 215, 0)', // Gold border for specializations
+                                  borderRadius: '4px',
+                                  marginBottom: '5px',
+                                }}
+                              >
+                                <input
+                                  type="number"
+                                  value={specialization.specialization_code || '0.0'}
+                                  onChange={(e) => handleSpecializationChange(e, skill.skill_name, index)}
+                                  step="0.1"
+                                  min="0"
+                                  max="99.9"
+                                  style={{ width: '65px', marginRight: '10px' }}
+                                />
+                                <span style={{ paddingLeft: '5px' }}>{specialization.specialization_name || `Specialization ${index + 1}`}</span>
+                                <div style={{ flex: '1', textAlign: 'right', paddingRight: '13px' }}>
+                                  {formatDiceCode(specialization.specialization_code || 0)}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                          )}
                         </div>
                       ))}
                     </div>
+
                   </div>
                 </FancyCardLong>
 
