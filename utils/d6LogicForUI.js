@@ -35,12 +35,9 @@ const addOrSubtractPips = (currentValue, operator) => {
 };
 
 const clampPip = (currentValue) => {
-  console.log(currentValue);
   let [whole, decimal] = String(currentValue).split('.');
   Number(whole);
-  console.log('first part of a die code: ', whole);
   Number(decimal);
-  console.log('second part of a die code: ', decimal);
   if (decimal > 2) {
     decimal = 2;
     whole += 1;

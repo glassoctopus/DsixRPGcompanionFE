@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useAuth } from '../../utils/context/authContext';
 import { getHeros } from '../../utils/data/heroData';
-import HeroCard from '../../components/character/cards/HeroCard';
+import HeroAndSkillsCard from '../../components/character/cards/HeroAndSkillsCard';
 import FancyButton from '../../components/FancyButton';
 
 const Hero = () => {
@@ -72,7 +72,7 @@ const Hero = () => {
                   maxWidth: 'calc(50.000% - 20px)',
                 }}
               >
-                <HeroCard
+                <HeroAndSkillsCard
                   id={hero.id}
                   image={hero.image}
                   uid={hero.uid}
@@ -105,6 +105,7 @@ const Hero = () => {
                   aQuote={hero.a_quote}
                   credits={hero.credits}
                   forceStrength={hero.force_strength}
+                  characterSkills={hero.character_skills}
                 />
               </div>
             ))

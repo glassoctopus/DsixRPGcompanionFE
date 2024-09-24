@@ -1,124 +1,161 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
+import FancyCardLong from '../cards/FancyCardLong';
+import FancyButton from '../../FancyButton';
 
 const SkillFormPopup = ({ skillData, onClose }) => {
-  const [formData, setFormData] = useState(skillData);
+  const [formData, setFormData] = useState({
+    skill_name: skillData.skill_name || '',
+    skill_code: skillData.skill_code || 0.0,
+    attribute: skillData.attribute || '',
+    specializations: skillData.specializations || [],
+  });
+  const [newSpecialization, setNewSpecialization] = useState({
+    specialization_name: '',
+    specialization_code: 0.0,
+  });
+  const formRef = useRef(null);
 
-  const handleChange = (e) => {
+  const handleNewSpecializationChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
+    setNewSpecialization((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
 
+  // Handler for submitting the form
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.warn('Submitting:', formData);
-    onClose();
+    if (newSpecialization.specialization_name.trim() !== '') {
+      // Add new specialization to the list
+      setFormData((prev) => ({
+        ...prev,
+        specializations: [
+          ...prev.specializations,
+          {
+            specialization_name: newSpecialization.specialization_name,
+            specialization_code: parseFloat(newSpecialization.specialization_code),
+          },
+        ],
+      }));
+
+      // Reset new specialization fields after adding
+      setNewSpecialization({
+        specialization_name: '',
+        specialization_code: 0.0,
+      });
+    }
+  };
+
+  const handleFancyButtonClick = () => {
+    if (formRef.current) {
+      const event = new Event('submit', { cancelable: true, bubbles: true });
+      formRef.current.dispatchEvent(event);
+    }
   };
 
   return (
-    <div className="popup-overlay">
-      <div className="popup-content">
-        <h2>Edit Skill</h2>
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="skill_name">Skill Name:</label>
-            <input
-              type="text"
-              id="skill_name"
-              name="skill_name"
-              value={formData.skill_name}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor="skill_code">Skill Code:</label>
-            <input
-              type="number"
-              id="skill_code"
-              name="skill_code"
-              value={formData.skill_code}
-              onChange={handleChange}
-              required
-              step="0.1"
-              min="0"
-            />
-          </div>
-          <div>
-            <label htmlFor="attribute">Attribute:</label>
-            <input
-              type="text"
-              id="attribute"
-              name="attribute"
-              value={formData.attribute}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div>
-            <h4>Specializations:</h4>
-            {formData.specializations.map((specialization, index) => (
-              // eslint-disable-next-line react/no-array-index-key
-              <div key={index}>
-                <label htmlFor={`specialization_name_${index}`}>Specialization Name:</label>
+    <FancyCardLong>
+      <div className="cardOfForm">
+        <div className="popup-overlay">
+          <div className="popup-content">
+            <h3>Add Skill Specialization</h3>
+            <form
+              onSubmit={handleSubmit}
+              ref={formRef}
+            >
+              <div>
+                <h4>Skill Name: {formData.skill_name}</h4>
+              </div>
+              <div>
+                <h4>Skill Code: {formData.skill_code}</h4>
+              </div>
+              <div>
+                <h4>Attribute: {formData.attribute}</h4>
+              </div>
+
+              {/* Inputs for adding new specialization */}
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '13px',
+                  margin: '13px',
+                }}
+              >
+                <label htmlFor="specialization_name">New Specialization Name:</label>
                 <input
                   type="text"
-                  id={`specialization_name_${index}`}
-                  name={`specialization_name_${index}`}
-                  value={specialization.specialization_name}
-                  onChange={(e) => {
-                    const updatedSpecializations = [...formData.specializations];
-                    updatedSpecializations[index].specialization_name = e.target.value;
-                    setFormData((prev) => ({
-                      ...prev,
-                      specializations: updatedSpecializations,
-                    }));
-                  }}
-                />
-                <label htmlFor={`specialization_code_${index}`}>Specialization Code:</label>
-                <input
-                  type="number"
-                  id={`specialization_code_${index}`}
-                  name={`specialization_code_${index}`}
-                  value={specialization.specialization_code}
-                  onChange={(e) => {
-                    const updatedSpecializations = [...formData.specializations];
-                    updatedSpecializations[index].specialization_code = parseFloat(e.target.value);
-                    setFormData((prev) => ({
-                      ...prev,
-                      specializations: updatedSpecializations,
-                    }));
-                  }}
-                  step="0.1"
-                  min="0"
+                  id="specialization_name"
+                  name="specialization_name"
+                  value={newSpecialization.specialization_name}
+                  onChange={handleNewSpecializationChange}
+                  required
                 />
               </div>
-            ))}
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '13px',
+                  margin: '13px',
+                }}
+              >
+                <label htmlFor="specialization_code">New Specialization Code:</label>
+                <input
+                  type="number"
+                  id="specialization_code"
+                  name="specialization_code"
+                  value={newSpecialization.specialization_code}
+                  onChange={handleNewSpecializationChange}
+                  step="0.1"
+                  min="0"
+                  style={{ width: '69px', marginRight: '13px' }}
+                  required
+                />
+              </div>
+
+              <FancyButton onClick={handleFancyButtonClick} style={{ marginRight: '13px' }}>
+                Add Specialization
+              </FancyButton>
+              <FancyButton onClick={onClose} style={{ marginRight: '13px' }}>Cancel</FancyButton>
+            </form>
+
+            {/* Display existing specializations if any */}
+            <div>
+              <h4>Existing Specializations:</h4>
+              {formData.specializations.length > 0 ? (
+                formData.specializations.map((specialization) => (
+                  <div key={`${specialization.specialization_name}--${formData.attribute}`}>
+                    <p>
+                      {specialization.specialization_name} (Code: {specialization.specialization_code})
+                    </p>
+                  </div>
+                ))
+              ) : (
+                <p>No specializations available</p>
+              )}
+            </div>
           </div>
-          <button type="submit">Save</button>
-          <button type="button" onClick={onClose}>Cancel</button>
-        </form>
+        </div>
       </div>
-    </div>
+    </FancyCardLong>
   );
 };
 
 SkillFormPopup.propTypes = {
   skillData: PropTypes.shape({
-    character: PropTypes.number.isRequired,
     skill_name: PropTypes.string.isRequired,
     skill_code: PropTypes.number.isRequired,
     attribute: PropTypes.string.isRequired,
     specializations: PropTypes.arrayOf(
       PropTypes.shape({
-        specialization_name: PropTypes.string.isRequired,
-        specialization_code: PropTypes.number.isRequired,
+        specialization_name: PropTypes.string,
+        specialization_code: PropTypes.number,
       }),
-    ).isRequired,
+    ),
   }).isRequired,
   onClose: PropTypes.func.isRequired,
 };

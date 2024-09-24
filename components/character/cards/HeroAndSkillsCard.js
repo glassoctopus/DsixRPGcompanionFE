@@ -170,9 +170,9 @@ const HeroAndSkillsCard = ({
               {renderSkills('Technical')}
             </div>
           )}
-          {forceControl !== null && <div><strong>Force Control:</strong> {formatDiceCode(forceControl)}</div>}
-          {forceSense !== null && <div><strong>Force Sense:</strong> {formatDiceCode(forceSense)}</div>}
-          {forceAlter !== null && <div><strong>Force Alter:</strong> {formatDiceCode(forceAlter)}</div>}
+          {forceControl !== 0 && <div style={{ color: 'rgb(216, 223, 233)', textShadow: '2px 2px 3px black' }}><h4><strong>Force Control:</strong> {formatDiceCode(forceControl)}</h4></div>}
+          {forceSense !== 0 && <div style={{ color: 'rgb(216, 223, 233)', textShadow: '2px 2px 3px black' }}><h4><strong>Force Sense:</strong> {formatDiceCode(forceSense)}</h4></div>}
+          {forceAlter !== 0 && <div style={{ color: 'rgb(216, 223, 233)', textShadow: '2px 2px 3px black' }}><h4><strong>Force Alter:</strong> {formatDiceCode(forceAlter)}</h4></div>}
         </div>
 
         {forcePoints !== null && <p><strong>Force Points:</strong> {forcePoints}</p>}
@@ -185,8 +185,12 @@ const HeroAndSkillsCard = ({
         {credits !== null && <p><strong>Credits:</strong> {credits}</p>}
         {forceStrength !== null && <p><strong>Force Strength:</strong> {forceStrength}</p>}
         <FancyButton onClick={viewHero} style={{ marginRight: '13px' }}>View {user.admin ? id.toString() : ''}</FancyButton>
-        <FancyButton onClick={editHero} style={{ marginRight: '13px' }}>Edit {user.admin ? id.toString() : ''}</FancyButton>
-        <FancyButton onClick={deleteThisHero} style={{ marginRight: '13px' }}>Delete {user.admin ? id.toString() : ''}</FancyButton>
+        {user && (user.handle === userHandle) ? (
+          <>
+            <FancyButton onClick={editHero} style={{ marginRight: '13px' }}>Edit {user.admin ? id.toString() : ''}</FancyButton>
+            <FancyButton onClick={deleteThisHero} style={{ marginRight: '13px' }}>Delete {user.admin ? id.toString() : ''}</FancyButton>
+          </>
+        ) : (<>.</>)}
       </div>
     </div>
   );

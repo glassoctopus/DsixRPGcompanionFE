@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 
 const EquipmentForm = ({ initialData, onSubmit }) => {
-  // console.log('Initial Data in Form:', initialData);
   const router = useRouter();
   const [formData, setFormData] = useState(initialData || {
     equipment_name: '',
