@@ -11,7 +11,6 @@ const Archetypes = () => {
   const router = useRouter();
 
   const handleSearch = (term) => {
-    // console.log('Search term:', term); // Debugging line
     setSearchTerm(term);
   };
 

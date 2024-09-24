@@ -2,27 +2,34 @@ import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import { formatDiceCode, addOrSubtractPips } from '../../../utils/d6LogicForUI';
+import { useAuth } from '../../../utils/context/authContext';
 import { useSkills } from '../../../utils/context/skillContext';
 import { getSingleHero, updateHeroSkills, createHeroSkills } from '../../../utils/data/heroData';
+import SkillSpecializationForm from './SkillSpecializationForm';
 import FancyCardLong from '../cards/FancyCardLong';
 import FancyButton from '../../FancyButton';
 
 const HeroSkillForm = ({ id }) => {
+  const { user } = useAuth();
   const { skills } = useSkills();
   const [hero, setHero] = useState(null);
   const [heroSkills, setHeroSkills] = useState({});
   const [attributeValues, setAttributeValues] = useState({});
   const [skillFormValues, setSkillFormValues] = useState({});
   const [skillSpecializations, setSkillSpecializations] = useState({});
+  const [skillToForm, setSkillToForm] = useState({});
+  const [showSpecializationForm, setShowSpecializationForm] = useState(false);
   const router = useRouter();
   const formRef = useRef(null);
 
   useEffect(() => {
-    if (id) {
+    if (id && !hero) {
       const fetchHero = async () => {
         try {
           const data = await getSingleHero(id);
-          setHero(data);
+          if (!hero || (hero.id !== data.id)) {
+            setHero(data);
+          }
 
           setAttributeValues({
             dexterity: data.dexterity,
@@ -39,11 +46,10 @@ const HeroSkillForm = ({ id }) => {
           data.character_skills.forEach((skill) => {
             const { attribute } = skill;
             const attributeLowerCase = attribute.toLowerCase();
-
             initialSkillValues[skill.skill_name] = skill.skill_code < data[attributeLowerCase] ? data[attributeLowerCase] : skill.skill_code;
-
             specializations[skill.skill_name] = skill.specializations || [];
           });
+
           setHeroSkills(initialSkillValues);
           setSkillFormValues(initialSkillValues);
           setSkillSpecializations(specializations);
@@ -53,7 +59,7 @@ const HeroSkillForm = ({ id }) => {
       };
       fetchHero();
     }
-  }, [id]);
+  }, [id, hero]);
 
   const handleFancyButtonClick = () => {
     if (formRef.current) {
@@ -62,10 +68,9 @@ const HeroSkillForm = ({ id }) => {
     }
   };
 
-  const handleSkillChange = (e, skillName) => {
+  const handleSkillChange = (e, skillName, attribute) => {
     let operator = '';
-    const attributeLowerCase = skillName.toLowerCase();
-
+    const attributeLowerCase = attribute.toLowerCase();
     setSkillFormValues((prevSkillFormValues) => {
       if (e.target.value < hero[attributeLowerCase]) {
         return {
@@ -120,8 +125,23 @@ const HeroSkillForm = ({ id }) => {
     });
   };
 
-  const setSpecialization = (skill) => {
-    console.warn('specialization form:', skill);
+  const openSpecializationForm = (skill) => {
+    const skillAttribute = skill.attribute.toLowerCase();
+    const dieCode = skill.skill_code < hero[skillAttribute] ? hero[skillAttribute] : skill.skill_code;
+    setSkillToForm({
+      skill_name: skill.skill_name,
+      skill_code: dieCode,
+      attribute: skill.attribute,
+      specializations: skillSpecializations[skill.skill_name],
+
+    });
+    setShowSpecializationForm(true);
+  };
+
+  const addSkillSpecialization = (newSpecialization) => {
+    const specialization = [...skillSpecializations] + newSpecialization;
+    console.warn(specialization);
+    setShowSpecializationForm(false);
   };
 
   const handleSubmit = (e) => {
@@ -179,137 +199,142 @@ const HeroSkillForm = ({ id }) => {
   const attributes = [...new Set(skills.map((skill) => skill.attribute.toLowerCase()))];
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      ref={formRef}
-    >
-      <div className="cardOfForm">
-        <div style={{ borderColor: 'rgba(64, 116, 173, 0.35)', backgroundColor: ' rgba(35, 82, 128, 0.35)', borderRadius: '13px' }}>
-          <div style={{ padding: '20px', maxWidth: '100%', boxSizing: 'border-box' }}>
-            <div style={{ marginBottom: '15px' }}>
-              <label htmlFor="userName" style={{ fontWeight: 'bold' }}>User:</label>
-              <div id="userName">{hero.user ? `User ID: ${hero.user}` : 'Unknown'}</div>
-            </div>
-            <div style={{ marginBottom: '15px' }}>
-              <label htmlFor="characterName" style={{ fontWeight: 'bold' }}>Character Name:</label>
-              <div id="characterName">{hero.name}</div>
-            </div>
-            <div>
-              {attributes.map((attribute) => (
-                <FancyCardLong key={attribute} style={{ display: 'flex' }}>
-                  <div style={{ marginBottom: '30px' }}>
-                    <div style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      marginBottom: '10px',
-                      borderBottom: '1px solid #ccc',
-                      paddingBottom: '5px',
-                    }}
-                    ><button type="button" className="siteButton" onClick={setSpecialization}>.</button>
-                      <input
-                        type="number"
-                        value={attributeValues[attribute] || 0}
-                        onChange={(e) => handleAttributeChange(e, attribute)}
-                        step="0.1"
-                        min="0"
-                        max="99.9"
-                        style={{ width: '65px', marginRight: '10px' }}
-                      />
-                      <h3 style={{ margin: 0 }}>{attribute.charAt(0).toUpperCase() + attribute.slice(1)}: {formatDiceCode(attributeValues[attribute])}</h3>
-                    </div>
-                    <div style={{
-                      display: 'grid',
-                      gridTemplateColumns: 'repeat(auto-fit, minmax(16rem, 1fr))',
-                      gap: '3px',
-                      overflowX: 'auto',
-                    }}
-                    >
-                      {skills.filter((skill) => skill.attribute.toLowerCase() === attribute).map((skill) => (
-                        <div
-                          key={skill.id}
-                          style={{
-                            display: 'flex',
-                            flexDirection: 'column', // Stack skill and specializations
-                            padding: '5px',
-                            border: '1px solid #ddd',
-                            borderRadius: '4px',
-                          }}
-                        >
-                          {/* Main Skill Input */}
-                          <div style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                            paddingBottom: '5px',
-                          }}
+    <div>
+      {showSpecializationForm ? <SkillSpecializationForm skillData={skillToForm} onClose={() => addSkillSpecialization()} /> : <p>Click the button to open the form.</p>}
+      <form
+        onSubmit={handleSubmit}
+        ref={formRef}
+      >
+        <div className="cardOfForm">
+          <div style={{ borderColor: 'rgba(64, 116, 173, 0.35)', backgroundColor: ' rgba(35, 82, 128, 0.35)', borderRadius: '13px' }}>
+            <div style={{ padding: '20px', maxWidth: '100%', boxSizing: 'border-box' }}>
+              <div style={{ marginBottom: '15px' }}>
+                <label htmlFor="userName" style={{ fontWeight: 'bold' }}>User:</label>
+                <div id="userName">{hero.user ? `User ID: ${hero.user}` : 'Unknown'}</div>
+              </div>
+              <div style={{ marginBottom: '15px' }}>
+                <label htmlFor="characterName" style={{ fontWeight: 'bold' }}>Character Name:</label>
+                <div id="characterName">{hero.name}</div>
+              </div>
+              <div>
+                {attributes.map((attribute) => (
+                  <FancyCardLong key={attribute} style={{ display: 'flex' }}>
+                    <div style={{ marginBottom: '30px' }}>
+                      <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        marginBottom: '10px',
+                        borderBottom: '1px solid #ccc',
+                        paddingBottom: '5px',
+                      }}
+                      >
+                        {user && (user.admin || user.game_master) ? (
+                          <input
+                            type="number"
+                            value={attributeValues[attribute] || 0}
+                            onChange={(e) => handleAttributeChange(e, attribute)}
+                            step="0.1"
+                            min="0"
+                            max="99.9"
+                            style={{ width: '65px', marginRight: '10px' }}
+                          />
+                        ) : ('')}
+                        <h3 style={{ margin: 0 }}>{attribute.charAt(0).toUpperCase() + attribute.slice(1)}: {formatDiceCode(attributeValues[attribute])}</h3>
+                      </div>
+                      <div style={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(16rem, 1fr))',
+                        gap: '3px',
+                        overflowX: 'auto',
+                      }}
+                      >
+                        {skills.filter((skill) => skill.attribute.toLowerCase() === attribute).map((skill) => (
+                          <div
+                            key={skill.id}
+                            style={{
+                              display: 'flex',
+                              flexDirection: 'column', // Stack skill and specializations
+                              padding: '5px',
+                              border: '1px solid #ddd',
+                              borderRadius: '4px',
+                            }}
                           >
-                            <button type="button" className="siteButton" onClick={setSpecialization}>.</button>
-                            <input
-                              type="number"
-                              id={`skill-${skill.id}`}
-                              name={`skill-${skill.id}`}
-                              value={skillFormValues[skill.skill_name] || ''}
-                              onChange={(e) => handleSkillChange(e, skill.skill_name)}
-                              step="0.1"
-                              min="0"
-                              max="99.9"
-                              style={{ width: '65px', marginRight: '10px' }}
-                            />
-                            <label htmlFor={`skill-${skill.id}`} style={{ flex: '1', padding: '5px' }}>{skill.skill_name}:</label>
-                            <div style={{ flex: '1', textAlign: 'right', paddingRight: '13px' }}>
-                              {formatDiceCode(skillFormValues[skill.skill_name] || 0)}
-                            </div>
-                          </div>
-
-                          {/* Specializations */}
-                          {skillSpecializations[skill.skill_name]?.length > 0 && (
-                          <div style={{ paddingLeft: '15px', marginTop: '5px' }}>
-                            {skillSpecializations[skill.skill_name].map((specialization, index) => (
-                              <div
-                                key={specialization.specialization_name || index}
-                                style={{
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                  padding: '5px',
-                                  border: '1px solid rgb(255, 215, 0)', // Gold border for specializations
-                                  borderRadius: '4px',
-                                  marginBottom: '5px',
-                                }}
-                              >
-                                <input
-                                  type="number"
-                                  value={specialization.specialization_code || '0.0'}
-                                  onChange={(e) => handleSpecializationChange(e, skill.skill_name, index)}
-                                  step="0.1"
-                                  min="0"
-                                  max="99.9"
-                                  style={{ width: '65px', marginRight: '10px' }}
-                                />
-                                <span style={{ paddingLeft: '5px' }}>{specialization.specialization_name || `Specialization ${index + 1}`}</span>
-                                <div style={{ flex: '1', textAlign: 'right', paddingRight: '13px' }}>
-                                  {formatDiceCode(specialization.specialization_code || 0)}
-                                </div>
+                            {/* Main Skill Input */}
+                            <div style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'space-between',
+                              paddingBottom: '5px',
+                            }}
+                            >
+                              <button type="button" className="siteButton" onClick={() => openSpecializationForm(skill)}>.</button>
+                              <input
+                                type="number"
+                                id={`skill-${skill.id}`}
+                                name={`skill-${skill.id}`}
+                                value={skillFormValues[skill.skill_name] || ''}
+                                onChange={(e) => handleSkillChange(e, skill.skill_name, skill.attribute)}
+                                step="0.1"
+                                min="0"
+                                max="99.9"
+                                style={{ width: '65px', marginRight: '13px' }}
+                              />
+                              <label htmlFor={`skill-${skill.id}`} style={{ flex: '1', padding: '5px' }}>{skill.skill_name}:</label>
+                              <div style={{ flex: '1', textAlign: 'right', paddingRight: '13px' }}>
+                                {formatDiceCode(skillFormValues[skill.skill_name] || 0)}
                               </div>
-                            ))}
+                            </div>
+
+                            {/* Specializations */}
+                            {skillSpecializations[skill.skill_name]?.length > 0 && (
+                            <div style={{ paddingLeft: '15px', marginTop: '5px' }}>
+                              {skillSpecializations[skill.skill_name].map((specialization, index) => (
+                                <div
+                                  key={specialization.specialization_name || index}
+                                  style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    padding: '5px',
+                                    border: '1px solid rgb(255, 215, 0)', // Gold border for specializations
+                                    borderRadius: '4px',
+                                    marginBottom: '5px',
+                                  }}
+                                >
+                                  <input
+                                    type="number"
+                                    value={specialization.specialization_code || '0.0'}
+                                    onChange={(e) => handleSpecializationChange(e, skill.skill_name, index)}
+                                    step="0.1"
+                                    min="0"
+                                    max="99.9"
+                                    style={{ width: '65px', marginRight: '10px' }}
+                                  />
+                                  <span style={{ paddingLeft: '5px' }}>{specialization.specialization_name || `Specialization ${index + 1}`}</span>
+                                  <div style={{ flex: '1', textAlign: 'right', paddingRight: '13px' }}>
+                                    {formatDiceCode(specialization.specialization_code || 0)}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                            )}
                           </div>
-                          )}
-                        </div>
-                      ))}
+                        ))}
+                      </div>
+
                     </div>
+                  </FancyCardLong>
 
-                  </div>
-                </FancyCardLong>
+                ))}
 
-              ))}
-
+              </div>
+              <FancyButton onClick={handleFancyButtonClick}>
+                Save
+              </FancyButton>
             </div>
-            <FancyButton onClick={handleFancyButtonClick}>
-              Save
-            </FancyButton>
           </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </div>
   );
 };
 

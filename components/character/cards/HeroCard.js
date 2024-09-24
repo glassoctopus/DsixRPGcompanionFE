@@ -44,7 +44,7 @@ const HeroCard = ({
   const profession = archetypes.find((job) => job.id === archetype);
   const jobName = profession ? profession.archetype_name : 'Ummmmmm...';
   const router = useRouter();
-  const user = useAuth();
+  const { user } = useAuth();
 
   const editHero = () => {
     router.push(`/heros/update/${id}`);
@@ -106,9 +106,9 @@ const HeroCard = ({
           {perception !== null && <div><strong>Perception:</strong> {formatDiceCode(perception)}</div>}
           {strength !== null && <div><strong>Strength:</strong> {formatDiceCode(strength)}</div>}
           {technical !== null && <div><strong>Technical:</strong> {formatDiceCode(technical)}</div>}
-          {forceControl !== null && <div><strong>Force Control:</strong> {formatDiceCode(forceControl)}</div>}
-          {forceSense !== null && <div><strong>Force Sense:</strong> {formatDiceCode(forceSense)}</div>}
-          {forceAlter !== null && <div><strong>Force Alter:</strong> {formatDiceCode(forceAlter)}</div>}
+          {forceControl !== null && <div style={{ color: 'rgb(216, 223, 233)', textShadow: '2px 2px 3px black' }}><strong>Force Control:</strong> {formatDiceCode(forceControl)}</div>}
+          {forceSense !== null && <div style={{ color: 'rgb(216, 223, 233)', textShadow: '2px 2px 3px black' }}><strong>Force Sense:</strong> {formatDiceCode(forceSense)}</div>}
+          {forceAlter !== null && <div style={{ color: 'rgb(216, 223, 233)', textShadow: '2px 2px 3px black' }}><strong>Force Alter:</strong> {formatDiceCode(forceAlter)}</div>}
         </div>
         {forcePoints !== null && (
           <p><strong>Force Points:</strong> {forcePoints}</p>
@@ -125,7 +125,9 @@ const HeroCard = ({
         {forceStrength !== null && <p><strong>Force Strength:</strong> {forceStrength}</p>}
       </div>
       <div>
-        <FancyButton onClick={editHero} style={{ marginRight: '13px' }}>EDIT &gt; {name}</FancyButton>
+        {user && (user.handle === userHandle) ? (
+          <FancyButton onClick={editHero} style={{ marginRight: '13px' }}>EDIT &gt; {name}</FancyButton>)
+          : ('.')}
         <FancyButton onClick={viewHero} style={{ marginRight: '13px' }}>VIEW &gt; {name}</FancyButton>
       </div>
     </div>

@@ -6,6 +6,13 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+
+  background: black;
+  color: white;
+  
+  text-shadow: /* 1px 1px white, -1px -1px #444, */
+ .5px .5px 1px whitesmoke,
+ 1px 1px 2px black;
 }
 
 a {
@@ -15,17 +22,6 @@ a {
 
 * {
   box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  /* overflow: hidden; */
-  background: black;
-  color: white;
-  
-  text-shadow: /* 1px 1px white, -1px -1px #444, */
- .5px .5px 1px whitesmoke,
- 1px 1px 2px black;
 }
 
 /* StarField.css */

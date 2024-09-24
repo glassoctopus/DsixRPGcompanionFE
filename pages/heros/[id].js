@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { useAuth } from '../../utils/context/authContext';
 import { getSingleHero } from '../../utils/data/heroData';
 import HeroAndSkillsCard from '../../components/character/cards/HeroAndSkillsCard';
 
@@ -9,7 +8,6 @@ const HeroById = () => {
   const { id } = router.query;
   //   const { user } = useAuth();
   const [aHero, setAHero] = useState({});
-  const { user } = useAuth();
   // eslint-disable-next-line no-unused-vars
   const [numericId, setNumericId] = useState(0);
 
@@ -23,7 +21,7 @@ const HeroById = () => {
 
   return (
     <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <h2>Your Hero</h2>
+      <h2>{aHero.user_handle}&apos;s Hero</h2>
       <div
         style={{
           padding: '13px',
@@ -38,7 +36,7 @@ const HeroById = () => {
             image={aHero.image}
             uid={aHero.uid}
             NPC={aHero.NPC}
-            userHandle={user.userHandle}
+            userHandle={aHero.user_handle}
             name={aHero.name}
             archetype={aHero.archetype}
             species={aHero.species}

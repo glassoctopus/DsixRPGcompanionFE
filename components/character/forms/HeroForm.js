@@ -185,6 +185,7 @@ const HeroForm = ({ hero, id }) => {
   const handleInputChange = (event) => {
     const { name, value } = event.target;
 
+    if (name === 'dexterity' || name === 'knowledge' || name === 'mechanical' || name === 'perception' || name === 'strength' || name === 'technical' || name === 'force_control' || name === 'force_sense' || name === 'force_alter') { console.warn('attribute adjustments need to set for only a Game Master, and to direct the playrer to pick an Archetype.'); }
     setCurrentHero((prevState) => ({
       ...prevState,
       [name]: value,
