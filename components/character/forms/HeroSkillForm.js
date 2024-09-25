@@ -127,20 +127,20 @@ const HeroSkillForm = ({ id }) => {
 
   const openSpecializationForm = (skill) => {
     const skillAttribute = skill.attribute.toLowerCase();
-    const dieCode = skill.skill_code < hero[skillAttribute] ? hero[skillAttribute] : skill.skill_code;
+    const getCode = skillFormValues[skill.skill_name] ? skillFormValues[skill.skill_name] : hero[skillAttribute];
+    const dieCode = getCode < hero[skillAttribute] ? hero[skillAttribute] : getCode;
     setSkillToForm({
+      character: id,
       skill_name: skill.skill_name,
       skill_code: dieCode,
       attribute: skill.attribute,
       specializations: skillSpecializations[skill.skill_name],
-
+      heroAttributeOfSkillCode: hero[skillAttribute],
     });
     setShowSpecializationForm(true);
   };
 
-  const addSkillSpecialization = (newSpecialization) => {
-    const specialization = [...skillSpecializations] + newSpecialization;
-    console.warn(specialization);
+  const addSkillSpecialization = () => {
     setShowSpecializationForm(false);
   };
 

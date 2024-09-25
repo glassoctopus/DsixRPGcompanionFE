@@ -465,7 +465,7 @@ const HeroForm = ({ hero, id }) => {
                     </div>
 
                     {currentHero.force_sensitive && (
-                    <>
+                    <div style={{ color: 'rgb(216, 223, 233)', textShadow: '2px 2px 3px black' }}>
                       <div className="row justify-content-center">
                         <div className="col-auto text-center">
                           <Form.Label>Force Skills</Form.Label>
@@ -518,7 +518,7 @@ const HeroForm = ({ hero, id }) => {
                           />
                         </div>
                       </div>
-                    </>
+                    </div>
                     )}
 
                   </div>
