@@ -88,14 +88,11 @@ const HeroForm = ({ hero, id }) => {
 
   const diePointAttributeTotal = () => {
     const dex = assignPointsForDieCode(currentHero.dexterity);
-    console.log(currentHero.dexterity);
     const kno = assignPointsForDieCode(currentHero.knowledge);
     const mec = assignPointsForDieCode(currentHero.mechanical);
     const per = assignPointsForDieCode(currentHero.perception);
     const str = assignPointsForDieCode(currentHero.strength);
     const tec = assignPointsForDieCode(currentHero.technical);
-    console.log(tec, 'tech ', currentHero.technical);
-    console.log(dex, kno, mec, per, str, tec);
     return dex + kno + mec + per + str + tec;
   };
 
@@ -208,7 +205,6 @@ const HeroForm = ({ hero, id }) => {
 
     if (name === 'dexterity' || name === 'knowledge' || name === 'mechanical' || name === 'perception' || name === 'strength' || name === 'technical' || name === 'force_control' || name === 'force_sense' || name === 'force_alter') {
       setDiePointsOfAttributes(diePointAttributeTotal());
-      console.log(diePointAttributeTotal());
       let operator = '';
       setCurrentHero((prevState) => {
         const currentValue = prevState[name];
