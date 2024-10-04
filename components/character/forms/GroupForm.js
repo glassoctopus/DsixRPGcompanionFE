@@ -43,12 +43,8 @@ const GroupForm = () => {
 
     createCharacterGroup(groupData)
       .then((response) => {
-        console.warn('this is a debug TODO, need to navigate to get into this if below.');
-        console.warn('Group created successfully:', response.data);
-        if (response && response.data && response.data.id) {
-          const newGroupId = response.data.id;
-          console.warn('New Group ID:', newGroupId);
-
+        if (response && response.id) {
+          const newGroupId = response.id;
           router.push(`/groups/update/${newGroupId}`);
         } else {
           console.error('Error: ID not found in the response');

@@ -209,12 +209,10 @@ const HeroSkillForm = ({ id }) => {
           <div style={{ borderColor: 'rgba(64, 116, 173, 0.35)', backgroundColor: ' rgba(35, 82, 128, 0.35)', borderRadius: '13px' }}>
             <div style={{ padding: '20px', maxWidth: '100%', boxSizing: 'border-box' }}>
               <div style={{ marginBottom: '15px' }}>
-                <label htmlFor="userName" style={{ fontWeight: 'bold' }}>User:</label>
-                <div id="userName">{hero.user ? `User ID: ${hero.user}` : 'Unknown'}</div>
+                <h2 htmlFor="characterName" style={{ fontWeight: 'bold' }}>Character Name: {hero.name}</h2>
               </div>
               <div style={{ marginBottom: '15px' }}>
-                <label htmlFor="characterName" style={{ fontWeight: 'bold' }}>Character Name:</label>
-                <div id="characterName">{hero.name}</div>
+                <label htmlFor="userName" style={{ fontWeight: 'bold' }}>User {hero.user ? ` ID: ${hero.user}` : 'Unknown'}</label>
               </div>
               <div>
                 {attributes.map((attribute) => (

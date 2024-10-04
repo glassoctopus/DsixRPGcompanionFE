@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { getArchetypes } from '../../../utils/data/archetypeData';
 import ArchetypeCard from '../../../components/character/cards/ArchetypeCard';
+import { getArchetypes } from '../../../utils/data/archetypeData';
 import SearchTextField from '../../../components/Searchbar';
 import FancyButton from '../../../components/FancyButton';
 
@@ -14,6 +14,13 @@ const Archetypes = () => {
     setSearchTerm(term);
   };
 
+  const setArchetypePool = async () => {
+    if (archetypes.length === 0) {
+      const fetchedArchetypes = await getArchetypes();
+      setArchetypes(fetchedArchetypes);
+    }
+  };
+
   const createNewHero = () => {
     router.push('/heros/archetypes/new');
   };
@@ -22,10 +29,8 @@ const Archetypes = () => {
     .filter((archetype) => archetype.archetype_name.toLowerCase().includes(searchTerm.toLowerCase()));
 
   useEffect(() => {
-    getArchetypes().then((data) => {
-      setArchetypes(data);
-    });
-  }, []);
+    setArchetypePool();
+  });
 
   return (
     <div style={{

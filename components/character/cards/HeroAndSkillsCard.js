@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import { formatDiceCode } from '../../../utils/d6LogicForUI';
-import { useArchetypes } from '../../../utils/context/archetypeContext';
 import FancyButton from '../../FancyButton';
 import { deleteHero } from '../../../utils/data/heroData';
 import { useAuth } from '../../../utils/context/authContext';
@@ -15,6 +14,7 @@ const HeroAndSkillsCard = ({
   userHandle,
   name,
   archetype,
+  archetypeName,
   species,
   homeworld,
   gender,
@@ -42,9 +42,6 @@ const HeroAndSkillsCard = ({
   forceStrength,
   characterSkills,
 }) => {
-  const { archetypes } = useArchetypes();
-  const profession = archetypes.find((job) => job.id === archetype);
-  const jobName = profession ? profession.archetype_name : 'Ummmmmm...';
   const router = useRouter();
   const { user } = useAuth();
 
@@ -113,7 +110,7 @@ const HeroAndSkillsCard = ({
       >
         {image}
         <h2>{name}</h2>
-        {archetype && <p><strong>Archetype:</strong> {jobName}</p>}
+        {archetype && <p><strong>Archetype:</strong> {archetypeName}</p>}
         {uid !== null && <div><strong>uid:</strong> {uid}</div>}
 
         <div style={{ display: 'flex', gap: '10px' }}>
@@ -204,6 +201,7 @@ HeroAndSkillsCard.propTypes = {
   userHandle: PropTypes.string,
   name: PropTypes.string,
   archetype: PropTypes.number,
+  archetypeName: PropTypes.string,
   species: PropTypes.string,
   homeworld: PropTypes.string,
   gender: PropTypes.string,
@@ -248,6 +246,7 @@ HeroAndSkillsCard.defaultProps = {
   userHandle: '',
   name: '',
   archetype: 0,
+  archetypeName: '',
   species: '',
   homeworld: '',
   gender: '',

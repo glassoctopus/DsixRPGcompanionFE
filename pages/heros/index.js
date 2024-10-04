@@ -80,6 +80,7 @@ const Hero = () => {
                   userHandle={hero.user_handle}
                   name={hero.name}
                   archetype={hero.archetype}
+                  archetypeName={hero.archetype_name}
                   species={hero.species}
                   homeworld={hero.homeworld}
                   gender={hero.gender}

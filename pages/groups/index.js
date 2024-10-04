@@ -61,6 +61,15 @@ const Index = () => {
         <div style={{ width: '100%', maxWidth: '1300px' }}>
           <GroupCarousel />
         </div>
+        <div style={{ /* to allow the user to scroll I need this style ''blonk''... fix or work on more important stuff. */
+          padding: '13px',
+          margin: '13px',
+          borderRadius: '13px',
+          minHeight: '666px',
+          minWidth: '666px',
+        }}
+        >...
+        </div>
       </div>
     </div>
   );

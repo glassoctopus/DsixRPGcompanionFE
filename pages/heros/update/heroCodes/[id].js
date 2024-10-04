@@ -49,6 +49,7 @@ const HeroCodes = () => {
           userHandle={user.userHandle}
           name={aHero.name}
           archetype={aHero.archetype}
+          archetypeName={aHero.archetype_name}
           species={aHero.species}
           homeworld={aHero.homeworld}
           gender={aHero.gender}
