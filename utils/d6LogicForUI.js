@@ -50,4 +50,24 @@ const clampPip = (currentValue) => {
   return parseFloat(`${whole}.${decimal}`);
 };
 
-export { formatDiceCode, addOrSubtractPips, clampPip };
+const assignPointsForDieCode = (dieCode) => {
+  let points = 0;
+  let die = 0;
+  const [whole, decimal] = String(dieCode).split('.');
+
+  if (decimal === '0') {
+    points += 0;
+  } else if (decimal === '1') {
+    points += 1;
+  } else if (decimal === '2') {
+    points += 2;
+  }
+
+  die = Number(whole) * 3;
+  points += die;
+  return points;
+};
+
+export {
+  formatDiceCode, addOrSubtractPips, clampPip, assignPointsForDieCode,
+};

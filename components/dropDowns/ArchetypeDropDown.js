@@ -1,11 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useArchetypes } from '../../utils/context/archetypeContext';
+import { getArchetypes } from '../../utils/data/archetypeData';
 
 const ArchetypeDropdown = ({ selectedArchetype, onSelect, random }) => {
-  const { archetypes } = useArchetypes();
+  const [archetypes, setArchetypes] = useState([]);
   // eslint-disable-next-line no-unused-vars
   const [hover, setHover] = useState(false);
+
+  const setArchetypePool = async () => {
+    if (archetypes.length === 0) {
+      const fetchedArchetypes = await getArchetypes();
+      setArchetypes(fetchedArchetypes);
+    }
+  };
+
+  useEffect(() => {
+    setArchetypePool();
+  });
 
   const handleChange = (event) => {
     const selectedId = Number(event.target.value);

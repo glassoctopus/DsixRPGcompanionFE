@@ -5,17 +5,21 @@ import { getCharacterGroups } from '../../utils/data/groupData';
 const GroupCarousel = () => {
   const [groups, setGroups] = useState([]);
 
+  const makeGroupCards = (groupsGrabbed) => {
+    setGroups(groupsGrabbed || []);
+  };
+
   useEffect(() => {
     const fetchGroups = async () => {
       const fetchedGroups = await getCharacterGroups();
-      setGroups(fetchedGroups || []);
+      makeGroupCards(fetchedGroups);
     };
 
     fetchGroups();
   }, []);
 
   const handleGroupDeleted = () => {
-    // Reload groups or refresh the parent component
+    // Reload groups or refresh the parent component, react is a lot...
     const fetchGroups = async () => {
       const fetchedGroups = await getCharacterGroups();
       setGroups(fetchedGroups || []);
@@ -30,7 +34,7 @@ const GroupCarousel = () => {
         display: 'flex',
         flexDirection: 'column',
         padding: '16px',
-        maxHeight: '666px',
+        maxHeight: '1000px',
         overflowY: 'hidden',
         overflowX: 'auto',
         // Ensure overflow is visible

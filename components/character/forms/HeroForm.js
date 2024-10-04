@@ -7,8 +7,8 @@ import { Form } from 'react-bootstrap';
 import { useAuth } from '../../../utils/context/authContext';
 import { createHero, updateHero } from '../../../utils/data/heroData';
 import ArchetypeDropdown from '../../dropDowns/ArchetypeDropDown';
-import { useArchetypes } from '../../../utils/context/archetypeContext';
-import { formatDiceCode } from '../../../utils/d6LogicForUI';
+import { getArchetypes } from '../../../utils/data/archetypeData';
+import { formatDiceCode, addOrSubtractPips, assignPointsForDieCode } from '../../../utils/d6LogicForUI';
 import FancyButton from '../../FancyButton';
 import randomName from '../../../utils/names';
 import randomSpecies from '../../../utils/species';
@@ -54,11 +54,19 @@ const initialState = {
 const HeroForm = ({ hero, id }) => {
   const [currentHero, setCurrentHero] = useState(initialState);
   const [selectedArchetype, setSelectedArchetype] = useState(null);
-  const { archetypes } = useArchetypes();
+  const [archetypes, setArchetypes] = useState([]);
   const [planetDetails, setPlanetDetails] = useState("The Character's Homeworld");
   const router = useRouter();
   const { user } = useAuth();
   const formRef = useRef(null);
+  const [diePointsOfAttributes, setDiePointsOfAttributes] = useState(0);
+
+  const setArchetypePool = async () => {
+    if (archetypes.length === 0) {
+      const fetchedArchetypes = await getArchetypes();
+      setArchetypes(fetchedArchetypes);
+    }
+  };
 
   useEffect(() => {
     if (hero) {
@@ -67,16 +75,28 @@ const HeroForm = ({ hero, id }) => {
         id: typeof hero.id === 'number' ? hero.id : 0,
         user: typeof hero.user === 'string' ? hero.user : '',
       };
-
+      setArchetypePool();
       setCurrentHero(validatedHero);
       const archetypeObject = archetypes.find((a) => a.id === validatedHero.archetype);
       setSelectedArchetype(archetypeObject || null);
     }
+  // fix this hack...
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hero, archetypes]);
 
   // trying to useMemo to avoid bugs on form page reffreshes.
   const memoizedCurrentHero = useMemo(() => currentHero, [currentHero]);
   const memoizedSelectedArchetype = useMemo(() => selectedArchetype, [selectedArchetype]);
+
+  const diePointAttributeTotal = () => {
+    const dex = assignPointsForDieCode(currentHero.dexterity);
+    const kno = assignPointsForDieCode(currentHero.knowledge);
+    const mec = assignPointsForDieCode(currentHero.mechanical);
+    const per = assignPointsForDieCode(currentHero.perception);
+    const str = assignPointsForDieCode(currentHero.strength);
+    const tec = assignPointsForDieCode(currentHero.technical);
+    return dex + kno + mec + per + str + tec;
+  };
 
   const handleArchetypeSelect = (newArchetype) => {
     if (!newArchetype) return;
@@ -185,11 +205,25 @@ const HeroForm = ({ hero, id }) => {
   const handleInputChange = (event) => {
     const { name, value } = event.target;
 
-    if (name === 'dexterity' || name === 'knowledge' || name === 'mechanical' || name === 'perception' || name === 'strength' || name === 'technical' || name === 'force_control' || name === 'force_sense' || name === 'force_alter') { console.warn('attribute adjustments need to set for only a Game Master, and to direct the playrer to pick an Archetype.'); }
-    setCurrentHero((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+    if (name === 'dexterity' || name === 'knowledge' || name === 'mechanical' || name === 'perception' || name === 'strength' || name === 'technical' || name === 'force_control' || name === 'force_sense' || name === 'force_alter') {
+      setDiePointsOfAttributes(diePointAttributeTotal());
+      let operator = '';
+      setCurrentHero((prevState) => {
+        const currentValue = prevState[name];
+        if (currentValue > event.target.value) { operator = '-'; } else { operator = '+'; }
+
+        const formatValue = addOrSubtractPips(currentValue, operator);
+        return {
+          ...prevState,
+          [name]: formatValue,
+        };
+      });
+    } else {
+      setCurrentHero((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+    }
   };
 
   const handleFancyButtonClick = () => {
@@ -273,16 +307,6 @@ const HeroForm = ({ hero, id }) => {
                 <div className="cardOfForm">
                   <div className="row">
                     <div className="col">
-
-                      <Form.Group controlId="archetypeSelect">
-                        <ArchetypeDropdown
-                          selectedArchetype={selectedArchetype}
-                          onSelect={handleArchetypeSelect}
-                          random={randomArchetype}
-                        >
-                          select a character template
-                        </ArchetypeDropdown>
-                      </Form.Group>
 
                       {/* Name and Species in the same row */}
                       <div className="row" style={{ padding: '13px' }}>
@@ -376,7 +400,20 @@ const HeroForm = ({ hero, id }) => {
                             onChange={handleInputChange}
                           />
                         </div>
+
                       </div>
+                      <Form.Label>Physical Description</Form.Label>
+                      <Form.Control
+                        as="textarea"
+                        placeholder="Physical Description"
+                        name="physical_description"
+                        required
+                        value={currentHero.physical_description}
+                        rows={6}
+                        style={{ minWidth: '100%' }}
+                        onChange={handleInputChange}
+                      />
+
                     </div>
                   </div>
 
@@ -384,7 +421,19 @@ const HeroForm = ({ hero, id }) => {
               </FancyCard>
               <FancyCard>
                 <div className="cardOfForm">
-                  <h4>Attributes are the things you&apos;re born with and shaped by upbringing.</h4>
+
+                  <Form.Group controlId="archetypeSelect">
+                    <ArchetypeDropdown
+                      selectedArchetype={selectedArchetype}
+                      onSelect={handleArchetypeSelect}
+                      random={randomArchetype}
+                    >
+                      select a character template
+                    </ArchetypeDropdown>
+                  </Form.Group>
+                  <div style={{ margin: '13px', border: '13px', padding: '13px' }} />
+
+                  <h4>Attributes are the things you&apos;re born with and shaped by upbringing. {diePointsOfAttributes} of 54</h4>
 
                   <div className="col" style={{ margin: '13px', border: '13px', padding: '13px' }}>
                     <div className="row">
@@ -392,36 +441,48 @@ const HeroForm = ({ hero, id }) => {
                         <Form.Label>Dexterity:<br />{formatDiceCode(currentHero.dexterity)}</Form.Label>
                         <Form.Control
                           className="form-control-sm"
-                          type="text"
+                          type="number"
                           placeholder="Dexterity"
                           name="dexterity"
                           required
                           value={currentHero.dexterity}
                           onChange={handleInputChange}
+                          step="0.1"
+                          min="0"
+                          max="99.9"
+                          style={{ width: '65px', marginRight: '13px' }}
                         />
                       </div>
                       <div className="col">
                         <Form.Label>Knowledge:<br />{formatDiceCode(currentHero.knowledge)}</Form.Label>
                         <Form.Control
                           className="form-control-sm"
-                          type="text"
+                          type="number"
                           placeholder="Knowledge"
                           name="knowledge"
                           required
                           value={currentHero.knowledge}
                           onChange={handleInputChange}
+                          step="0.1"
+                          min="0"
+                          max="99.9"
+                          style={{ width: '65px', marginRight: '13px' }}
                         />
                       </div>
                       <div className="col">
                         <Form.Label>Mechanical:<br />{formatDiceCode(currentHero.mechanical)}</Form.Label>
                         <Form.Control
                           className="form-control-sm"
-                          type="text"
+                          type="number"
                           placeholder="Mechanical"
                           name="mechanical"
                           required
                           value={currentHero.mechanical}
                           onChange={handleInputChange}
+                          step="0.1"
+                          min="0"
+                          max="99.9"
+                          style={{ width: '65px', marginRight: '13px' }}
                         />
                       </div>
                     </div>
@@ -430,36 +491,48 @@ const HeroForm = ({ hero, id }) => {
                         <Form.Label>Perception:<br />{formatDiceCode(currentHero.perception)}</Form.Label>
                         <Form.Control
                           className="form-control-sm"
-                          type="text"
+                          type="number"
                           placeholder="Perception"
                           name="perception"
                           required
                           value={currentHero.perception}
                           onChange={handleInputChange}
+                          step="0.1"
+                          min="0"
+                          max="99.9"
+                          style={{ width: '65px', marginRight: '13px' }}
                         />
                       </div>
                       <div className="col">
                         <Form.Label>Strength:<br />{formatDiceCode(currentHero.strength)}</Form.Label>
                         <Form.Control
                           className="form-control-sm"
-                          type="text"
+                          type="number"
                           placeholder="Strength"
                           name="strength"
                           required
                           value={currentHero.strength}
                           onChange={handleInputChange}
+                          step="0.1"
+                          min="0"
+                          max="99.9"
+                          style={{ width: '65px', marginRight: '13px' }}
                         />
                       </div>
                       <div className="col">
                         <Form.Label>Technical:<br />{formatDiceCode(currentHero.technical)}</Form.Label>
                         <Form.Control
                           className="form-control-sm"
-                          type="text"
+                          type="number"
                           placeholder="Technical"
                           name="technical"
                           required
                           value={currentHero.technical}
                           onChange={handleInputChange}
+                          step="0.1"
+                          min="0"
+                          max="99.9"
+                          style={{ width: '65px', marginRight: '13px' }}
                         />
                       </div>
                     </div>
@@ -479,12 +552,16 @@ const HeroForm = ({ hero, id }) => {
                           </Form.Label>
                           <Form.Control
                             className="form-control-sm"
-                            type="text"
+                            type="number"
                             placeholder="Force Control"
                             name="force_control"
                             required
                             value={currentHero.force_control}
                             onChange={handleInputChange}
+                            step="0.1"
+                            min="0"
+                            max="99.9"
+                            style={{ width: '65px', marginRight: '13px' }}
                           />
                         </div>
                         <div className="col">
@@ -494,12 +571,16 @@ const HeroForm = ({ hero, id }) => {
                           </Form.Label>
                           <Form.Control
                             className="form-control-sm"
-                            type="text"
+                            type="number"
                             placeholder="Force Sense"
                             name="force_sense"
                             required
                             value={currentHero.force_sense}
                             onChange={handleInputChange}
+                            step="0.1"
+                            min="0"
+                            max="99.9"
+                            style={{ width: '65px', marginRight: '13px' }}
                           />
                         </div>
                         <div className="col">
@@ -509,12 +590,16 @@ const HeroForm = ({ hero, id }) => {
                           </Form.Label>
                           <Form.Control
                             className="form-control-sm"
-                            type="text"
+                            type="number"
                             placeholder="Force Alter"
                             name="force_alter"
                             required
                             value={currentHero.force_alter}
                             onChange={handleInputChange}
+                            step="0.1"
+                            min="0"
+                            max="99.9"
+                            style={{ width: '65px', marginRight: '13px' }}
                           />
                         </div>
                       </div>
@@ -570,19 +655,12 @@ const HeroForm = ({ hero, id }) => {
               </FancyCard>
 
               <FancyCard>
+
+                <FancyButton onClick={toggleIsNPC} className="ml-2 mt-3">
+                  {currentHero.NPC ? 'Is a NPC' : 'Is a PC'}
+                </FancyButton>
                 <div className="cardOfForm">
                   <div className="col">
-                    <Form.Label>Physical Description</Form.Label>
-                    <Form.Control
-                      as="textarea"
-                      placeholder="Physical Description"
-                      name="physical_description"
-                      required
-                      value={currentHero.physical_description}
-                      rows={6}
-                      style={{ minWidth: '100%' }}
-                      onChange={handleInputChange}
-                    />
 
                     <Form.Label>Objectives</Form.Label>
 
@@ -640,12 +718,7 @@ const HeroForm = ({ hero, id }) => {
                 <FancyCardLong>
                   <div className="col">
                     <div className="col-auto">
-                      <FancyButton
-                        onClick={toggleIsNPC}
-                        className="ml-2 mt-3"
-                      >
-                        {currentHero.NPC ? 'Is a NPC' : 'Is not a NPC'}
-                      </FancyButton>
+
                       <h5 style={{ display: 'inline-block', marginLeft: '15px' }}>
                         {currentHero.NPC ? 'Character is an NPC, click the button make a Character' : 'Character is not an NPC, click the button make an NPC'}
                       </h5>
