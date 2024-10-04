@@ -80,7 +80,9 @@ const HeroForm = ({ hero, id }) => {
       const archetypeObject = archetypes.find((a) => a.id === validatedHero.archetype);
       setSelectedArchetype(archetypeObject || null);
     }
-  }, [hero]);
+  // fix this hack...
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hero, archetypes]);
 
   // trying to useMemo to avoid bugs on form page reffreshes.
   const memoizedCurrentHero = useMemo(() => currentHero, [currentHero]);
