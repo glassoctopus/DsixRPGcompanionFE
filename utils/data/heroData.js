@@ -44,9 +44,8 @@ const getHeros = () => new Promise((resolve, reject) => {
   })
     .then((response) => response.json())
     .then((data) => {
-      // Assuming the response is in the format: { "They are": [/* array of heroes */] }
       if (data && Array.isArray(data['They are'])) {
-        resolve(data['They are']); // Resolve with the array under "They are"
+        resolve(data['They are']);// my retuns have custom messages, this is how tro get to the data.
       } else {
         reject(new Error('Invalid response format'));
       }

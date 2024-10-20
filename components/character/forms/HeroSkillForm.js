@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import { formatDiceCode, addOrSubtractPips } from '../../../utils/d6LogicForUI';
 import { useAuth } from '../../../utils/context/authContext';
-import { useSkills } from '../../../utils/context/skillContext';
+import { getSkills } from '../../../utils/data/skillData';
 import { getSingleHero, updateHeroSkills, createHeroSkills } from '../../../utils/data/heroData';
 import SkillSpecializationForm from './SkillSpecializationForm';
 import FancyCardLong from '../cards/FancyCardLong';
@@ -11,7 +11,7 @@ import FancyButton from '../../FancyButton';
 
 const HeroSkillForm = ({ id }) => {
   const { user } = useAuth();
-  const { skills } = useSkills();
+  const [skills, setSkills] = useState({});
   const [hero, setHero] = useState(null);
   const [heroSkills, setHeroSkills] = useState({});
   const [attributeValues, setAttributeValues] = useState({});
@@ -21,6 +21,8 @@ const HeroSkillForm = ({ id }) => {
   const [showSpecializationForm, setShowSpecializationForm] = useState(false);
   const router = useRouter();
   const formRef = useRef(null);
+  const [loading, setLoading] = useState(true);
+  const [pageError, setPaqeError] = useState(null);
 
   useEffect(() => {
     if (id && !hero) {
@@ -59,7 +61,23 @@ const HeroSkillForm = ({ id }) => {
       };
       fetchHero();
     }
+    const fetchSkills = async () => {
+      try {
+        const fetchedSkills = await getSkills();
+        setSkills(fetchedSkills);
+      } catch (err) {
+        console.error(err);
+        setPaqeError('Failed to load skills');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSkills();
   }, [id, hero]);
+
+  if (loading) return <p>Loading skills...</p>;
+  if (pageError) return <p>{pageError}</p>;
 
   const handleFancyButtonClick = () => {
     if (formRef.current) {
@@ -196,7 +214,8 @@ const HeroSkillForm = ({ id }) => {
 
   if (!hero) return <div>Loading...</div>;
 
-  const attributes = [...new Set(skills.map((skill) => skill.attribute.toLowerCase()))];
+  // const attributes = [...new Set(skills.map((skill) => skill.attribute.toLowerCase()))];
+  const attributes = ['dexterity', 'knowledge', 'mechanical', 'perception', 'strength', 'technical'];
 
   return (
     <div>

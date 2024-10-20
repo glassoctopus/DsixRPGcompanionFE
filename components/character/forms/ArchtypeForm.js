@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import { useState, useEffect, useRef } from 'react';
 import { Form, FormLabel } from 'react-bootstrap';
 import {
-  createArchetype, updateArchetype,
+  createArchetype, updateArchetype, getSingleArchetype,
 } from '../../../utils/data/archetypeData';
-import { useArchetypes } from '../../../utils/context/archetypeContext';
 import FancyButton from '../../FancyButton';
 import FancyCard from '../cards/FancyCard';
 
@@ -35,7 +34,7 @@ const ArchetypeForm = ({ archetype, id }) => {
   const [currentArchetype, setCurrentArchetype] = useState(initialState);
   const router = useRouter();
   const { id: routeId } = router.query;
-  const { getArchetypeById } = useArchetypes();
+
   const formRef = useRef(null);
 
   useEffect(() => {
@@ -63,7 +62,7 @@ const ArchetypeForm = ({ archetype, id }) => {
         archetype_source: archetype.archetype_source || '',
       });
     } else if (archetypeId) {
-      const contextArchetype = getArchetypeById(archetypeId);
+      const contextArchetype = getSingleArchetype(archetypeId);
       if (contextArchetype) {
         setCurrentArchetype({
           archetype_name: contextArchetype.archetype_name || '',
@@ -88,7 +87,7 @@ const ArchetypeForm = ({ archetype, id }) => {
         });
       }
     }
-  }, [archetype, id, routeId, getArchetypeById]);
+  }, [archetype, id, routeId, getSingleArchetype]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

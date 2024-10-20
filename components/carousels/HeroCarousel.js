@@ -1,10 +1,30 @@
-import React from 'react';
-import { useHeros } from '../../utils/context/heroContext';
-import HeroOverviewCard from '../character/cards/HeroOverviewCard'; // Adjust the path based on your directory structure
+import React, { useEffect, useState } from 'react';
+import { getHeros } from '../../utils/data/heroData';
+import HeroOverviewCard from '../character/cards/HeroOverviewCard';
 
 const HeroCarousel = () => {
-  const { heros } = useHeros();
+  const [heros, setHeros] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
+  useEffect(() => {
+    const getAllHeros = async () => {
+      try {
+        const grabbedHeros = await getHeros();
+        setHeros(grabbedHeros);
+      } catch (err) {
+        console.error(err);
+        setError('Failed to load heros');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getAllHeros();
+  }, []);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>{error}</p>;
   // Ensure heros is always an array
   if (!Array.isArray(heros)) {
     return <p>Loading heroes...</p>;
