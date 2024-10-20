@@ -30,6 +30,12 @@ const NavBar = () => (
           <Link passHref href="/skills">
             <Nav.Link>Skill DB</Nav.Link>
           </Link>
+          <Link passHref href="/heros/species/">
+            <Nav.Link>Species</Nav.Link>
+          </Link>
+          <Link passHref href="/heros/specialAbilities/">
+            <Nav.Link>Special Abilities</Nav.Link>
+          </Link>
           <Link passHref href="/groups">
             <Nav.Link>Groups</Nav.Link>
           </Link>

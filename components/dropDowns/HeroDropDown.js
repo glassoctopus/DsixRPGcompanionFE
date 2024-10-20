@@ -1,18 +1,39 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useHeros } from '../../utils/context/heroContext';
+import { getHeros } from '../../utils/data/heroData';
 
 const HeroDropdown = ({ selectedHero, onSelect }) => {
-  const { heroes } = useHeros();
+  const [heros, setHeros] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const getAllHeros = async () => {
+      try {
+        const grabbedHeros = await getHeros();
+        setHeros(grabbedHeros);
+      } catch (err) {
+        console.error(err);
+        setError('Failed to load heros');
+      } finally {
+        setLoading(false);
+      }
+    };
+    getAllHeros();
+  }, []);
 
   const handleChange = (event) => {
     const selectedId = Number(event.target.value);
-    const selectedHeroObject = heroes.find((hero) => hero.id === selectedId);
+    const selectedHeroObject = heros.find((hero) => hero.id === selectedId);
     onSelect(selectedHeroObject); // Pass the full object to the onSelect handler
   };
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>{error}</p>;
 
   return (
     <div>
+      if (loading) return <p>Loading...</p>;
+      if (error) return <p>{error}</p>;
       <label htmlFor="hero-select" style={{ marginBottom: '10px', display: 'block' }}>
         Select a Hero:
       </label>
@@ -36,7 +57,7 @@ const HeroDropdown = ({ selectedHero, onSelect }) => {
         }}
       >
         <option value="">--Choose a Hero--</option>
-        {heroes.map((hero) => (
+        {heros.map((hero) => (
           <option key={hero.id} value={hero.id}>
             {hero.name}
           </option>
