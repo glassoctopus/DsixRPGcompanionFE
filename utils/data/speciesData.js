@@ -30,13 +30,13 @@ const getSingleSpecies = (id) => new Promise((resolve, reject) => {
     })
     .then((data) => resolve(data))
     .catch((error) => {
-      console.error('Error fetching single Skill:', error);
+      console.error('Error fetching single species:', error);
       reject(error);
     });
 });
 
 const getSpecies = () => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/skills`, {
+  fetch(`${endpoint}/species`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -48,7 +48,7 @@ const getSpecies = () => new Promise((resolve, reject) => {
 });
 
 const updateSpecies = (id, species) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/skills/${id}`, {
+  fetch(`${endpoint}/species/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -64,7 +64,7 @@ const updateSpecies = (id, species) => new Promise((resolve, reject) => {
       resolve(data);
     })
     .catch((error) => {
-      console.error('Error updating Skill:', error);
+      console.error('Error updating species:', error);
       reject(error);
     });
 });

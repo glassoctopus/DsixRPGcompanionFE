@@ -52,17 +52,29 @@ const Species = () => {
                 }}
               >
                 <SpeciesCard
-                  uid={species.uid}
-                  image={species.image}
+                  id={species.id}
                   name={species.name}
                   speciesName={species.species_name}
-                  homeworld={species.species_homeworld}
-                  height={species.species_average_height}
-                  weight={species.species_average_weight}
-                  forceSensitive={species.species_force_sensitive}
-                  physicalDescription={species.species_physical_description}
-                  personality={species.species_personality}
-                  background={species.species_background}
+                  speciesHomeworld={species.species_homeworld}
+                  speciesAverageHeight={species.species_average_height}
+                  speciesAverageWeight={species.species_average_weight}
+                  speciesForceSensitive={species.species_force_sensitive}
+                  speciesPhysicalDescription={species.species_physical_description}
+                  speciesPersonality={species.species_personality}
+                  speciesBackground={species.species_background}
+                  speciesDexterityModifier={species.species_dexterity_modifer}
+                  speciesKnowledge={species.species_knowledge}
+                  speciesMechanical={species.species_mechanical}
+                  speciesPerception={species.species_perception}
+                  speciesStrength={species.species_strength}
+                  speciesTechnical={species.species_technical}
+                  speciesForceControl={species.species_force_control}
+                  speciesForceSense={species.species_force_sense}
+                  speciesForceAlter={species.species_force_alter}
+                  speciesForcePoints={species.species_force_points}
+                  speciesDarkSidePoints={species.species_dark_side_points}
+                  speciesForceStrength={species.species_force_strength}
+                  playable={species.playable}
                 />
               </div>
             ))

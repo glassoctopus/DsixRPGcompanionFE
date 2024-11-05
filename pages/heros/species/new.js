@@ -7,8 +7,17 @@ const NewSpecies = () => {
   return (
     <div className="hero-container">
       <div className="hero-content">
-        <h2>Create a new character Species As an admin or GM only</h2>
-        <SpeciesForm user={user} />
+        <div style={{
+          margin: '13px',
+          border: '13px',
+          padding: '13px',
+          maxHeight: '666px',
+          overflowY: 'auto',
+        }}
+        >
+          <h2>Create a new character Species As an admin or GM only</h2>
+          <SpeciesForm user={user} />
+        </div>
       </div>
     </div>
   );
