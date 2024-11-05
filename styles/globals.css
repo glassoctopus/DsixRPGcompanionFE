@@ -359,3 +359,8 @@ input, textarea {
   box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.8);
   text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #fff;
 }
+
+form input[type="number"] {
+  width: 69px;
+  margin-right: 13px;
+}

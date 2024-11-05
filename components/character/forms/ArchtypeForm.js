@@ -62,32 +62,32 @@ const ArchetypeForm = ({ archetype, id }) => {
         archetype_source: archetype.archetype_source || '',
       });
     } else if (archetypeId) {
-      const contextArchetype = getSingleArchetype(archetypeId);
-      if (contextArchetype) {
+      const retrievedArchetype = getSingleArchetype(archetypeId);
+      if (retrievedArchetype) {
         setCurrentArchetype({
-          archetype_name: contextArchetype.archetype_name || '',
-          archetype_for_NPC: contextArchetype.archetype_for_NPC ?? true,
-          archetype_force_sensitive: contextArchetype.archetype_force_sensitive ?? false,
-          archetype_dexterity: contextArchetype.archetype_dexterity || 0,
-          archetype_knowledge: contextArchetype.archetype_knowledge || 0,
-          archetype_mechanical: contextArchetype.archetype_mechanical || 0,
-          archetype_perception: contextArchetype.archetype_perception || 0,
-          archetype_strength: contextArchetype.archetype_strength || 0,
-          archetype_technical: contextArchetype.archetype_technical || 0,
-          archetype_force_control: contextArchetype.archetype_force_control || 0,
-          archetype_force_sense: contextArchetype.archetype_force_sense || 0,
-          archetype_force_alter: contextArchetype.archetype_force_alter || 0,
-          archetype_starting_credits: contextArchetype.archetype_starting_credits || 0,
-          archetype_personality: contextArchetype.archetype_personality || '',
-          archetype_background: contextArchetype.archetype_background || '',
-          archetype_objectives: contextArchetype.archetype_objectives || '',
-          archetype_a_quote: contextArchetype.archetype_a_quote || '',
-          archetype_game_notes: contextArchetype.archetype_game_notes || '',
-          archetype_source: contextArchetype.archetype_source || '',
+          archetype_name: retrievedArchetype.archetype_name || '',
+          archetype_for_NPC: retrievedArchetype.archetype_for_NPC ?? true,
+          archetype_force_sensitive: retrievedArchetype.archetype_force_sensitive ?? false,
+          archetype_dexterity: retrievedArchetype.archetype_dexterity || 0,
+          archetype_knowledge: retrievedArchetype.archetype_knowledge || 0,
+          archetype_mechanical: retrievedArchetype.archetype_mechanical || 0,
+          archetype_perception: retrievedArchetype.archetype_perception || 0,
+          archetype_strength: retrievedArchetype.archetype_strength || 0,
+          archetype_technical: retrievedArchetype.archetype_technical || 0,
+          archetype_force_control: retrievedArchetype.archetype_force_control || 0,
+          archetype_force_sense: retrievedArchetype.archetype_force_sense || 0,
+          archetype_force_alter: retrievedArchetype.archetype_force_alter || 0,
+          archetype_starting_credits: retrievedArchetype.archetype_starting_credits || 0,
+          archetype_personality: retrievedArchetype.archetype_personality || '',
+          archetype_background: retrievedArchetype.archetype_background || '',
+          archetype_objectives: retrievedArchetype.archetype_objectives || '',
+          archetype_a_quote: retrievedArchetype.archetype_a_quote || '',
+          archetype_game_notes: retrievedArchetype.archetype_game_notes || '',
+          archetype_source: retrievedArchetype.archetype_source || '',
         });
       }
     }
-  }, [archetype, id, routeId, getSingleArchetype]);
+  }, [archetype, id, routeId]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
