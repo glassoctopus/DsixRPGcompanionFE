@@ -83,10 +83,10 @@ const HeroForm = ({ hero, id }) => {
     }
   };
 
-  useEffect(() => {
-    console.log('Archetypes updated:', archetypes);
-    console.log('Species updated:', species);
-  }, [archetypes, species]);
+  // useEffect(() => {
+  //   console.log('Archetypes updated:', archetypes);
+  //   console.log('Species updated:', species);
+  // }, [archetypes, species]);
 
   useEffect(() => {
     setArchetypePool();
