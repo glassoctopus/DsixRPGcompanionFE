@@ -40,6 +40,7 @@ const HeroById = () => {
             name={aHero.name}
             archetype={aHero.archetype}
             species={aHero.species}
+            speciesName={aHero.species_name}
             homeworld={aHero.homeworld}
             gender={aHero.gender}
             age={aHero.age}

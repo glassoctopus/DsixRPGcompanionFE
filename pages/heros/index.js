@@ -82,6 +82,7 @@ const Hero = () => {
                   archetype={hero.archetype}
                   archetypeName={hero.archetype_name}
                   species={hero.species}
+                  speciesName={hero.species_name}
                   homeworld={hero.homeworld}
                   gender={hero.gender}
                   age={hero.age}

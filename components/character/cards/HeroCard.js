@@ -15,6 +15,7 @@ const HeroCard = ({
   archetype,
   archetypeName,
   species,
+  speciesName,
   homeworld,
   gender,
   age,
@@ -81,7 +82,7 @@ const HeroCard = ({
         {user.admin ? uid !== null && <div><strong>uid:</strong> {uid}</div> : <div />}
 
         <div style={{ display: 'flex', gap: '10px' }}>
-          {species && <p><strong>Species:</strong> {species}</p>}
+          {species && <p><strong>Species:</strong> {speciesName}</p>}
           {homeworld && <p><strong>Homeworld:</strong> {homeworld}</p>}
         </div>
         <div style={{ display: 'flex', gap: '10px' }}>
@@ -140,7 +141,8 @@ HeroCard.propTypes = {
   name: PropTypes.string,
   archetype: PropTypes.number,
   archetypeName: PropTypes.string,
-  species: PropTypes.string,
+  species: PropTypes.number,
+  speciesName: PropTypes.string,
   homeworld: PropTypes.string,
   gender: PropTypes.string,
   age: PropTypes.number,
@@ -176,7 +178,8 @@ HeroCard.defaultProps = {
   name: '',
   archetype: 0,
   archetypeName: '',
-  species: '',
+  species: 0,
+  speciesName: '',
   homeworld: '',
   gender: '',
   age: null,
