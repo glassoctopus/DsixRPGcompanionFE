@@ -51,8 +51,8 @@ const SpeciesForm = ({ species, id }) => {
         image: species.image || '',
         species_name: species.species_name || '',
         species_homeworld: species.species_homeworld || '',
-        species_average_height: species.species_average_height || '',
-        species_average_weight: species.species_average_weight || '',
+        species_average_height: species.species_average_height || 0,
+        species_average_weight: species.species_average_weight || 0,
         species_force_sensitive: species.species_force_sensitive ?? false,
         species_dexterity: species.species_dexterity || 0,
         species_knowledge: species.species_knowledge || 0,
@@ -113,6 +113,13 @@ const SpeciesForm = ({ species, id }) => {
     }));
   };
 
+  const handleFancyButtonClick = () => {
+    if (formRef.current) {
+      const event = new Event('submit', { cancelable: true, bubbles: true });
+      formRef.current.dispatchEvent(event);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -133,6 +140,20 @@ const SpeciesForm = ({ species, id }) => {
           console.error('Error updating this archetype:', error);
         });
     }
+  };
+
+  const toggleIsPlayable = () => {
+    setCurrentSpecies((prevState) => ({
+      ...prevState,
+      playable: !prevState.playable,
+    }));
+  };
+
+  const toggleForceSensitive = () => {
+    setCurrentSpecies((prevState) => ({
+      ...prevState,
+      species_force_sensitive: !prevState.species_force_sensitive,
+    }));
   };
 
   return (
@@ -169,14 +190,9 @@ const SpeciesForm = ({ species, id }) => {
                     />
                   </div>
                   <div>
-                    <label htmlFor="playable">Playable:</label>
-                    <input
-                      type="checkbox"
-                      id="playable"
-                      name="playable"
-                      checked={currentSpecies.playable}
-                      onChange={handleInputChange}
-                    />
+                    <FancyButton onClick={toggleIsPlayable} className="ml-2 mt-3">
+                      {currentSpecies.playable ? 'Is a NOT playable race' : 'Is a playable race'}
+                    </FancyButton>
                   </div>
                   <div>
                     <label htmlFor="image">Image URL:</label>
@@ -366,14 +382,13 @@ const SpeciesForm = ({ species, id }) => {
           <FancyCardLong>
             <div className="row">
               <div className="col">
-                <label htmlFor="species_force_sensitive">Force Sensitive:</label>
-                <input
-                  type="checkbox"
-                  id="species_force_sensitive"
-                  name="species_force_sensitive"
-                  checked={currentSpecies.species_force_sensitive}
-                  onChange={handleInputChange}
-                />
+                <FancyButton
+                  type="button"
+                  onClick={toggleForceSensitive}
+                  className="mt-3"
+                >
+                  {currentSpecies.species_force_sensitive ? 'Is Force Sensitive' : 'Is not Force Sensitive'}
+                </FancyButton>
               </div>
               <div className="col">
                 <label htmlFor="species_force_control">Force Control:</label>
@@ -434,7 +449,9 @@ const SpeciesForm = ({ species, id }) => {
             </div>
           </FancyCardLong>
 
-          <FancyButton type="submit">Submit</FancyButton>
+          <FancyButton onClick={handleFancyButtonClick}>
+            Commit Changes
+          </FancyButton>
         </div>
       </FancyCardLong>
     </form>
@@ -449,8 +466,8 @@ SpeciesForm.propTypes = {
     image: PropTypes.string,
     species_name: PropTypes.string,
     species_homeworld: PropTypes.string,
-    species_average_height: PropTypes.string,
-    species_average_weight: PropTypes.string,
+    species_average_height: PropTypes.number,
+    species_average_weight: PropTypes.number,
     species_force_sensitive: PropTypes.bool,
     species_dexterity: PropTypes.number,
     species_knowledge: PropTypes.number,

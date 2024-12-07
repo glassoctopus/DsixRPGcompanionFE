@@ -7,11 +7,12 @@ import { Form } from 'react-bootstrap';
 import { useAuth } from '../../../utils/context/authContext';
 import { createHero, updateHero } from '../../../utils/data/heroData';
 import ArchetypeDropdown from '../../dropDowns/ArchetypeDropDown';
+import SpeciesDropDown from '../../dropDowns/SpeciesDropDown';
 import { getArchetypes } from '../../../utils/data/archetypeData';
+import { getSpecies } from '../../../utils/data/speciesData';
 import { formatDiceCode, addOrSubtractPips, assignPointsForDieCode } from '../../../utils/d6LogicForUI';
 import FancyButton from '../../FancyButton';
 import randomName from '../../../utils/names';
-import randomSpecies from '../../../utils/species';
 import randomPlanet from '../../../utils/planets';
 import FancyCard from '../cards/FancyCard';
 import FancyCardLong from '../cards/FancyCardLong';
@@ -55,18 +56,42 @@ const HeroForm = ({ hero, id }) => {
   const [currentHero, setCurrentHero] = useState(initialState);
   const [selectedArchetype, setSelectedArchetype] = useState(null);
   const [archetypes, setArchetypes] = useState([]);
+  const [selectedSpecies, setSelectedSpecies] = useState(null);
+  const [species, setSpecies] = useState([]);
   const [planetDetails, setPlanetDetails] = useState("The Character's Homeworld");
   const router = useRouter();
   const { user } = useAuth();
   const formRef = useRef(null);
   const [diePointsOfAttributes, setDiePointsOfAttributes] = useState(0);
 
+  const archetypesFetched = useRef(false);
+  const speciesFetched = useRef(false);
+
   const setArchetypePool = async () => {
-    if (archetypes.length === 0) {
+    if (!archetypesFetched.current) {
+      archetypesFetched.current = true;
       const fetchedArchetypes = await getArchetypes();
       setArchetypes(fetchedArchetypes);
     }
   };
+
+  const setSpeciesPool = async () => {
+    if (!speciesFetched.current) {
+      speciesFetched.current = true;
+      const fetchedSpecies = await getSpecies();
+      setSpecies(fetchedSpecies);
+    }
+  };
+
+  // useEffect(() => {
+  //   console.log('Archetypes updated:', archetypes);
+  //   console.log('Species updated:', species);
+  // }, [archetypes, species]);
+
+  useEffect(() => {
+    setArchetypePool();
+    setSpeciesPool();
+  }, []);
 
   useEffect(() => {
     if (hero) {
@@ -75,18 +100,24 @@ const HeroForm = ({ hero, id }) => {
         id: typeof hero.id === 'number' ? hero.id : 0,
         user: typeof hero.user === 'string' ? hero.user : '',
       };
-      setArchetypePool();
       setCurrentHero(validatedHero);
-      const archetypeObject = archetypes.find((a) => a.id === validatedHero.archetype);
-      setSelectedArchetype(archetypeObject || null);
+
+      if (archetypes.length > 0) {
+        const archetypeObject = archetypes.find((a) => a.id === validatedHero.archetype);
+        setSelectedArchetype(archetypeObject || null);
+      }
+
+      if (species.length > 0) {
+        const speciesObject = species.find((s) => s.id === validatedHero.species);
+        setSelectedSpecies(speciesObject || null);
+      }
     }
-  // fix this hack...
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hero, archetypes]);
+  }, [hero, archetypes.length, species.length, archetypes, species]);
 
   // trying to useMemo to avoid bugs on form page reffreshes.
   const memoizedCurrentHero = useMemo(() => currentHero, [currentHero]);
   const memoizedSelectedArchetype = useMemo(() => selectedArchetype, [selectedArchetype]);
+  const memoizedSelectedSpecies = useMemo(() => selectedSpecies, [selectedSpecies]);
 
   const diePointAttributeTotal = () => {
     const dex = assignPointsForDieCode(currentHero.dexterity);
@@ -141,20 +172,61 @@ const HeroForm = ({ hero, id }) => {
     }));
   };
 
+  const handleSpeciesSelect = (newSpecies) => {
+    if (!newSpecies) return;
+
+    const confirmSelection = window.confirm(
+      `Are you sure you want to select ${newSpecies.Species_name}? This will override certain fields.`,
+    );
+
+    if (confirmSelection) {
+      setSelectedSpecies(newSpecies);
+
+      setCurrentHero((prevSpecies) => ({
+        ...prevSpecies,
+        species: newSpecies.id,
+        playable: newSpecies.playable || prevSpecies.playable,
+        image: newSpecies.image || prevSpecies.image,
+        species_name: newSpecies.species_name || prevSpecies.species_name,
+        homeworld: newSpecies.species_homeworld || prevSpecies.species_homeworld,
+        // species_average_height: newSpecies.species_average_height || prevSpecies.species_average_height,
+        // species_average_weight: newSpecies.species_average_weight || prevSpecies.species_average_weight,
+        force_sensitive: newSpecies.species_force_sensitive ?? prevSpecies.force_sensitive,
+        species_dexterity: newSpecies.species_dexterity || prevSpecies.species_dexterity,
+        species_knowledge: newSpecies.species_knowledge || prevSpecies.species_knowledge,
+        species_mechanical: newSpecies.species_mechanical || prevSpecies.species_mechanical,
+        species_perception: newSpecies.species_perception || prevSpecies.species_perception,
+        species_strength: newSpecies.species_strength || prevSpecies.species_strength,
+        species_technical: newSpecies.species_technical || prevSpecies.species_technical,
+        species_force_control: newSpecies.species_force_control || prevSpecies.species_force_control,
+        species_force_sense: newSpecies.species_force_sense || prevSpecies.species_force_sense,
+        species_force_alter: newSpecies.species_force_alter || prevSpecies.species_force_alter,
+        species_force_points: newSpecies.species_force_points || prevSpecies.species_force_points,
+        species_dark_side_points: newSpecies.species_dark_side_points || prevSpecies.species_dark_side_points,
+        physical_description: newSpecies.species_physical_description || prevSpecies.species_physical_description,
+        personality: newSpecies.species_personality || prevSpecies.species_personality,
+        species_force_strength: newSpecies.species_force_strength || prevSpecies.species_force_strength,
+      }));
+    } else {
+      alert('Species selection canceled');
+    }
+  };
+
+  const randomSpecies = () => {
+    const SpeciesRoll = Math.floor(Math.random() * species.length);
+    const currentSelectedSpecies = species[SpeciesRoll];
+    handleSpeciesSelect(species.find((aSpecies) => aSpecies.id === currentHero.Species));
+    setCurrentHero((prevFormState) => ({
+      ...prevFormState,
+      species: currentSelectedSpecies.id,
+    }));
+  };
+
   const randomNameForForm = () => {
     const nameRoll = randomName();
     setCurrentHero((prevFormState) => ({
       ...prevFormState,
       name: nameRoll,
-    }));
-  };
-
-  const randomSpeciesForForm = () => {
-    const [speciesRoll, physDescriptionRoll] = randomSpecies();
-    setCurrentHero((prevFormState) => ({
-      ...prevFormState,
-      species: speciesRoll,
-      physical_description: physDescriptionRoll,
     }));
   };
 
@@ -194,7 +266,7 @@ const HeroForm = ({ hero, id }) => {
   const randomHero = () => {
     randomArchetype();
     randomNameForForm();
-    randomSpeciesForForm();
+    randomSpecies();
     randomHomeworld();
     randomHeight();
     randomWeight();
@@ -239,6 +311,7 @@ const HeroForm = ({ hero, id }) => {
     const updatedHero = {
       ...memoizedCurrentHero,
       archetype: memoizedSelectedArchetype?.id ?? memoizedCurrentHero.archetype,
+      species: memoizedSelectedSpecies?.id ?? memoizedCurrentHero.species,
       user: user.id,
       uid: user.id + memoizedCurrentHero.name + Math.floor(1000000 + Math.random() * 9000000),
     };
@@ -323,16 +396,15 @@ const HeroForm = ({ hero, id }) => {
                           />
                         </div>
                         <div className="col">
-                          <Form.Label>Species</Form.Label><button type="button" className="siteButton" onClick={randomSpeciesForForm}>roll a species</button>
-                          <Form.Control
-                            className="form-control-sm"
-                            type="text"
-                            placeholder="Species"
-                            name="species"
-                            required
-                            value={currentHero.species || ''}
-                            onChange={handleInputChange}
-                          />
+                          <Form.Group controlId="speciesSelect">
+                            <SpeciesDropDown
+                              selectedSpecies={selectedSpecies}
+                              onSelect={handleSpeciesSelect}
+                              random={randomSpecies}
+                            >
+                              select Species
+                            </SpeciesDropDown>
+                          </Form.Group>
 
                         </div>
                       </div>
@@ -449,7 +521,7 @@ const HeroForm = ({ hero, id }) => {
                           onChange={handleInputChange}
                           step="0.1"
                           min="0"
-                          max="99.9"
+                          max="20.9"
                           style={{ width: '65px', marginRight: '13px' }}
                         />
                       </div>
@@ -465,7 +537,7 @@ const HeroForm = ({ hero, id }) => {
                           onChange={handleInputChange}
                           step="0.1"
                           min="0"
-                          max="99.9"
+                          max="20.9"
                           style={{ width: '65px', marginRight: '13px' }}
                         />
                       </div>
@@ -481,7 +553,7 @@ const HeroForm = ({ hero, id }) => {
                           onChange={handleInputChange}
                           step="0.1"
                           min="0"
-                          max="99.9"
+                          max="20.9"
                           style={{ width: '65px', marginRight: '13px' }}
                         />
                       </div>
@@ -499,7 +571,7 @@ const HeroForm = ({ hero, id }) => {
                           onChange={handleInputChange}
                           step="0.1"
                           min="0"
-                          max="99.9"
+                          max="20.9"
                           style={{ width: '65px', marginRight: '13px' }}
                         />
                       </div>
@@ -515,7 +587,7 @@ const HeroForm = ({ hero, id }) => {
                           onChange={handleInputChange}
                           step="0.1"
                           min="0"
-                          max="99.9"
+                          max="20.9"
                           style={{ width: '65px', marginRight: '13px' }}
                         />
                       </div>
@@ -531,14 +603,15 @@ const HeroForm = ({ hero, id }) => {
                           onChange={handleInputChange}
                           step="0.1"
                           min="0"
-                          max="99.9"
+                          max="20.9"
                           style={{ width: '65px', marginRight: '13px' }}
                         />
                       </div>
                     </div>
 
                     {currentHero.force_sensitive && (
-                    <div style={{ color: 'rgb(216, 223, 233)', textShadow: '2px 2px 3px black' }}>
+                    // <div style={{ color: 'rgb(216, 223, 233)', textShadow: '2px 2px 3px black' }}>
+                    <div>
                       <div className="row justify-content-center">
                         <div className="col-auto text-center">
                           <Form.Label>Force Skills</Form.Label>
@@ -560,7 +633,7 @@ const HeroForm = ({ hero, id }) => {
                             onChange={handleInputChange}
                             step="0.1"
                             min="0"
-                            max="99.9"
+                            max="20.9"
                             style={{ width: '65px', marginRight: '13px' }}
                           />
                         </div>
@@ -579,7 +652,7 @@ const HeroForm = ({ hero, id }) => {
                             onChange={handleInputChange}
                             step="0.1"
                             min="0"
-                            max="99.9"
+                            max="20.9"
                             style={{ width: '65px', marginRight: '13px' }}
                           />
                         </div>
@@ -598,7 +671,7 @@ const HeroForm = ({ hero, id }) => {
                             onChange={handleInputChange}
                             step="0.1"
                             min="0"
-                            max="99.9"
+                            max="20.9"
                             style={{ width: '65px', marginRight: '13px' }}
                           />
                         </div>
@@ -607,7 +680,227 @@ const HeroForm = ({ hero, id }) => {
                     )}
 
                   </div>
+                  <div style={{ margin: '13px', border: '13px', padding: '13px' }}>
+                    {selectedSpecies && (
+                    <div>
+                      <div className="row justify-content-center">
+                        <div className="col-auto text-center">
+                          <Form.Label>Species-Specific Attributes</Form.Label>
+                        </div>
+                      </div>
+                      <div style={{ margin: '13px', border: '13px', padding: '13px' }} />
+                      <div className="row">
+                        {/* Species Dexterity */}
+                        {selectedSpecies.species_dexterity != null && selectedSpecies.species_dexterity !== 0 && (
+                        <div className="col">
+                          <Form.Label>
+                            Dexterity:<br />
+                            {formatDiceCode(selectedSpecies.species_dexterity)}
+                          </Form.Label>
+                          <Form.Control
+                            className="form-control-sm"
+                            type="number"
+                            placeholder="Dexterity"
+                            name="species_dexterity"
+                            required
+                            value={selectedSpecies.species_dexterity}
+                            onChange={handleInputChange}
+                            step="0.1"
+                            min="0"
+                            max="20.9"
+                            style={{ width: '65px', marginRight: '13px' }}
+                          />
+                        </div>
+                        )}
+                        {/* Species Knowledge */}
+                        {selectedSpecies.species_knowledge != null && selectedSpecies.species_knowledge !== 0 && (
+                        <div className="col">
+                          <Form.Label>
+                            Knowledge:<br />
+                            {formatDiceCode(selectedSpecies.species_knowledge)}
+                          </Form.Label>
+                          <Form.Control
+                            className="form-control-sm"
+                            type="number"
+                            placeholder="Knowledge"
+                            name="species_knowledge"
+                            required
+                            value={selectedSpecies.species_knowledge}
+                            onChange={handleInputChange}
+                            step="0.1"
+                            min="0"
+                            max="20.9"
+                            style={{ width: '65px', marginRight: '13px' }}
+                          />
+                        </div>
+                        )}
+                        {/* Species Mechanical */}
+                        {selectedSpecies.species_mechanical != null && selectedSpecies.species_mechanical !== 0 && (
+                        <div className="col">
+                          <Form.Label>
+                            Mechanical:<br />
+                            {formatDiceCode(selectedSpecies.species_mechanical)}
+                          </Form.Label>
+                          <Form.Control
+                            className="form-control-sm"
+                            type="number"
+                            placeholder="Mechanical"
+                            name="species_mechanical"
+                            required
+                            value={selectedSpecies.species_mechanical}
+                            onChange={handleInputChange}
+                            step="0.1"
+                            min="0"
+                            max="20.9"
+                            style={{ width: '65px', marginRight: '13px' }}
+                          />
+                        </div>
+                        )}
+                      </div>
 
+                      <div className="row">
+                        {/* Species Perception */}
+                        {selectedSpecies.species_perception != null && selectedSpecies.species_perception !== 0 && (
+                        <div className="col">
+                          <Form.Label>
+                            Perception:<br />
+                            {formatDiceCode(selectedSpecies.species_perception)}
+                          </Form.Label>
+                          <Form.Control
+                            className="form-control-sm"
+                            type="number"
+                            placeholder="Perception"
+                            name="species_perception"
+                            required
+                            value={selectedSpecies.species_perception}
+                            onChange={handleInputChange}
+                            step="0.1"
+                            min="0"
+                            max="20.9"
+                            style={{ width: '65px', marginRight: '13px' }}
+                          />
+                        </div>
+                        )}
+                        {/* Species Strength */}
+                        {selectedSpecies.species_strength != null && selectedSpecies.species_strength !== 0 && (
+                        <div className="col">
+                          <Form.Label>
+                            Strength:<br />
+                            {formatDiceCode(selectedSpecies.species_strength)}
+                          </Form.Label>
+                          <Form.Control
+                            className="form-control-sm"
+                            type="number"
+                            placeholder="Strength"
+                            name="species_strength"
+                            required
+                            value={selectedSpecies.species_strength}
+                            onChange={handleInputChange}
+                            step="0.1"
+                            min="0"
+                            max="20.9"
+                            style={{ width: '65px', marginRight: '13px' }}
+                          />
+                        </div>
+                        )}
+                        {/* Species Technical */}
+                        {selectedSpecies.species_technical != null && selectedSpecies.species_technical !== 0 && (
+                        <div className="col">
+                          <Form.Label>
+                            Technical:<br />
+                            {formatDiceCode(selectedSpecies.species_technical)}
+                          </Form.Label>
+                          <Form.Control
+                            className="form-control-sm"
+                            type="number"
+                            placeholder="Technical"
+                            name="species_technical"
+                            required
+                            value={selectedSpecies.species_technical}
+                            onChange={handleInputChange}
+                            step="0.1"
+                            min="0"
+                            max="20.9"
+                            style={{ width: '65px', marginRight: '13px' }}
+                          />
+                        </div>
+                        )}
+                      </div>
+
+                      {selectedSpecies.species_force_sensitive && (
+                      <div className="row">
+                        {/* Force Control */}
+                        {selectedSpecies.species_force_control != null && selectedSpecies.species_force_control !== 0 && (
+                        <div className="col">
+                          <Form.Label>
+                            Force Control:<br />
+                            {formatDiceCode(selectedSpecies.species_force_control)}
+                          </Form.Label>
+                          <Form.Control
+                            className="form-control-sm"
+                            type="number"
+                            placeholder="Force Control"
+                            name="species_force_control"
+                            required
+                            value={selectedSpecies.species_force_control}
+                            onChange={handleInputChange}
+                            step="0.1"
+                            min="0"
+                            max="20.9"
+                            style={{ width: '65px', marginRight: '13px' }}
+                          />
+                        </div>
+                        )}
+                        {/* Force Sense */}
+                        {selectedSpecies.species_force_sense != null && selectedSpecies.species_force_sense !== 0 && (
+                        <div className="col">
+                          <Form.Label>
+                            Force Sense:<br />
+                            {formatDiceCode(selectedSpecies.species_force_sense)}
+                          </Form.Label>
+                          <Form.Control
+                            className="form-control-sm"
+                            type="number"
+                            placeholder="Force Sense"
+                            name="species_force_sense"
+                            required
+                            value={selectedSpecies.species_force_sense}
+                            onChange={handleInputChange}
+                            step="0.1"
+                            min="0"
+                            max="20.9"
+                            style={{ width: '65px', marginRight: '13px' }}
+                          />
+                        </div>
+                        )}
+                        {/* Force Alter */}
+                        {selectedSpecies.species_force_alter != null && selectedSpecies.species_force_alter !== 0 && (
+                        <div className="col">
+                          <Form.Label>
+                            Force Alter:<br />
+                            {formatDiceCode(selectedSpecies.species_force_alter)}
+                          </Form.Label>
+                          <Form.Control
+                            className="form-control-sm"
+                            type="number"
+                            placeholder="Force Alter"
+                            name="species_force_alter"
+                            required
+                            value={selectedSpecies.species_force_alter}
+                            onChange={handleInputChange}
+                            step="0.1"
+                            min="0"
+                            max="20.9"
+                            style={{ width: '65px', marginRight: '13px' }}
+                          />
+                        </div>
+                        )}
+                      </div>
+                      )}
+                    </div>
+                    )}
+
+                  </div>
                 </div>
               </FancyCard>
             </div>
@@ -618,7 +911,6 @@ const HeroForm = ({ hero, id }) => {
               </h5>
               <FancyButton
                 type="button"
-                variant={currentHero.force_sensitive ? 'info' : 'warning'}
                 onClick={toggleForceSensitive}
                 className="mt-3"
               >
