@@ -112,7 +112,7 @@ const HeroForm = ({ hero, id }) => {
         setSelectedSpecies(speciesObject || null);
       }
     }
-  }, [hero, archetypes.length, species.length]);
+  }, [hero, archetypes.length, species.length, archetypes, species]);
 
   // trying to useMemo to avoid bugs on form page reffreshes.
   const memoizedCurrentHero = useMemo(() => currentHero, [currentHero]);
