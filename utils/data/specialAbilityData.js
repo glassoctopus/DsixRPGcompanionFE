@@ -3,7 +3,7 @@ import { clientCredentials } from '../client';
 const endpoint = clientCredentials.databaseURL;
 
 const createSpecialAbility = (specialAbility) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/specialabilities`, {
+  fetch(`${endpoint}/specialabilities/`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -16,7 +16,7 @@ const createSpecialAbility = (specialAbility) => new Promise((resolve, reject) =
 });
 
 const getSingleSpecialAbility = (id) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/specialabilities/${id}`, {
+  fetch(`${endpoint}/specialabilities/${id}/`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ const getSingleSpecialAbility = (id) => new Promise((resolve, reject) => {
 });
 
 const getSpecialAbilities = () => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/specialabilities`, {
+  fetch(`${endpoint}/specialabilities/`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -48,7 +48,7 @@ const getSpecialAbilities = () => new Promise((resolve, reject) => {
 });
 
 const updateSpecialAbility = (id, specialAbility) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/specialabilities/${id}`, {
+  fetch(`${endpoint}/specialabilities/${id}/`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -70,7 +70,7 @@ const updateSpecialAbility = (id, specialAbility) => new Promise((resolve, rejec
 });
 
 const deleteSpecialAbility = (id) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/specialabilities/${id}`, {
+  fetch(`${endpoint}/specialabilities/${id}/`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',

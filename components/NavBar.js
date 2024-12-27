@@ -11,16 +11,13 @@ import { signOut } from '../utils/auth';
 const NavBar = () => (
   <Navbar collapseOnSelect expand="lg" bg="transparent" variant="dark">
     <Container>
-      <Link passHref href="/heros">
+      <Link passHref href="/">
         <Navbar.Brand>D6 RPG Companion</Navbar.Brand>
       </Link>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="me-auto">
           {/* CLOSE NAVBAR ON LINK SELECTION: https://stackoverflow.com/questions/72813635/collapse-on-select-react-bootstrap-navbar-with-nextjs-not-working */}
-          <Link passHref href="/">
-            <Nav.Link>Home</Nav.Link>
-          </Link>
           <Link passHref href="/heros">
             <Nav.Link>Make a Hero</Nav.Link>
           </Link>

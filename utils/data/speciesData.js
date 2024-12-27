@@ -3,7 +3,7 @@ import { clientCredentials } from '../client';
 const endpoint = clientCredentials.databaseURL;
 
 const createSpecies = (species) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/species`, {
+  fetch(`${endpoint}/species/`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -16,7 +16,7 @@ const createSpecies = (species) => new Promise((resolve, reject) => {
 });
 
 const getSingleSpecies = (id) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/species/${id}`, {
+  fetch(`${endpoint}/species/${id}/`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ const getSingleSpecies = (id) => new Promise((resolve, reject) => {
 });
 
 const getSpecies = () => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/species`, {
+  fetch(`${endpoint}/species/`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -48,7 +48,7 @@ const getSpecies = () => new Promise((resolve, reject) => {
 });
 
 const updateSpecies = (id, species) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/species/${id}`, {
+  fetch(`${endpoint}/species/${id}/`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -70,7 +70,7 @@ const updateSpecies = (id, species) => new Promise((resolve, reject) => {
 });
 
 const deleteSpecies = (id) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/species/${id}`, {
+  fetch(`${endpoint}/species/${id}/`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',

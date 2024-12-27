@@ -3,7 +3,7 @@ import { clientCredentials } from '../client';
 const endpoint = clientCredentials.databaseURL;
 
 const createCharacterGroup = (characterGroup) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/charactergroups`, {
+  fetch(`${endpoint}/charactergroups/`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -16,7 +16,7 @@ const createCharacterGroup = (characterGroup) => new Promise((resolve, reject) =
 });
 
 const getSingleCharacterGroup = (id) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/charactergroups/${id}`, {
+  fetch(`${endpoint}/charactergroups/${id}/`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ const getSingleCharacterGroup = (id) => new Promise((resolve, reject) => {
 });
 
 const getCharacterGroups = () => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/charactergroups`, {
+  fetch(`${endpoint}/charactergroups/`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -90,7 +90,7 @@ const removeCharacterFromGroup = (groupId, characterId) => new Promise((resolve,
 });
 
 const updateCharacterGroup = (id, characterGroup) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/charactergroups/${id}`, {
+  fetch(`${endpoint}/charactergroups/${id}/`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -112,7 +112,7 @@ const updateCharacterGroup = (id, characterGroup) => new Promise((resolve, rejec
 });
 
 const deleteCharacterGroup = (id) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/charactergroups/${id}`, {
+  fetch(`${endpoint}/charactergroups/${id}/`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',

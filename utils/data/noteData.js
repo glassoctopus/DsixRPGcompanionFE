@@ -3,7 +3,7 @@ import { clientCredentials } from '../client';
 const endpoint = clientCredentials.databaseURL;
 
 const createNote = (note) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/notes`, {
+  fetch(`${endpoint}/notes/`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -16,7 +16,7 @@ const createNote = (note) => new Promise((resolve, reject) => {
 });
 
 const getSingleNote = (id) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/notes/${id}`, {
+  fetch(`${endpoint}/notes/${id}/`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ const getSingleNote = (id) => new Promise((resolve, reject) => {
 });
 
 const getNotes = () => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/notes`, {
+  fetch(`${endpoint}/notes/`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -48,7 +48,7 @@ const getNotes = () => new Promise((resolve, reject) => {
 });
 
 const updateNote = (id, note) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/notes/${id}`, {
+  fetch(`${endpoint}/notes/${id}/`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -70,7 +70,7 @@ const updateNote = (id, note) => new Promise((resolve, reject) => {
 });
 
 const deleteNote = (id) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/notes/${id}`, {
+  fetch(`${endpoint}/notes/${id}/`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
