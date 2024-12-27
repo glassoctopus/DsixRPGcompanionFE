@@ -3,7 +3,7 @@ import { clientCredentials } from '../client';
 const endpoint = clientCredentials.databaseURL;
 
 const updateThisUser = (id, User) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/users/${id}`, {
+  fetch(`${endpoint}/users/${id}/`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -25,7 +25,7 @@ const updateThisUser = (id, User) => new Promise((resolve, reject) => {
 });
 
 const updateGameMasterStatus = (id, isGameMaster) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/users/${id}`, {
+  fetch(`${endpoint}/users/${id}/`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -48,7 +48,7 @@ const updateGameMasterStatus = (id, isGameMaster) => new Promise((resolve, rejec
 });
 
 const getSingleUser = (id) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/users/${id}`, {
+  fetch(`${endpoint}/users/${id}/`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -68,7 +68,7 @@ const getSingleUser = (id) => new Promise((resolve, reject) => {
 });
 
 const getUsers = () => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/users`, {
+  fetch(`${endpoint}/users/`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -80,7 +80,7 @@ const getUsers = () => new Promise((resolve, reject) => {
 });
 
 const getGameMasters = () => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/users`, {
+  fetch(`${endpoint}/users/`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

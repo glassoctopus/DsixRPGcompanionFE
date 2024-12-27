@@ -3,7 +3,7 @@ import { clientCredentials } from '../client';
 const endpoint = clientCredentials.databaseURL;
 
 const createSkill = (skill) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/skills`, {
+  fetch(`${endpoint}/skills/`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -16,7 +16,7 @@ const createSkill = (skill) => new Promise((resolve, reject) => {
 });
 
 const getSingleSkill = (id) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/skills/${id}`, {
+  fetch(`${endpoint}/skills/${id}/`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ const getSingleSkill = (id) => new Promise((resolve, reject) => {
 });
 
 const getSkills = () => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/skills`, {
+  fetch(`${endpoint}/skills/`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -48,7 +48,7 @@ const getSkills = () => new Promise((resolve, reject) => {
 });
 
 const updateSkill = (id, Skill) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/skills/${id}`, {
+  fetch(`${endpoint}/skills/${id}/`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -70,7 +70,7 @@ const updateSkill = (id, Skill) => new Promise((resolve, reject) => {
 });
 
 const deleteSkill = (id) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/skills/${id}`, {
+  fetch(`${endpoint}/skills/${id}/`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',

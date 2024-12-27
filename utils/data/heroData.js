@@ -3,7 +3,7 @@ import { clientCredentials } from '../client';
 const endpoint = clientCredentials.databaseURL;
 
 const createHero = (hero) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/heros`, {
+  fetch(`${endpoint}/heros/`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -16,7 +16,7 @@ const createHero = (hero) => new Promise((resolve, reject) => {
 });
 
 const getSingleHero = (id) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/heros/${id}`, {
+  fetch(`${endpoint}/heros/${id}/`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ const getSingleHero = (id) => new Promise((resolve, reject) => {
 });
 
 const getHeros = () => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/heros`, {
+  fetch(`${endpoint}/heros/`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ const getHeros = () => new Promise((resolve, reject) => {
 });
 
 const updateHero = (hero, id) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/heros/${id}`, {
+  fetch(`${endpoint}/heros/${id}/`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -120,7 +120,7 @@ const updateHeroSkills = (skills) => new Promise((resolve, reject) => {
 });
 
 const isForceSensitive = (id) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/heros/${id}`, {
+  fetch(`${endpoint}/heros/${id}/`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -138,7 +138,7 @@ const isForceSensitive = (id) => new Promise((resolve, reject) => {
 });
 
 const isNotForceSensitive = (id) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/heros/${id}`, {
+  fetch(`${endpoint}/heros/${id}/`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -156,7 +156,7 @@ const isNotForceSensitive = (id) => new Promise((resolve, reject) => {
 });
 
 const deleteHero = (id) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/heros/${id}`, {
+  fetch(`${endpoint}/heros/${id}/`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',

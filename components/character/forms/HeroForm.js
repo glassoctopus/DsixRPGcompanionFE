@@ -176,7 +176,7 @@ const HeroForm = ({ hero, id }) => {
     if (!newSpecies) return;
 
     const confirmSelection = window.confirm(
-      `Are you sure you want to select ${newSpecies.Species_name}? This will override certain fields.`,
+      `Are you sure you want to select ${newSpecies.species_name}? This will override certain fields.`,
     );
 
     if (confirmSelection) {
@@ -214,11 +214,10 @@ const HeroForm = ({ hero, id }) => {
 
   const randomSpecies = () => {
     const SpeciesRoll = Math.floor(Math.random() * species.length);
-    const currentSelectedSpecies = species[SpeciesRoll];
-    handleSpeciesSelect(species.find((aSpecies) => aSpecies.id === currentHero.Species));
+    handleSpeciesSelect(species.find((aSpecies) => aSpecies.id === currentHero.species));
     setCurrentHero((prevFormState) => ({
       ...prevFormState,
-      species: currentSelectedSpecies.id,
+      species: SpeciesRoll,
     }));
   };
 
@@ -318,13 +317,13 @@ const HeroForm = ({ hero, id }) => {
 
     if (!id) {
       createHero(updatedHero)
-        .then(() => router.push('/heros'))
+        .then(() => router.push('/heros/'))
         .catch((error) => {
           console.error('Error creating this hero:', error);
         });
     } else {
       updateHero(updatedHero, id)
-        .then(() => router.push(`/heros/${id}`))
+        .then(() => router.push(`/heros/${id}/`))
         .catch((error) => {
           console.error('Error updating this hero:', error);
         });
@@ -1040,7 +1039,8 @@ HeroForm.propTypes = {
     image: PropTypes.string,
     name: PropTypes.string,
     archetype: PropTypes.number,
-    species: PropTypes.string,
+    species: PropTypes.number,
+    speciesName: PropTypes.string,
     homeworld: PropTypes.string,
     gender: PropTypes.string,
     age: PropTypes.number,
