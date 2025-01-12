@@ -56,6 +56,7 @@ const HeroForm = ({ hero, id }) => {
   const [currentHero, setCurrentHero] = useState(initialState);
   const [selectedArchetype, setSelectedArchetype] = useState(null);
   const [archetypes, setArchetypes] = useState([]);
+  const [filteredSpecies, setFilteredSpecies] = useState([]);
   const [selectedSpecies, setSelectedSpecies] = useState(null);
   const [species, setSpecies] = useState([]);
   const [planetDetails, setPlanetDetails] = useState("The Character's Homeworld");
@@ -83,15 +84,27 @@ const HeroForm = ({ hero, id }) => {
     }
   };
 
-  // useEffect(() => {
-  //   console.log('Archetypes updated:', archetypes);
-  //   console.log('Species updated:', species);
-  // }, [archetypes, species]);
+  useEffect(() => {
+    if (selectedArchetype?.archetype_allowed_species) {
+      setFilteredSpecies(species.filter((s) => selectedArchetype.archetype_allowed_species.includes(s.species_name)));
+    } else {
+      setFilteredSpecies(species);
+    }
+  }, [selectedArchetype, species]); // dependencies that trigger the effect
+
+  useEffect(() => {
+    console.warn('Archetypes updated:', archetypes);
+    console.warn('Species updated:', species);
+  }, [archetypes, species]);
 
   useEffect(() => {
     setArchetypePool();
     setSpeciesPool();
   }, []);
+
+  useEffect(() => {
+    setSpeciesPool().then(() => setFilteredSpecies(species));
+  }, [species]);
 
   useEffect(() => {
     if (hero) {
@@ -132,12 +145,19 @@ const HeroForm = ({ hero, id }) => {
   const handleArchetypeSelect = (newArchetype) => {
     if (!newArchetype) return;
 
-    const confirmSelection = window.confirm(
-      `Are you sure you want to select ${newArchetype.archetype_name}? This will override certain fields.`,
-    );
+    const message = `Are you sure you want to select ${newArchetype.archetype_name}? This will override certain fields.`;
+
+    const confirmSelection = window.confirm(message);
 
     if (confirmSelection) {
       setSelectedArchetype(newArchetype);
+
+      if (newArchetype.archetype_allowed_species && newArchetype.archetype_allowed_species.length > 0) {
+        const allowedSpecies = species.filter((s) => newArchetype.archetype_allowed_species.includes(s.id));
+        setFilteredSpecies(allowedSpecies);
+      } else {
+        setFilteredSpecies(species); // Reset to all species if no restriction
+      }
 
       setCurrentHero((prevHero) => ({
         ...prevHero,
@@ -397,6 +417,7 @@ const HeroForm = ({ hero, id }) => {
                         <div className="col">
                           <Form.Group controlId="speciesSelect">
                             <SpeciesDropDown
+                              filteredSpecies={filteredSpecies}
                               selectedSpecies={selectedSpecies}
                               onSelect={handleSpeciesSelect}
                               random={randomSpecies}

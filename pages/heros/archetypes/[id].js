@@ -1,12 +1,14 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { getSingleArchetype } from '../../../utils/data/archetypeData';
+import { useAuth } from '../../../utils/context/authContext';
 import ArchetypeCard from '../../../components/character/cards/ArchetypeCard';
 import ArchetypeForm from '../../../components/character/forms/ArchtypeForm';
 
 const ArchetypeById = () => {
   const router = useRouter();
   const { id } = router.query;
+  const { user } = useAuth();
   const [archetype, setArchetype] = useState({});
   const [numericId, setNumericId] = useState(0);
 
@@ -53,7 +55,12 @@ const ArchetypeById = () => {
             archetypeSource={archetype.archetype_source}
           />
         </div>
-        <ArchetypeForm archetype={archetype} id={numericId} />
+        <h2>
+          {user?.admin
+            ? 'You can edit or add Archetypes as an admin.'
+            : 'Create a NPC Archetype for fun!'}
+        </h2>
+        {user?.admin && <ArchetypeForm archetype={archetype} id={numericId} />}
       </div>
     </div>
   );

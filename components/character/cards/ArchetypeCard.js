@@ -4,6 +4,7 @@ import { Card } from 'react-bootstrap';
 import { useRouter } from 'next/router';
 import { formatDiceCode } from '../../../utils/d6LogicForUI';
 import { useAuth } from '../../../utils/context/authContext';
+import { deleteArchetype } from '../../../utils/data/archetypeData';
 import FancyButton from '../../FancyButton';
 import FancyCardLong from './FancyCardLong';
 
@@ -33,19 +34,18 @@ const ArchetypeCard = ({
   const { user } = useAuth();
 
   const viewThisArchetype = () => {
-    router.push(`/heros/archetypes/${id}`);
+    router.push(`/heros/archetypes/${id}/`);
   };
 
   const updateThisArchetype = () => {
-    router.push(`/heros/archetypes/update/${id}`);
+    router.push(`/heros/archetypes/update/${id}/`);
   };
 
   const deleteThisArchetype = () => {
     if (window.confirm(`Delete ${archetypeName}?`)) {
-      // Logic to delete the archetype here
+      deleteArchetype(id);
       console.warn('Its a ', user.admin, ' Admin');
-      // window.location.reload();
-      router.push('/heros/archetypes');
+      window.location.reload();
     }
   };
 

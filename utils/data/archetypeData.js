@@ -3,7 +3,7 @@ import { clientCredentials } from '../client';
 const endpoint = clientCredentials.databaseURL;
 
 const createArchetype = (archetype) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/archetypes`, {
+  fetch(`${endpoint}/archetypes/`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -16,7 +16,7 @@ const createArchetype = (archetype) => new Promise((resolve, reject) => {
 });
 
 const getSingleArchetype = (id) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/archetypes/${id}`, {
+  fetch(`${endpoint}/archetypes/${id}/`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ const getSingleArchetype = (id) => new Promise((resolve, reject) => {
 });
 
 const getArchetypes = () => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/archetypes`, {
+  fetch(`${endpoint}/archetypes/`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -48,7 +48,7 @@ const getArchetypes = () => new Promise((resolve, reject) => {
 });
 
 const updateArchetype = (id, archetype) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/archetypes/${id}`, {
+  fetch(`${endpoint}/archetypes/${id}/`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -70,7 +70,7 @@ const updateArchetype = (id, archetype) => new Promise((resolve, reject) => {
 });
 
 const deleteArchetype = (id) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/archetypes/${id}`, {
+  fetch(`${endpoint}/archetypes/${id}/`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
