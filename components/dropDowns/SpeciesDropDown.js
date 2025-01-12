@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { getSpecies } from '../../utils/data/speciesData';
 
-const SpeciesDropdown = ({ selectedSpecies, onSelect, random }) => {
+const SpeciesDropdown = ({
+  filteredSpecies, selectedSpecies, onSelect, random,
+}) => {
   const [species, setSpecies] = useState([]);
   // eslint-disable-next-line no-unused-vars
   const [hover, setHover] = useState(false);
@@ -18,9 +20,11 @@ const SpeciesDropdown = ({ selectedSpecies, onSelect, random }) => {
     setSpeciesPool();
   });
 
+  const speciesList = filteredSpecies.length > 0 ? filteredSpecies : species;
+
   const handleChange = (event) => {
     const selectedId = Number(event.target.value);
-    const selectedSpeciesObject = species.find((aSpecies) => aSpecies.id === selectedId);
+    const selectedSpeciesObject = speciesList.find((aSpecies) => aSpecies.id === selectedId);
     onSelect(selectedSpeciesObject); // Pass the full object to the onSelect handler
   };
 
@@ -71,6 +75,12 @@ const SpeciesDropdown = ({ selectedSpecies, onSelect, random }) => {
 };
 
 SpeciesDropdown.propTypes = {
+  filteredSpecies: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      species_name: PropTypes.string.isRequired,
+    }),
+  ),
   selectedSpecies: PropTypes.shape({
     id: PropTypes.number,
     Species_name: PropTypes.string,
@@ -80,6 +90,7 @@ SpeciesDropdown.propTypes = {
 };
 
 SpeciesDropdown.defaultProps = {
+  filteredSpecies: [],
   selectedSpecies: null,
   random: null,
 };

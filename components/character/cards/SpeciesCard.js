@@ -39,7 +39,7 @@ const SpeciesCard = ({
     const confirmed = window.confirm(`Are you sure you want to delete the species with ID: ${id}?`);
     if (confirmed) {
       deleteSpecies(id).then(() => {
-        router.push('/species');
+        window.location.reload();
       });
     }
   };
