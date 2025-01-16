@@ -1,4 +1,4 @@
-/* @import 'bootstrap/dist/css/bootstrap.css'; */
+/* so this at first looks long and unorganized, i will dedicate more time to cleaning it up after front end is coser to completion*/
 
 html,
 body {
@@ -255,20 +255,6 @@ input, textarea {
   border: 1px solid rgb(64, 116, 173);
 }
 
-/* Todo Content */
-.todo-container {
-  position: relative;
-  z-index: 0; 
-}
-
-.todo-content {
-  position: relative;
-  z-index: 1;
-  padding: 20px;
-  background-color: rgba(255, 255, 255, 0.8);
-  border-radius: 8px;
-}
-
 /* Hero Content */
 .general-container {
   position: relative;
@@ -303,6 +289,20 @@ input, textarea {
   transform: translateY(-50%);
 }
 
+/* Todo Content */
+.todo-container {
+  position: relative;
+  z-index: 0; 
+}
+
+.todo-content {
+  position: relative;
+  z-index: 1;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+}
+
 .form-control-sm {
   height: calc(1.5em + 0.5rem + 2px);
   padding: 0.25rem 0.5rem;
@@ -324,7 +324,7 @@ input, textarea {
   text-align: left;
 }
 
-
+/* */
 .siteButton {
   background: transparent; 
   border: none;

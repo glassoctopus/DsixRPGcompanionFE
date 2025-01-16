@@ -5,8 +5,10 @@ import { Form, FormLabel } from 'react-bootstrap';
 import {
   createArchetype, updateArchetype, getSingleArchetype,
 } from '../../../utils/data/archetypeData';
+import SpeciesSelect from '../miscComponents/SpeciesSelect';
 import FancyButton from '../../FancyButton';
 import FancyCard from '../cards/FancyCard';
+import { getSpecies } from '../../../utils/data/speciesData';
 
 const initialState = {
   archetype_name: '',
@@ -23,6 +25,7 @@ const initialState = {
   archetype_personality: '',
   archetype_background: '',
   archetype_objectives: '',
+  archetype_allowed_species: [],
   archetype_a_quote: '',
   archetype_game_notes: '',
   archetype_source: '',
@@ -32,62 +35,92 @@ const initialState = {
 
 const ArchetypeForm = ({ archetype, id }) => {
   const [currentArchetype, setCurrentArchetype] = useState(initialState);
+  const [species, setSpecies] = useState([]);
   const router = useRouter();
   const { id: routeId } = router.query;
+  const [speciesNames, setSpeciesNames] = useState([]);
+
+  const handleConfirm = (confirmedSpeciesNames) => {
+    setSpeciesNames(confirmedSpeciesNames);
+  };
 
   const formRef = useRef(null);
 
   useEffect(() => {
-    const archetypeId = id || routeId;
-    if (archetype) {
-      setCurrentArchetype({
-        archetype_name: archetype.archetype_name || '',
-        archetype_for_NPC: archetype.archetype_for_NPC ?? true,
-        archetype_force_sensitive: archetype.archetype_force_sensitive ?? false,
-        archetype_dexterity: archetype.archetype_dexterity || 0,
-        archetype_knowledge: archetype.archetype_knowledge || 0,
-        archetype_mechanical: archetype.archetype_mechanical || 0,
-        archetype_perception: archetype.archetype_perception || 0,
-        archetype_strength: archetype.archetype_strength || 0,
-        archetype_technical: archetype.archetype_technical || 0,
-        archetype_force_control: archetype.archetype_force_control || 0,
-        archetype_force_sense: archetype.archetype_force_sense || 0,
-        archetype_force_alter: archetype.archetype_force_alter || 0,
-        archetype_starting_credits: archetype.archetype_starting_credits || 0,
-        archetype_personality: archetype.archetype_personality || '',
-        archetype_background: archetype.archetype_background || '',
-        archetype_objectives: archetype.archetype_objectives || '',
-        archetype_a_quote: archetype.archetype_a_quote || '',
-        archetype_game_notes: archetype.archetype_game_notes || '',
-        archetype_source: archetype.archetype_source || '',
-      });
-    } else if (archetypeId) {
-      const retrievedArchetype = getSingleArchetype(archetypeId);
-      if (retrievedArchetype) {
-        setCurrentArchetype({
-          archetype_name: retrievedArchetype.archetype_name || '',
-          archetype_for_NPC: retrievedArchetype.archetype_for_NPC ?? true,
-          archetype_force_sensitive: retrievedArchetype.archetype_force_sensitive ?? false,
-          archetype_dexterity: retrievedArchetype.archetype_dexterity || 0,
-          archetype_knowledge: retrievedArchetype.archetype_knowledge || 0,
-          archetype_mechanical: retrievedArchetype.archetype_mechanical || 0,
-          archetype_perception: retrievedArchetype.archetype_perception || 0,
-          archetype_strength: retrievedArchetype.archetype_strength || 0,
-          archetype_technical: retrievedArchetype.archetype_technical || 0,
-          archetype_force_control: retrievedArchetype.archetype_force_control || 0,
-          archetype_force_sense: retrievedArchetype.archetype_force_sense || 0,
-          archetype_force_alter: retrievedArchetype.archetype_force_alter || 0,
-          archetype_starting_credits: retrievedArchetype.archetype_starting_credits || 0,
-          archetype_personality: retrievedArchetype.archetype_personality || '',
-          archetype_background: retrievedArchetype.archetype_background || '',
-          archetype_objectives: retrievedArchetype.archetype_objectives || '',
-          archetype_a_quote: retrievedArchetype.archetype_a_quote || '',
-          archetype_game_notes: retrievedArchetype.archetype_game_notes || '',
-          archetype_source: retrievedArchetype.archetype_source || '',
-        });
+    const setArchetypeData = async () => {
+      const archetypeId = id || routeId;
+
+      if (archetype) {
+        const updatedArchetype = {
+          archetype_name: archetype.archetype_name || '',
+          archetype_for_NPC: archetype.archetype_for_NPC ?? true,
+          archetype_force_sensitive: archetype.archetype_force_sensitive ?? false,
+          archetype_dexterity: archetype.archetype_dexterity || 0,
+          archetype_knowledge: archetype.archetype_knowledge || 0,
+          archetype_mechanical: archetype.archetype_mechanical || 0,
+          archetype_perception: archetype.archetype_perception || 0,
+          archetype_strength: archetype.archetype_strength || 0,
+          archetype_technical: archetype.archetype_technical || 0,
+          archetype_force_control: archetype.archetype_force_control || 0,
+          archetype_force_sense: archetype.archetype_force_sense || 0,
+          archetype_force_alter: archetype.archetype_force_alter || 0,
+          archetype_starting_credits: archetype.archetype_starting_credits || 0,
+          archetype_personality: archetype.archetype_personality || '',
+          archetype_background: archetype.archetype_background || '',
+          archetype_objectives: archetype.archetype_objectives || '',
+          archetype_allowed_species: archetype.archetype_allowed_species || [],
+          archetype_a_quote: archetype.archetype_a_quote || '',
+          archetype_game_notes: archetype.archetype_game_notes || '',
+          archetype_source: archetype.archetype_source || '',
+        };
+
+        setCurrentArchetype(updatedArchetype);
+        setSpeciesNames(updatedArchetype.archetype_allowed_species);
+      } else if (archetypeId) {
+        const retrievedArchetype = await getSingleArchetype(archetypeId);
+        if (retrievedArchetype) {
+          const updatedArchetype = {
+            archetype_name: retrievedArchetype.archetype_name || '',
+            archetype_for_NPC: retrievedArchetype.archetype_for_NPC ?? true,
+            archetype_force_sensitive: retrievedArchetype.archetype_force_sensitive ?? false,
+            archetype_dexterity: retrievedArchetype.archetype_dexterity || 0,
+            archetype_knowledge: retrievedArchetype.archetype_knowledge || 0,
+            archetype_mechanical: retrievedArchetype.archetype_mechanical || 0,
+            archetype_perception: retrievedArchetype.archetype_perception || 0,
+            archetype_strength: retrievedArchetype.archetype_strength || 0,
+            archetype_technical: retrievedArchetype.archetype_technical || 0,
+            archetype_force_control: retrievedArchetype.archetype_force_control || 0,
+            archetype_force_sense: retrievedArchetype.archetype_force_sense || 0,
+            archetype_force_alter: retrievedArchetype.archetype_force_alter || 0,
+            archetype_starting_credits: retrievedArchetype.archetype_starting_credits || 0,
+            archetype_personality: retrievedArchetype.archetype_personality || '',
+            archetype_background: retrievedArchetype.archetype_background || '',
+            archetype_objectives: retrievedArchetype.archetype_objectives || '',
+            archetype_allowed_species: retrievedArchetype.archetype_allowed_species || [],
+            archetype_a_quote: retrievedArchetype.archetype_a_quote || '',
+            archetype_game_notes: retrievedArchetype.archetype_game_notes || '',
+            archetype_source: retrievedArchetype.archetype_source || '',
+          };
+
+          setCurrentArchetype(updatedArchetype);
+          setSpeciesNames(updatedArchetype.archetype_allowed_species);
+        }
       }
-    }
+    };
+
+    setArchetypeData();
   }, [archetype, id, routeId]);
+
+  const setSpeciesPool = async () => {
+    if (species.length === 0) {
+      const fetchedSpecies = await getSpecies();
+      setSpecies(fetchedSpecies);
+    }
+  };
+
+  useEffect(() => {
+    setSpeciesPool();
+  });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -109,6 +142,7 @@ const ArchetypeForm = ({ archetype, id }) => {
 
     const updatedArchetype = {
       ...currentArchetype,
+      archetype_allowed_species: speciesNames,
     };
 
     if (!id) {
@@ -136,7 +170,7 @@ const ArchetypeForm = ({ archetype, id }) => {
   const toggleIsNPC = () => {
     setCurrentArchetype((prevState) => ({
       ...prevState,
-      NPC: !prevState.NPC,
+      archetype_for_NPC: !prevState.archetype_for_NPC,
     }));
   };
 
@@ -176,10 +210,10 @@ const ArchetypeForm = ({ archetype, id }) => {
                         </div>
                         <div style={{ margin: '15px', padding: '13px' }}>
                           <FancyButton onClick={toggleIsNPC}>
-                            {currentArchetype.NPC ? 'for a PC' : 'Is... a NPC'}
+                            {currentArchetype.archetype_for_NPC ? 'for a PC' : 'Is... a NPC'}
                           </FancyButton>
                           <h5 style={{ display: 'inline-block', margin: '15px', padding: '13px' }}>
-                            {currentArchetype.NPC ? "for Player's Characters" : 'Archetype is an NPC' }
+                            {currentArchetype.archetype_for_NPC ? "for Player's Characters" : 'Archetype is an NPC' }
                           </h5>
                         </div>
                         <FancyButton onClick={toggleForceSensitive}>
@@ -222,6 +256,19 @@ const ArchetypeForm = ({ archetype, id }) => {
                                 value={currentArchetype.archetype_background}
                                 onChange={handleInputChange}
                               />
+                            </div>
+
+                            <div style={{ margin: '13px', border: '13px', padding: '13px' }}>
+                              <FormLabel>Is this a Species Specific Archetype?</FormLabel>
+                              <Form.Group controlId="speciesSelect">
+                                <SpeciesSelect
+                                  species={species}
+                                  archetypeAllowedSpecies={speciesNames}
+                                  onConfirm={handleConfirm}
+                                >
+                                  select Species
+                                </SpeciesSelect>
+                              </Form.Group>
                             </div>
                           </div>
                         </div>
@@ -469,6 +516,11 @@ ArchetypeForm.propTypes = {
     archetype_personality: PropTypes.string,
     archetype_background: PropTypes.string,
     archetype_objectives: PropTypes.string,
+    archetype_allowed_species: PropTypes.arrayOf(
+      PropTypes.shape({
+        species_name: PropTypes.string,
+      }),
+    ),
     archetype_a_quote: PropTypes.string,
     archetype_game_notes: PropTypes.string,
     archetype_source: PropTypes.string,

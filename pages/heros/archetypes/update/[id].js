@@ -58,6 +58,7 @@ const UpdateArchetype = () => {
             archetypePersonality={archetype.archetype_personality}
             archetypeBackground={archetype.archetype_background}
             archetypeObjectives={archetype.archetype_objectives}
+            archetypeAllowedSpecies={archetype.archetype_allowed_species}
             archetypeAQuote={archetype.archetype_a_quote}
             archetypeGameNotes={archetype.archetype_game_notes}
             archetypeSource={archetype.archetype_source}
