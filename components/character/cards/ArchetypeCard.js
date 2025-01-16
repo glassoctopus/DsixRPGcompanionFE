@@ -26,6 +26,7 @@ const ArchetypeCard = ({
   archetypePersonality,
   archetypeBackground,
   archetypeObjectives,
+  archetypeAllowedSpecies,
   archetypeAQuote,
   archetypeGameNotes,
   archetypeSource,
@@ -95,6 +96,18 @@ const ArchetypeCard = ({
           {archetypeBackground && <Card.Text>Background: {archetypeBackground}</Card.Text>}
           {archetypeObjectives && <Card.Text>Objectives: {archetypeObjectives}</Card.Text>}
           {archetypeAQuote && <Card.Text>A Quote: {archetypeAQuote}</Card.Text>}
+          {archetypeAllowedSpecies && (
+            <Card.Text>
+              Allowed Species: &nbsp;
+              {archetypeAllowedSpecies.length > 0
+                ? archetypeAllowedSpecies.map((species) => (
+                  <span key={species}>
+                    {species}{species !== archetypeAllowedSpecies[archetypeAllowedSpecies.length - 1] ? ', ' : ''}
+                  </span>
+                ))
+                : ' None'}
+            </Card.Text>
+          )}
           {archetypeGameNotes && <Card.Text>Game Notes: {archetypeGameNotes}</Card.Text>}
           {archetypeSource && <Card.Text>Source: {archetypeSource}</Card.Text>}
 
@@ -129,6 +142,7 @@ ArchetypeCard.propTypes = {
   archetypePersonality: PropTypes.string,
   archetypeBackground: PropTypes.string,
   archetypeObjectives: PropTypes.string,
+  archetypeAllowedSpecies: PropTypes.arrayOf(PropTypes.string),
   archetypeAQuote: PropTypes.string,
   archetypeGameNotes: PropTypes.string,
   archetypeSource: PropTypes.string,
@@ -150,6 +164,7 @@ ArchetypeCard.defaultProps = {
   archetypePersonality: '',
   archetypeBackground: '',
   archetypeObjectives: '',
+  archetypeAllowedSpecies: [],
   archetypeAQuote: '',
   archetypeGameNotes: '',
   archetypeSource: '',

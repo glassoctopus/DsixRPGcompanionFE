@@ -86,9 +86,10 @@ const HeroForm = ({ hero, id }) => {
 
   useEffect(() => {
     if (selectedArchetype?.archetype_allowed_species) {
-      setFilteredSpecies(species.filter((s) => selectedArchetype.archetype_allowed_species.includes(s.species_name)));
+      const filtered = species.filter((s) => selectedArchetype.archetype_allowed_species.includes(s.species_name));
+      setFilteredSpecies(filtered);
     } else {
-      setFilteredSpecies(species);
+      // setFilteredSpecies(species);
     }
   }, [selectedArchetype, species]); // dependencies that trigger the effect
 
@@ -425,7 +426,6 @@ const HeroForm = ({ hero, id }) => {
                               select Species
                             </SpeciesDropDown>
                           </Form.Group>
-
                         </div>
                       </div>
 

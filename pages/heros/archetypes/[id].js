@@ -3,19 +3,19 @@ import { useEffect, useState } from 'react';
 import { getSingleArchetype } from '../../../utils/data/archetypeData';
 import { useAuth } from '../../../utils/context/authContext';
 import ArchetypeCard from '../../../components/character/cards/ArchetypeCard';
-import ArchetypeForm from '../../../components/character/forms/ArchtypeForm';
+// import ArchetypeForm from '../../../components/character/forms/ArchtypeForm';
 
 const ArchetypeById = () => {
   const router = useRouter();
   const { id } = router.query;
   const { user } = useAuth();
   const [archetype, setArchetype] = useState({});
-  const [numericId, setNumericId] = useState(0);
+  // const [numericId, setNumericId] = useState(0); i had the form in here for admins and GMs. considering removing.
 
   useEffect(() => {
     if (id) {
       const parsedId = Number(id);
-      setNumericId(parsedId);
+      // setNumericId(parsedId);
       getSingleArchetype(parsedId).then(setArchetype);
     }
   }, [id]);
@@ -50,6 +50,7 @@ const ArchetypeById = () => {
             archetypePersonality={archetype.archetype_personality}
             archetypeBackground={archetype.archetype_background}
             archetypeObjectives={archetype.archetype_objectives}
+            archetypeAllowedSpecies={archetype.archetype_allowed_species}
             archetypeAQuote={archetype.archetype_a_quote}
             archetypeGameNotes={archetype.archetype_game_notes}
             archetypeSource={archetype.archetype_source}
@@ -60,7 +61,7 @@ const ArchetypeById = () => {
             ? 'You can edit or add Archetypes as an admin.'
             : 'Create a NPC Archetype for fun!'}
         </h2>
-        {user?.admin && <ArchetypeForm archetype={archetype} id={numericId} />}
+        {/* {user?.admin && <ArchetypeForm archetype={archetype} id={numericId} />} */}
       </div>
     </div>
   );

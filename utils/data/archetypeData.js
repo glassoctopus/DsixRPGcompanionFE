@@ -47,7 +47,7 @@ const getArchetypes = () => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const updateArchetype = (id, archetype) => new Promise((resolve, reject) => {
+const updateArchetype = (archetype, id) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/archetypes/${id}/`, {
     method: 'PUT',
     headers: {
