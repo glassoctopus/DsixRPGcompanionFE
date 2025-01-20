@@ -516,11 +516,10 @@ ArchetypeForm.propTypes = {
     archetype_personality: PropTypes.string,
     archetype_background: PropTypes.string,
     archetype_objectives: PropTypes.string,
-    archetype_allowed_species: PropTypes.arrayOf(
-      PropTypes.shape({
-        species_name: PropTypes.string,
-      }),
-    ),
+    archetype_allowed_species: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.arrayOf(PropTypes.string),
+    ]),
     archetype_a_quote: PropTypes.string,
     archetype_game_notes: PropTypes.string,
     archetype_source: PropTypes.string,

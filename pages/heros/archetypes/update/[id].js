@@ -11,14 +11,21 @@ const UpdateArchetype = () => {
   const { user } = useAuth();
   const [archetype, setArchetype] = useState({});
   const [numericId, setNumericId] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (id) {
       const parsedId = Number(id);
       setNumericId(parsedId);
-      getSingleArchetype(parsedId).then(setArchetype);
+      getSingleArchetype(parsedId)
+        .then(setArchetype)
+        .finally(() => setIsLoading(false));
     }
   }, [id]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>

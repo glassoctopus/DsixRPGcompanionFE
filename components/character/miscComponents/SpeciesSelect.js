@@ -15,8 +15,12 @@ const Dropdown = ({ species, onSelect }) => (
     }}
   >
     {species.map((sp) => (
-      // eslint-disable-next-line react/no-unknown-property
-      <option key={sp.id} value={sp.id} species_name={sp.species_name}>
+      <option
+        key={`${sp.id || 'unknown-id'}-${sp.species_name || 'unknown-species'}`}
+        value={sp.id}
+            // eslint-disable-next-line react/no-unknown-property
+        species_name={sp.species_name}
+      >
         {sp.species_name}
       </option>
     ))}
@@ -37,7 +41,7 @@ const SelectedItems = ({ items, onRemove }) => (
   <div style={{ width: '45%' }}>
     {items.length > 0 ? (
       items.map((item) => (
-        <div key={item.id} style={{ marginBottom: '1px' }}>
+        <div key={`${item.id || 'unknown-id'}-${item.species_name || 'unknown-species'}`} style={{ marginBottom: '1px' }}>
           <FancyButton
             onClick={() => onRemove(item.id)}
             style={{
@@ -74,10 +78,13 @@ const SpeciesSelect = ({ species, archetypeAllowedSpecies, onConfirm }) => {
 
   useEffect(() => {
     if (archetypeAllowedSpecies && archetypeAllowedSpecies.length > 0) {
-      // eslint-disable-next-line camelcase
-      setSelectedItems(archetypeAllowedSpecies.map(({ id, species_name }) => ({ id, species_name })));
+      const matchedItems = archetypeAllowedSpecies.map((speciesName) => {
+        const matched = species.find((spObj) => spObj.species_name === speciesName);
+        return matched ? { id: matched.id, species_name: matched.species_name } : null;
+      }).filter((item) => item !== null);
+      setSelectedItems(matchedItems);
     }
-  }, [archetypeAllowedSpecies]);
+  }, [archetypeAllowedSpecies, species]);
 
   const handleSelect = (newSelections) => {
     setSelectedItems((prevItems) => {
@@ -120,12 +127,10 @@ SpeciesSelect.propTypes = {
       species_name: PropTypes.string.isRequired,
     }),
   ).isRequired,
-  archetypeAllowedSpecies: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-      species_name: PropTypes.string.isRequired,
-    }),
-  ),
+  archetypeAllowedSpecies: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(PropTypes.string),
+  ]),
   onConfirm: PropTypes.func.isRequired,
 };
 
