@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { createSpecialAbility } from '../../../utils/data/specialAbilityData';
+import { createAbility } from '../../../utils/data/abilityData';
 import { getSpecies } from '../../../utils/data/speciesData';
 import FancyButton from '../../FancyButton';
 import FancyCardLong from '../cards/FancyCardLong';
 
-const SpecialAbilityForm = () => {
+const AbilityForm = () => {
   const router = useRouter();
   const [newAbility, setNewAbility] = useState({
     attribute: '',
@@ -14,7 +14,7 @@ const SpecialAbilityForm = () => {
     is_a_reaction: false,
     force_skill: false,
     species_specific: '',
-    special_ability_notes: '',
+    ability_notes: '',
     modifiers: '',
     skill_use_notes: '',
     skill_game_notes: '',
@@ -49,15 +49,15 @@ const SpecialAbilityForm = () => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     try {
-      await createSpecialAbility(newAbility);
-      router.push('/special-abilities');
+      await createAbility(newAbility);
+      router.push('/abilities');
     } catch (error) {
-      console.error('Error creating special ability:', error);
+      console.error('Error creating ability:', error);
     }
   };
 
   const onCancel = () => {
-    router.push('/special-abilities');
+    router.push('/abilities');
   };
 
   return (
@@ -139,10 +139,10 @@ const SpecialAbilityForm = () => {
           </label>
 
           <label>
-            Special Ability Notes:
+            Ability Notes:
             <textarea
-              name="special_ability_notes"
-              value={newAbility.special_ability_notes}
+              name="ability_notes"
+              value={newAbility.ability_notes}
               onChange={handleInputChange}
               rows="4"
             />
@@ -195,7 +195,7 @@ const SpecialAbilityForm = () => {
 
           <div>
             <FancyButton onClick={handleFormSubmit} style={{ marginRight: '13px' }}>
-              Create Special Ability
+              Create Ability
             </FancyButton>
             <FancyButton onClick={onCancel}>
               Cancel
@@ -207,4 +207,4 @@ const SpecialAbilityForm = () => {
   );
 };
 
-export default SpecialAbilityForm;
+export default AbilityForm;

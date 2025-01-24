@@ -61,8 +61,8 @@ const SpeciesCard = ({
         {id}
         {playable && <p><strong>Playable:</strong> Yes</p>}
         {speciesHomeworld && <p><strong>Homeworld:</strong> {speciesHomeworld}</p>}
-        {speciesAverageHeight && <p><strong>Average Height:</strong> {speciesAverageHeight}</p>}
-        {speciesAverageWeight && <p><strong>Average Weight:</strong> {speciesAverageWeight}</p>}
+        {speciesAverageHeight && <p><strong>Average Height:</strong> {speciesAverageHeight} <strong>&#126;cm</strong></p>}
+        {speciesAverageWeight && <p><strong>Average Weight:</strong> {speciesAverageWeight} <strong>&#126;kgs</strong></p>}
         {speciesForceSensitive && <p><strong>Force Sensitive:</strong> Yes</p>}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px' }}>
           {speciesDexterityModifier && <p><strong>Dexterity Modifier:</strong> {speciesDexterityModifier}</p>}

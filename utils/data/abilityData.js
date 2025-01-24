@@ -2,21 +2,21 @@ import { clientCredentials } from '../client';
 
 const endpoint = clientCredentials.databaseURL;
 
-const createSpecialAbility = (specialAbility) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/specialabilities/`, {
+const createAbility = (ability) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/abilities/`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(specialAbility),
+    body: JSON.stringify(ability),
   })
     .then((response) => response.json())
     .then((data) => resolve(data))
     .catch(reject);
 });
 
-const getSingleSpecialAbility = (id) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/specialabilities/${id}/`, {
+const getSingleAbility = (id) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/abilities/${id}/`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -30,13 +30,13 @@ const getSingleSpecialAbility = (id) => new Promise((resolve, reject) => {
     })
     .then((data) => resolve(data))
     .catch((error) => {
-      console.error('Error fetching single specialAbility:', error);
+      console.error('Error fetching single Ability:', error);
       reject(error);
     });
 });
 
-const getSpecialAbilities = () => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/specialabilities/`, {
+const getAbilities = () => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/abilities/`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -47,13 +47,13 @@ const getSpecialAbilities = () => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const updateSpecialAbility = (id, specialAbility) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/specialabilities/${id}/`, {
+const updateAbility = (id, ability) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/abilities/${id}/`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(specialAbility),
+    body: JSON.stringify(ability),
   })
     .then((response) => {
       if (!response.ok) {
@@ -64,13 +64,13 @@ const updateSpecialAbility = (id, specialAbility) => new Promise((resolve, rejec
       resolve(data);
     })
     .catch((error) => {
-      console.error('Error updating specialAbility:', error);
+      console.error('Error updating Ability:', error);
       reject(error);
     });
 });
 
-const deleteSpecialAbility = (id) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/specialabilities/${id}/`, {
+const deleteAbility = (id) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/abilities/${id}/`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
@@ -81,9 +81,9 @@ const deleteSpecialAbility = (id) => new Promise((resolve, reject) => {
 });
 
 export {
-  createSpecialAbility,
-  getSingleSpecialAbility,
-  getSpecialAbilities,
-  updateSpecialAbility,
-  deleteSpecialAbility,
+  createAbility,
+  getSingleAbility,
+  getAbilities,
+  updateAbility,
+  deleteAbility,
 };
