@@ -2,18 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 // import FancyButton from '../../FancyButton';
 
-const SpecialAbilityCard = ({
+const AbilityCard = ({
   attribute,
   abilityName,
   timeTaken,
   isAReaction,
-  forceSkill,
+  forceAbility,
   speciesSpecific,
-  specialAbilityNotes,
+  AbilityNotes,
   modifiers,
-  skillUseNotes,
-  skillGameNotes,
-  skillCode,
+  abilityUseNotes,
+  abilityGameNotes,
+  abilityCode,
 }) => (
   <div style={{
     border: '1px solid #ddd',
@@ -29,40 +29,40 @@ const SpecialAbilityCard = ({
     <h2>{abilityName}</h2>
     {attribute && <p><strong>Attribute:</strong> {attribute}</p>}
     {timeTaken && <p><strong>Time Taken:</strong> {timeTaken}</p>}
-    {isAReaction && <p><strong>Reaction Skill:</strong> Yes</p>}
-    {forceSkill && <p><strong>Force Skill:</strong> Yes</p>}
+    {isAReaction && <p><strong>Reaction ability:</strong> Yes</p>}
+    {forceAbility && <p><strong>Force ability:</strong> Yes</p>}
     {speciesSpecific && <p><strong>Species Specific:</strong> {speciesSpecific.name}</p>}
-    {skillCode && <p><strong>Skill Code:</strong> {skillCode}</p>}
-    {specialAbilityNotes && <p><strong>Special Ability Notes:</strong> {specialAbilityNotes}</p>}
+    {abilityCode && <p><strong>ability Code:</strong> {abilityCode}</p>}
+    {AbilityNotes && <p><strong> Ability Notes:</strong> {AbilityNotes}</p>}
     {modifiers && <p><strong>Modifiers:</strong> {modifiers}</p>}
-    {skillUseNotes && <p><strong>Use Notes:</strong> {skillUseNotes}</p>}
-    {skillGameNotes && <p><strong>Game Notes:</strong> {skillGameNotes}</p>}
+    {abilityUseNotes && <p><strong>Use Notes:</strong> {abilityUseNotes}</p>}
+    {abilityGameNotes && <p><strong>Game Notes:</strong> {abilityGameNotes}</p>}
   </div>
 );
 
-SpecialAbilityCard.propTypes = {
+AbilityCard.propTypes = {
   attribute: PropTypes.string.isRequired,
   abilityName: PropTypes.string.isRequired,
   timeTaken: PropTypes.string,
   isAReaction: PropTypes.bool,
-  forceSkill: PropTypes.bool,
+  forceAbility: PropTypes.bool,
   speciesSpecific: PropTypes.bool,
-  specialAbilityNotes: PropTypes.string,
+  AbilityNotes: PropTypes.string,
   modifiers: PropTypes.string,
-  skillUseNotes: PropTypes.string,
-  skillGameNotes: PropTypes.string,
-  skillCode: PropTypes.number.isRequired,
+  abilityUseNotes: PropTypes.string,
+  abilityGameNotes: PropTypes.string,
+  abilityCode: PropTypes.number.isRequired,
 };
 
-SpecialAbilityCard.defaultProps = {
+AbilityCard.defaultProps = {
   timeTaken: '',
   isAReaction: false,
-  forceSkill: false,
+  forceAbility: false,
   speciesSpecific: null,
-  specialAbilityNotes: '',
+  AbilityNotes: '',
   modifiers: '',
-  skillUseNotes: '',
-  skillGameNotes: '',
+  abilityUseNotes: '',
+  abilityGameNotes: '',
 };
 
-export default SpecialAbilityCard;
+export default AbilityCard;

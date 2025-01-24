@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { getSpecialAbilities } from '../../../utils/data/specialAbilityData';
-import SpecialAbilityCard from '../../../components/character/cards/SpecialAbilityCard';
+import { getAbilities } from '../../../utils/data/abilityData';
+import AbilityCard from '../../../components/character/cards/AbilityCard';
 import FancyButton from '../../../components/FancyButton';
 
-const SpecialAbility = () => {
-  const [specialAbilities, setSpecialAbilities] = useState([]);
+const Ability = () => {
+  const [abilities, setAbilities] = useState([]);
   const router = useRouter();
 
   const handleClick = () => {
-    router.push('/heros/specialAbilities/new');
+    router.push('/heros/abilities/new');
   };
 
   useEffect(() => {
-    getSpecialAbilities().then((data) => {
-      setSpecialAbilities(data);
+    getAbilities().then((data) => {
+      setAbilities(data);
     });
   }, []);
 
@@ -28,7 +28,7 @@ const SpecialAbility = () => {
           display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px',
         }}
         >
-          <h2 style={{ fontSize: '2rem', margin: '0' }}>Special Abilities</h2>
+          <h2 style={{ fontSize: '2rem', margin: '0' }}> Abilities</h2>
           <FancyButton onClick={handleClick}>
             Create New Ability
           </FancyButton>
@@ -38,8 +38,8 @@ const SpecialAbility = () => {
           maxHeight: '80vh', overflowY: 'auto', display: 'flex', flexWrap: 'wrap', gap: '20px', padding: '10px', boxSizing: 'border-box',
         }}
         >
-          {specialAbilities.length > 0 ? (
-            specialAbilities.map((ability) => (
+          {abilities.length > 0 ? (
+            abilities.map((ability) => (
               <div
                 key={ability.id}
                 style={{
@@ -51,15 +51,19 @@ const SpecialAbility = () => {
                   maxWidth: 'calc(50% - 20px)',
                 }}
               >
-                <SpecialAbilityCard
+                <AbilityCard
                   id={ability.id}
                   abilityName={ability.ability_name}
                   attribute={ability.attribute}
                   timeTaken={ability.time_taken}
                   isReaction={ability.is_a_reaction}
-                  forceSkill={ability.force_skill}
+                  forceAbility={ability.force_ability}
                   speciesSpecific={ability.species_specific}
-                  specialAbilityNotes={ability.special_ability_notes}
+                  abilityNotes={ability.ability_notes}
+                  modifiers={ability.modifier}
+                  abilityUseNotes={ability.ability_use_notes}
+                  abilityGameNotes={ability.ability_game_notes}
+                  abilityCode={ability.ability_code}
                 />
               </div>
             ))
@@ -72,4 +76,4 @@ const SpecialAbility = () => {
   );
 };
 
-export default SpecialAbility;
+export default Ability;
