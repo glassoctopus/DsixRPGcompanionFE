@@ -91,12 +91,12 @@ const HeroForm = ({ hero, id }) => {
     } else {
       // setFilteredSpecies(species);
     }
-  }, [selectedArchetype, species]); // dependencies that trigger the effect
+  }, [selectedArchetype, species]);
 
-  useEffect(() => {
-    console.warn('Archetypes updated:', archetypes);
-    console.warn('Species updated:', species);
-  }, [archetypes, species]);
+  // useEffect(() => {
+  //   console.warn('Archetypes updated:', archetypes);
+  //   console.warn('Species updated:', species);
+  // }, [archetypes, species]);
 
   useEffect(() => {
     setArchetypePool();

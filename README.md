@@ -9,8 +9,8 @@ ___
 #### 1. The next step is to host this from my next project, my home lab. Until then, you could pull the front and back down, and I am creating Postman calls instead of fixtuers for canon material for the instantiation of the app, and set this little rpg database toy up yourself... 
 https://github.com/glassoctopus/DsixRPGcompanionBE
 
-#### 2. This is to be a Player, Game Master digital rpg companion. So it's forms, database readers, and player gm grouping tool. 
-Right now it is a D6 Starwwars Character Sheet. 
+#### 2. This is to be a Player, Game Master digital rpg companion. So it is forms, database readers, and player gm grouping tool. 
+Right now it is a D6 Starwwars Character Sheet in progress, and grouping tool. 
 
 ## Starting the Project
 (To be Fair in it's current state would take downloading and marrying the FE and BE repos and running it on your machine locally, so not the easiest of setups, but if you've done that...)
@@ -25,7 +25,10 @@ What this also is;
 5. -This is not meant to be a commerical product, but it aims to be more than a typical throw away school project. And a tool that I use to work towards mastering React and Django. It's grown into a labor of love now as I truly do miss this system and would love to preserve it. West End Games Rocks!
 
 Walkthrough Video:
-https://youtu.be/lFYaog4q3ac
+https://www.youtube.com/watch?v=D6whDri3Edw
 
 Project Board:
 https://github.com/users/glassoctopus/projects/7
+
+ERD:
+https://dbdiagram.io/d/character-sheet-654999337d8bbd64659f4041
