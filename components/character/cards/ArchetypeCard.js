@@ -105,7 +105,7 @@ const ArchetypeCard = ({
                     {species}{species !== archetypeAllowedSpecies[archetypeAllowedSpecies.length - 1] ? ', ' : ''}
                   </span>
                 ))
-                : ' None'}
+                : ' All'}
             </Card.Text>
           )}
           {archetypeGameNotes && <Card.Text>Game Notes: {archetypeGameNotes}</Card.Text>}

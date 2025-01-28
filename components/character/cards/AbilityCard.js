@@ -31,7 +31,7 @@ const AbilityCard = ({
     {timeTaken && <p><strong>Time Taken:</strong> {timeTaken}</p>}
     {isAReaction && <p><strong>Reaction ability:</strong> Yes</p>}
     {forceAbility && <p><strong>Force ability:</strong> Yes</p>}
-    {speciesSpecific && <p><strong>Species Specific:</strong> {speciesSpecific.name}</p>}
+    {speciesSpecific && <p><strong>Species Specific:</strong> Yes</p>}
     {abilityCode && <p><strong>ability Code:</strong> {abilityCode}</p>}
     {AbilityNotes && <p><strong> Ability Notes:</strong> {AbilityNotes}</p>}
     {modifiers && <p><strong>Modifiers:</strong> {modifiers}</p>}

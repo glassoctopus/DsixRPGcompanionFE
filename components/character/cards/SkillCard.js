@@ -9,6 +9,8 @@ const SkillCard = ({
   timeTaken,
   isAReaction,
   forceSkill,
+  speciesSpecific,
+  speciesName,
   specializations,
   modifiers,
   skillUseNotes,
@@ -20,9 +22,11 @@ const SkillCard = ({
       <Card.Text>Attribute: {attribute}</Card.Text>
       <Card.Text>Time Taken: {timeTaken || 'N/A'}</Card.Text>
       <Card.Text>Is a Reaction: {isAReaction ? 'Yes' : 'No'}</Card.Text>
-      <Card.Text>Force Skill: {forceSkill ? 'Yes' : 'No'}</Card.Text>
-      <Card.Text>{specializations ? `Specializations: ${specializations}` : 'No specializations'}</Card.Text>
-      <Card.Text>{modifiers ? `Modifiers: ${modifiers}` : 'No modifiers'}</Card.Text>
+      {forceSkill && <Card.Text>Force Skill: {forceSkill ? 'Yes' : 'No'}</Card.Text>}
+      {speciesSpecific && <Card.Text>Is a Species Skill</Card.Text>}
+      {speciesName && <Card.Text>{speciesName}</Card.Text>}
+      {specializations && <Card.Text>{specializations}</Card.Text>}
+      {modifiers && <Card.Text>{modifiers}</Card.Text>}
       <Card.Text>{skillUseNotes ? `Skill Use Notes: ${skillUseNotes}` : 'No use notes'}</Card.Text>
       <Card.Text>{skillGameNotes ? `Skill Game Notes: ${skillGameNotes}` : 'No game notes'}</Card.Text>
     </Card.Body>
@@ -37,6 +41,8 @@ SkillCard.propTypes = {
   timeTaken: PropTypes.string,
   isAReaction: PropTypes.bool,
   forceSkill: PropTypes.bool,
+  speciesSpecific: PropTypes.bool,
+  speciesName: PropTypes.string,
   specializations: PropTypes.string,
   modifiers: PropTypes.string,
   skillUseNotes: PropTypes.string,
@@ -47,6 +53,8 @@ SkillCard.defaultProps = {
   timeTaken: '',
   isAReaction: false,
   forceSkill: false,
+  speciesSpecific: false,
+  speciesName: '',
   specializations: '',
   modifiers: '',
   skillUseNotes: '',

@@ -12,6 +12,8 @@ import { getSpecies } from '../../../utils/data/speciesData';
 
 const initialState = {
   archetype_name: '',
+  archetype_for_NPC: false,
+  archetype_force_sensitive: false,
   archetype_dexterity: 0,
   archetype_knowledge: 0,
   archetype_mechanical: 0,
@@ -29,8 +31,6 @@ const initialState = {
   archetype_a_quote: '',
   archetype_game_notes: '',
   archetype_source: '',
-  archetype_for_NPC: true,
-  archetype_force_sensitive: false,
 };
 
 const ArchetypeForm = ({ archetype, id }) => {
@@ -53,7 +53,7 @@ const ArchetypeForm = ({ archetype, id }) => {
       if (archetype) {
         const updatedArchetype = {
           archetype_name: archetype.archetype_name || '',
-          archetype_for_NPC: archetype.archetype_for_NPC ?? true,
+          archetype_for_NPC: archetype.archetype_for_NPC ?? false,
           archetype_force_sensitive: archetype.archetype_force_sensitive ?? false,
           archetype_dexterity: archetype.archetype_dexterity || 0,
           archetype_knowledge: archetype.archetype_knowledge || 0,
@@ -81,7 +81,7 @@ const ArchetypeForm = ({ archetype, id }) => {
         if (retrievedArchetype) {
           const updatedArchetype = {
             archetype_name: retrievedArchetype.archetype_name || '',
-            archetype_for_NPC: retrievedArchetype.archetype_for_NPC ?? true,
+            archetype_for_NPC: retrievedArchetype.archetype_for_NPC ?? false,
             archetype_force_sensitive: retrievedArchetype.archetype_force_sensitive ?? false,
             archetype_dexterity: retrievedArchetype.archetype_dexterity || 0,
             archetype_knowledge: retrievedArchetype.archetype_knowledge || 0,
@@ -210,17 +210,17 @@ const ArchetypeForm = ({ archetype, id }) => {
                         </div>
                         <div style={{ margin: '15px', padding: '13px' }}>
                           <FancyButton onClick={toggleIsNPC}>
-                            {currentArchetype.archetype_for_NPC ? 'for a PC' : 'Is... a NPC'}
+                            {currentArchetype.archetype_for_NPC ? 'Is... a NPC' : 'for a PC'}
                           </FancyButton>
                           <h5 style={{ display: 'inline-block', margin: '15px', padding: '13px' }}>
-                            {currentArchetype.archetype_for_NPC ? "for Player's Characters" : 'Archetype is an NPC' }
+                            {currentArchetype.archetype_for_NPC ? 'Archetype is an NPC' : "for Player's Characters"}
                           </h5>
                         </div>
                         <FancyButton onClick={toggleForceSensitive}>
-                          {currentArchetype.archetype_force_sensitive ? 'not Force Sensitive' : 'Is... Force Sensitive'}
+                          {currentArchetype.archetype_force_sensitive ? 'Is... Force Sensitive' : 'not Force Sensitive' }
                         </FancyButton>
                         <h5 style={{ display: 'inline-block', marginLeft: '15px' }}>
-                          {currentArchetype.archetype_force_sensitive ? 'Archetype not Force Sensitive' : 'Archetype is... Force Sensitive'}
+                          {currentArchetype.archetype_force_sensitive ? 'Archetype is... Force Sensitive' : 'Archetype not Force Sensitive' }
                         </h5>
                         <div style={{ margin: '15px', padding: '13px' }} />
                       </div>

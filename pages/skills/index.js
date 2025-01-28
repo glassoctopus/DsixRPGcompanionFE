@@ -7,8 +7,8 @@ import FancyCardLong from '../../components/character/cards/FancyCardLong';
 
 const Skills = () => {
   const [skills, setSkills] = useState([]);
-  const [selectedAttribute, setSelectedAttribute] = useState('All');
-  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedFilterValue, setSelectedFilterValue] = useState('All');
+  const [searchFragment, setSearchFragment] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -28,17 +28,38 @@ const Skills = () => {
     fetchSkills();
   }, []);
 
-  const handleFilterChange = (attribute) => {
-    setSelectedAttribute(attribute);
+  const filterCriteriaMap = {
+    // eslint-disable-next-line quote-props, no-unused-vars
+    'All': (skill) => true,
+    'Species Skill': (skill) => skill.species_specific === true,
+    'Reaction Skill': (skill) => skill.is_a_reaction === true,
+    // eslint-disable-next-line quote-props
+    'Dexterity': (skill) => skill.attribute === 'Dexterity',
+    // eslint-disable-next-line quote-props
+    'Knowledge': (skill) => skill.attribute === 'Knowledge',
+    // eslint-disable-next-line quote-props
+    'Mechanical': (skill) => skill.attribute === 'Mechanical',
+    // eslint-disable-next-line quote-props
+    'Perception': (skill) => skill.attribute === 'Perception',
+    // eslint-disable-next-line quote-props
+    'Strength': (skill) => skill.attribute === 'Strength',
+    // eslint-disable-next-line quote-props
+    'Technical': (skill) => skill.attribute === 'Technical',
   };
 
-  const handleSearch = (term) => {
-    setSearchTerm(term);
+  const handleSearch = (fragment) => {
+    setSearchFragment(fragment);
+  };
+
+  const handleFilterChange = (filterCriteria) => {
+    setSelectedFilterValue(filterCriteria);
   };
 
   const filteredSkills = skills
-    .filter((skill) => selectedAttribute === 'All' || skill.attribute === selectedAttribute)
-    .filter((skill) => skill.skill_name.toLowerCase().includes(searchTerm.toLowerCase()));
+    .filter((skill) => {
+      const filterFunc = filterCriteriaMap[selectedFilterValue] || filterCriteriaMap.All;
+      return filterFunc(skill) && skill.skill_name.toLowerCase().includes(searchFragment.toLowerCase());
+    });
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
@@ -75,7 +96,7 @@ const Skills = () => {
             >
               <h1 style={{ textAlign: 'center', flex: '1' }}>Attributes and Skills</h1>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
-                <SearchTextField placeholder="Search by name..." onSubmit={handleSearch} />
+                <SearchTextField placeholder="Search by skill name..." onSubmit={handleSearch} />
                 <select
                   onChange={(e) => handleFilterChange(e.target.value)}
                   style={{ marginTop: '8px', padding: '5px', fontSize: '16px' }}
@@ -87,6 +108,8 @@ const Skills = () => {
                   <option value="Perception">Perception Skills</option>
                   <option value="Strength">Strength Skills</option>
                   <option value="Technical">Technical Skills</option>
+                  <option value="Reaction Skill">Reaction Skill</option>
+                  <option value="Species Skill">Species Skills</option>
                 </select>
               </div>
             </header>
@@ -162,6 +185,8 @@ const Skills = () => {
                         timeTaken={skill.time_taken}
                         isAReaction={skill.is_a_reaction}
                         forceSkill={skill.force_skill}
+                        speciesSpecific={skill.species_specific}
+                        speciesName={skill.species_name}
                         specializations={skill.specializations}
                         modifiers={skill.modifiers}
                         skillUseNotes={skill.skill_use_notes}
