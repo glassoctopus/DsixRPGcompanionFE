@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import FancyButton from './FancyButton';
+import FancyButton from '../GUI/FancyButton';
 
 const SearchTextField = ({ placeholder, onSubmit }) => {
   const [searchTerm, setSearchTerm] = useState('');

@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import NoteCard from '../../components/notes/NoteCard';
 import { getSingleNote } from '../../utils/data/noteData';
-import FancyCardLong from '../../components/character/cards/FancyCardLong';
-import FancyButton from '../../components/FancyButton';
+import FancyCardLong from '../../components/GUI/FancyCardLong';
+import FancyButton from '../../components/GUI/FancyButton';
 
 const Note = () => {
   const [item, setitem] = useState(null);

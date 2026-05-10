@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Card } from 'react-bootstrap';
-import FancyCardLong from '../character/cards/FancyCardLong';
+import FancyCardLong from '../GUI/FancyCardLong';
 
 const NoteCard = ({
   title, description, completed, temporary_field,

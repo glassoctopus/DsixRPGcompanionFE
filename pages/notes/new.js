@@ -1,7 +1,7 @@
 import React from 'react';
 import TodoForm from '../../components/notes/NoteForm';
-import { useAuth } from '../../utils/context/authContext';
-import FancyCardLong from '../../components/character/cards/FancyCardLong';
+import { useAuth } from '../../context/AuthContext';
+import FancyCardLong from '../../components/GUI/FancyCardLong';
 
 const NewNote = () => {
   const { user } = useAuth();

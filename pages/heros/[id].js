@@ -6,7 +6,6 @@ import HeroAndSkillsCard from '../../components/character/cards/HeroAndSkillsCar
 const HeroById = () => {
   const router = useRouter();
   const { id } = router.query;
-  //   const { user } = useAuth();
   const [aHero, setAHero] = useState({});
   // eslint-disable-next-line no-unused-vars
   const [numericId, setNumericId] = useState(0);

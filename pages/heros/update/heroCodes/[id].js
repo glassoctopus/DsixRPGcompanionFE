@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { useAuth } from '../../../../utils/context/authContext';
+import { useAuth } from '../../../../context/AuthContext';
 import { getSingleHero } from '../../../../utils/data/heroData';
 import HeroSkillForm from '../../../../components/character/forms/HeroSkillForm';
 import HeroAndSkillsCard from '../../../../components/character/cards/HeroAndSkillsCard';

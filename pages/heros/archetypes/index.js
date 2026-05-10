@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import ArchetypeCard from '../../../components/character/cards/ArchetypeCard';
 import { getArchetypes } from '../../../utils/data/archetypeData';
-import SearchTextField from '../../../components/Searchbar';
-import FancyButton from '../../../components/FancyButton';
+import SearchTextField from '../../../components/site/Searchbar';
+import FancyButton from '../../../components/GUI/FancyButton';
 
 const Archetypes = () => {
   const [archetypes, setArchetypes] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const router = useRouter();
 
@@ -14,29 +15,33 @@ const Archetypes = () => {
     setSearchTerm(term);
   };
 
-  const setArchetypePool = async () => {
-    if (archetypes.length === 0) {
-      const fetchedArchetypes = await getArchetypes();
-      setArchetypes(fetchedArchetypes);
-    }
-  };
-
   const createNewHero = () => {
     router.push('/heros/archetypes/new');
   };
 
-  const filteredArchetypes = archetypes
-    .filter((archetype) => archetype.archetype_name.toLowerCase().includes(searchTerm.toLowerCase()));
-
+  // Fetch archetypes once when component mounts
   useEffect(() => {
-    setArchetypePool();
-  });
+    const fetchArchetypes = async () => {
+      try {
+        const data = await getArchetypes();
+        setArchetypes(data);
+      } catch (error) {
+        console.error('Error fetching archetypes:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchArchetypes();
+  }, []); // Empty array – runs only once, no external dependencies
+
+  const filteredArchetypes = archetypes.filter((archetype) => archetype.archetype_name.toLowerCase().includes(searchTerm.toLowerCase()));
+
+  if (loading) {
+    return <div>Loading archetypes...</div>;
+  }
 
   return (
-    <div style={{
-      margin: '13px', border: '13px ', padding: '13px',
-    }}
-    >
+    <div style={{ margin: '13px', border: '13px ', padding: '13px' }}>
       <div className="archetype-container">
         <div className="archetype-content">
           <article className="Archetypes">

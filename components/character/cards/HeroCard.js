@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import { formatDiceCode } from '../../../utils/d6LogicForUI';
-import FancyButton from '../../FancyButton';
-import { useAuth } from '../../../utils/context/authContext';
+import FancyButton from '../../GUI/FancyButton';
+import { useAuth } from '../../../context/AuthContext';
 
 const HeroCard = ({
   id,

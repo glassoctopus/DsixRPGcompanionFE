@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { useAuth } from '../../utils/context/authContext';
+import { useAuth } from '../../context/AuthContext';
 import { getHeros } from '../../utils/data/heroData';
 import HeroAndSkillsCard from '../../components/character/cards/HeroAndSkillsCard';
-import FancyButton from '../../components/FancyButton';
+import FancyButton from '../../components/GUI/FancyButton';
 
 const Hero = () => {
   const [heros, setHeros] = useState([]);

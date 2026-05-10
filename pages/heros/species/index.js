@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { getSpecies } from '../../../utils/data/speciesData';
 import SpeciesCard from '../../../components/character/cards/SpeciesCard';
-import FancyButton from '../../../components/FancyButton';
+import FancyButton from '../../../components/GUI/FancyButton';
 
 const Species = () => {
   const [speciesList, setSpeciesList] = useState([]);

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useAuth } from '../../utils/context/authContext';
+import { useAuth } from '../../context/AuthContext';
 import { getUsers } from '../../utils/data/user';
-import UserCard from '../../components/UserCard';
+import UserCard from '../../components/site/UserCard';
 
 const User = () => {
   const [users, setUsers] = useState([]);

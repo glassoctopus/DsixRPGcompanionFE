@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import NoteForm from '../../../components/notes/NoteForm';
 import { getSingleNote } from '../../../utils/data/noteData';
-import FancyCardLong from '../../../components/character/cards/FancyCardLong';
+import FancyCardLong from '../../../components/GUI/FancyCardLong';
 
 const UpdateTask = () => {
   const router = useRouter();

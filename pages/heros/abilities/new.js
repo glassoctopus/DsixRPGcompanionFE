@@ -1,6 +1,6 @@
 import React from 'react';
 import AbilityForm from '../../../components/character/forms/AbilityForm';
-import { useAuth } from '../../../utils/context/authContext';
+import { useAuth } from '../../../context/AuthContext';
 
 const NewSpecialAbility = () => {
   const { user } = useAuth();

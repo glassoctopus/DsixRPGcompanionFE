@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import FancyButton from '../../FancyButton';
+import FancyButton from '../../GUI/FancyButton';
 
 const Dropdown = ({ species, onSelect }) => (
   <select

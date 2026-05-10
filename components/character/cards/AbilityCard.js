@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import FancyButton from '../../FancyButton';
 
 const AbilityCard = ({
   attribute,
@@ -23,7 +22,7 @@ const AbilityCard = ({
     maxWidth: '33rem',
     margin: '1rem',
     overflow: 'auto',
-    backgroundColor: 'rgb(214, 223, 232)',
+    backgroundColor: 'rgb(23, 86, 150)',
   }}
   >
     <h2>{abilityName}</h2>

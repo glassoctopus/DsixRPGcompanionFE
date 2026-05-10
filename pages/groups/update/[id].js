@@ -6,8 +6,8 @@ import {
 import { getHeros } from '../../../utils/data/heroData';
 import HeroOverviewCard from '../../../components/character/cards/HeroOverviewCard';
 import HeroCarousel from '../../../components/carousels/HeroCarousel';
-import FancyButton from '../../../components/FancyButton';
-import FancyCard from '../../../components/character/cards/FancyCard';
+import FancyButton from '../../../components/GUI/FancyButton';
+import FancyCard from '../../../components/GUI/FancyCard';
 
 const GroupIdView = () => {
   const router = useRouter();

@@ -1,170 +1,31 @@
-import { clientCredentials } from '../client';
+import { apiClient } from '../apiClient';
 
-const endpoint = clientCredentials.databaseURL;
+// Helper to handle custom response format for getHeros
+const handleHeroListResponse = (data) => {
+  if (data && Array.isArray(data['They are'])) {
+    return data['They are'];
+  }
+  throw new Error('Invalid response format');
+};
 
-const createHero = (hero) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/heros/`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(hero),
-  })
-    .then((response) => response.json())
-    .then((data) => resolve(data))
-    .catch(reject);
-});
+const createHero = (hero) => apiClient.post('/heros/', hero);
 
-const getSingleHero = (id) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/heros/${id}/`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.json();
-    })
-    .then((data) => resolve(data))
-    .catch((error) => {
-      console.error('Error fetching single Hero:', error);
-      reject(error);
-    });
-});
+const getSingleHero = (id) => apiClient.get(`/heros/${id}/`);
 
-const getHeros = () => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/heros/`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      if (data && Array.isArray(data['They are'])) {
-        resolve(data['They are']);// my retuns have custom messages, this is how tro get to the data.
-      } else {
-        reject(new Error('Invalid response format'));
-      }
-    })
-    .catch(reject);
-});
+const getHeros = () => apiClient.get('/heros/')
+  .then(handleHeroListResponse);
 
-const updateHero = (hero, id) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/heros/${id}/`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(hero),
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-    })
-    .then((data) => {
-      resolve(data);
-    })
-    .catch((error) => {
-      console.error('Error updating Hero:', error);
-      reject(error);
-    });
-});
+const updateHero = (hero, id) => apiClient.put(`/heros/${id}/`, hero);
 
-const createHeroSkills = (skills) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/heros/add-or-update-character-skills/`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(skills),
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-    })
-    .then((data) => {
-      resolve(data);
-    })
-    .catch((error) => {
-      console.error('Error updating Skills:', error);
-      reject(error);
-    });
-});
+const createHeroSkills = (skills) => apiClient.post('/heros/add-or-update-character-skills/', skills);
 
-const updateHeroSkills = (skills) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/heros/add-or-update-character-skills/`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(skills),
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-    })
-    .then((data) => {
-      resolve(data);
-    })
-    .catch((error) => {
-      console.error('Error updating Skills:', error);
-      reject(error);
-    });
-});
+const updateHeroSkills = (skills) => apiClient.put('/heros/add-or-update-character-skills/', skills);
 
-const isForceSensitive = (id) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/heros/${id}/`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ force_sensitive: true }),
-  })
-    .then((response) => {
-      if (response.ok) {
-        resolve();
-      } else {
-        reject(new Error(`Error: ${response.statusText}`));
-      }
-    })
-    .catch((error) => reject(new Error(error)));
-});
+const isForceSensitive = (id) => apiClient.put(`/heros/${id}/`, { force_sensitive: true });
 
-const isNotForceSensitive = (id) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/heros/${id}/`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ force_sensitive: false }),
-  })
-    .then((response) => {
-      if (response.ok) {
-        resolve();
-      } else {
-        reject(new Error(`Error: ${response.statusText}`));
-      }
-    })
-    .catch((error) => reject(new Error(error)));
-});
+const isNotForceSensitive = (id) => apiClient.put(`/heros/${id}/`, { force_sensitive: false });
 
-const deleteHero = (id) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/heros/${id}/`, {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
-    .then((data) => resolve(data))
-    .catch(reject);
-});
+const deleteHero = (id) => apiClient.delete(`/heros/${id}/`);
 
 export {
   createHero,

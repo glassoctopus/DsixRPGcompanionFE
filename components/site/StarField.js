@@ -27,7 +27,7 @@ const StarField = ({ children }) => {
   return (
     <div id="starfield">
       <div id="stars" />
-      <div className="content">
+      <div className="content" style={{ position: 'relative', zIndex: 1 }}>
         {children}
       </div>
     </div>

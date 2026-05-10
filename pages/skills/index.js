@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import SkillCard from '../../components/character/cards/SkillCard';
 import { getSkills } from '../../utils/data/skillData';
-import SearchTextField from '../../components/Searchbar';
-
-import FancyCardLong from '../../components/character/cards/FancyCardLong';
+import SearchTextField from '../../components/site/Searchbar';
+import FancyCardLong from '../../components/GUI/FancyCardLong';
 
 const Skills = () => {
   const [skills, setSkills] = useState([]);
@@ -94,12 +93,14 @@ const Skills = () => {
                 display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%',
               }}
             >
-              <h1 style={{ textAlign: 'center', flex: '1' }}>Attributes and Skills</h1>
+              <h1 style={{ textAlign: 'center', flex: '1' }}>Skills Database</h1>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
                 <SearchTextField placeholder="Search by skill name..." onSubmit={handleSearch} />
                 <select
                   onChange={(e) => handleFilterChange(e.target.value)}
-                  style={{ marginTop: '8px', padding: '5px', fontSize: '16px' }}
+                  style={{
+                    margin: '13px', marginTop: '8px', padding: '5px', fontSize: '16px', borderRadius: '4px',
+                  }}
                 >
                   <option value="All">Show All</option>
                   <option value="Dexterity">Dexterity Skills</option>
@@ -116,9 +117,9 @@ const Skills = () => {
             <main className="main-content" style={{ display: 'flex', flexDirection: 'row', gap: '20px' }}>
               <div className="col-md-8" style={{ flex: '1 1 auto' }}>
                 <section className="section">
-                  <h2>Using Attributes and Skills</h2>
+                  <h2>Using Skills</h2>
                   <p>
-                    Using attributes and skills is very easy if you can remember one simple concept. It&apos;s called the <strong>&quot;Star Wars Rule of Thumb.&quot;</strong>
+                    Using skills is very easy if you can remember one simple concept. It&apos;s called the <strong>&quot;Star Wars Rule of Thumb.&quot;</strong>
                   </p>
                   <p>
                     Pick a difficulty number. If the character&apos;s skill roll is equal or higher, she succeeds.

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
-import FancyButton from '../../FancyButton';
+import FancyButton from '../../GUI/FancyButton';
 import { deleteSpecies } from '../../../utils/data/speciesData';
 
 const SpeciesCard = ({
@@ -54,7 +54,7 @@ const SpeciesCard = ({
         maxWidth: '33rem',
         margin: '1rem',
         overflow: 'auto',
-        backgroundColor: 'rgb(214, 223, 232)',
+        backgroundColor: 'rgb(0, 112, 255)',
       }}
       >
         <h2>{speciesName || name}</h2>

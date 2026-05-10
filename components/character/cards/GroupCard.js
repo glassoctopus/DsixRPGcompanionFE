@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import HeroOverviewCard from './HeroOverviewCard';
 import { deleteCharacterGroup } from '../../../utils/data/groupData';
-import FancyCardLong from './FancyCardLong';
-import FancyButton from '../../FancyButton';
+import FancyCardLong from '../../GUI/FancyCardLong';
+import FancyButton from '../../GUI/FancyButton';
 
 const GroupCard = ({
   group, onCreateGroup, onTogglePrivate, onToggleAdventureParty, onGroupDeleted,

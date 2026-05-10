@@ -2,9 +2,10 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import { useRouter } from 'next/router';
-import { updateThisUser } from '../utils/data/user';
-import FancyButton from './FancyButton';
-import FancyCard from './character/cards/FancyCard';
+import { updateThisUser } from '../../utils/data/user';
+import FancyButton from '../GUI/FancyButton';
+import FancySubmitButton from '../GUI/FancySubmitButton';
+import FancyCard from '../GUI/FancyCard';
 
 const UpdateUserForm = ({ user }) => {
   const router = useRouter();
@@ -84,9 +85,9 @@ const UpdateUserForm = ({ user }) => {
           </h5>
         </Form.Group>
 
-        <FancyButton onClick={handleSubmit}>
+        <FancySubmitButton onClick={handleSubmit}>
           Submit
-        </FancyButton>
+        </FancySubmitButton>
       </Form>
     </FancyCard>
   );
