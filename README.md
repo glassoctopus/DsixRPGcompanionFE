@@ -5,25 +5,54 @@
 - [Starting the Project](#starting-the-project)
 ___
 ## Getting Started
-### D6 RPG Companion is a Fullstack Exercise that is teaching me about Django, Next.js, API client tools, Django Session Authentication, and working with large amounts of data efficently. 
-#### 1. The next step is to host this from my next project, my home lab. Until then, you could pull the front and back down, and I am creating API client tool calls instead of fixtuers for canon material for the instantiation of the app, and set this little rpg database toy up yourself. 
-https://github.com/glassoctopus/DsixRPGcompanionFE
+### D6 RPG Companion is a Fullstack Exercise that is teaching me about Django, React, Postman, and working with large amounts of data efficently. 
+#### 1. Project Hosting (Next Steps)
+The next step is to host this from my home lab, which is the focus of my upcoming project. Until then, you can clone both the frontend and backend repos and run them locally. I'm creating Postman requests (rather than fixtures) for loading canonical material into the database, so you can set this little RPG database toy up yourself:
+
+Backend Repo:
 https://github.com/glassoctopus/DsixRPGcompanionBE
 
-#### 2. This is to be a Player, Game Master digital rpg companion. So it is forms, database readers, and a player gm grouping tool. 
-Right now it is a D6 Starwars Character Sheet in progress, and grouping tool. 
+#### 2. Project Purpose
+This is designed to be a digital RPG companion for both players and game masters. The app includes:
 
-## Starting the Project
-(To be Fair in it's current state would take downloading and marrying the FE and BE repos and running it on your machine locally, so not the easiest of setups, but if you've done that...)
-1. Make a Hero, & manage their skill codes, it's a simple living character sheet
-2. You can also group your characters with other players (on your local machine ;^) and their characters, in public groups.  
+ - Forms for creating and editing characters
+
+ - Database CRUD API for greater flexability
+
+ - A grouping tool for organizing players and GMs
+
+Currently, the main focus is a D6 Star Wars character sheet (still in progress), along with group creation tools (roughed out).
+
+## Getting Started
+Note: In its current state, this project requires downloading both the frontend and backend repositories, setting them up locally, and running them together. So it’s not plug-and-play... yet. But if you’ve got them running…
+
+You can:
+
+ - Create a Hero and manage their skill codes via a simple, living character sheet.
+
+ - Group your characters with others (on your local machine ;^) into public groups. 
    
-What this also is;
-1. A database manger for the D6 ruleset that a GameMaster could use for their adventure party.
-2. Albeit we are a ton of stretch goals away form this now. But I plan on continuing this project till completion and setting up a home lab that I can host it from. (See you next year... ;^)
-3. Too ambitious for a 1 month Capstone porject, but I am excited to see it through as a learning tool for the technologies involved. After completion, I want to take what I have learned to a new stack or at least backend, and see what I cannot do better the second time around.
-4. -Hopes and Dreams, that this matuers into a full fledge RPG companion, working with the core game rules logic intact in all the forms, and views, etc., that users could use to play a d6 campagin, via the living character sheets, with a Game Master controlling the allowance of changes. 
-5. -This is not meant to be a commerical product, but it aims to be more than a typical throw away school project. And a tool that I use to work towards mastering React and Django. It's grown into a labor of love now as I truly do miss this system and would love to preserve it. West End Games Rocks!
+What This Also Is
+ - A database manager for the D6 ruleset that a GM could use for managing their adventure party.
+
+ - A tool with lots of stretch goals. It’s far from complete, but I’m committed to seeing it through.
+
+ - Eventually, something I’ll host from my home lab (see you next year… 😉).
+
+Vision and Motivation
+This project is too ambitious for a one-month capstone—but I’m excited to keep building it as a learning tool for mastering React and Django. Once complete, I plan to revisit it with a new stack or at least a different backend to see how much I can improve with experience.
+
+Hopes & Dreams
+ - That this matures into a fully-fledged RPG companion.
+
+ - That all forms and views reflect the core D6 game rules accurately.
+
+ - That players can run full campaigns with living character sheets and GM-controlled permissions.
+
+ - That it becomes more than just another throwaway school project—this is a tool I want to use, and it’s grown into a labor of love.
+
+I truly miss this system and would love to preserve it.
+West End Games rocks!
 
 Walkthrough Video: (needs another one, will do once at a stable state)
 https://www.youtube.com/watch?v=D6whDri3Edw
@@ -31,5 +60,5 @@ https://www.youtube.com/watch?v=D6whDri3Edw
 Project Board:
 https://github.com/users/glassoctopus/projects/7
 
-ERD: ( needs updating )
+ERD:
 https://dbdiagram.io/d/character-sheet-654999337d8bbd64659f4041
