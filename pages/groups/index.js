@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import HeroCarousel from '../../components/carousels/HeroCarousel';
 import GroupCarousel from '../../components/carousels/GroupCarousel';
-import FancyButton from '../../components/FancyButton';
+import FancyButton from '../../components/GUI/FancyButton';
 
 const Index = () => {
   const [showHeroCarousel, setShowHeroCarousel] = useState(false); // State to manage HeroCarousel visibility

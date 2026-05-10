@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useRouter } from 'next/router';
 import { deleteNote } from '../../utils/data/noteData';
-import FancyCardLong from '../character/cards/FancyCardLong';
-import FancyButton from '../FancyButton';
+import FancyCardLong from '../GUI/FancyCardLong';
+import FancyButton from '../GUI/FancyButton';
 
 const NoteTable = ({ notes }) => {
   const router = useRouter();

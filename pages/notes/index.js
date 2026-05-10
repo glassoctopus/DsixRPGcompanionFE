@@ -1,22 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { getNotes } from '../../utils/data/noteData';
-import { useAuth } from '../../utils/context/authContext';
+import { useAuth } from '../../context/AuthContext';
 import NoteTable from '../../components/notes/NoteTable';
-import FancyButton from '../../components/FancyButton';
+import FancyButton from '../../components/GUI/FancyButton';
 
 const Note = () => {
   const [notes, setNotes] = useState([]);
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    if (user && user.uid) {
-      getNotes().then((data) => {
-        setNotes(data);
-      });
+    // Wait until auth is resolved, then fetch if user is logged in
+    if (!loading && user) {
+      getNotes()
+        .then(setNotes)
+        .catch(console.error);
     }
-  }, [user]);
+  }, [user, loading]); // dependencies include loading
 
   const newNote = () => {
     router.push('/notes/new');

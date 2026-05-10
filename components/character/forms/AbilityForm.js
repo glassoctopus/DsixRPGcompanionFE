@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { createAbility } from '../../../utils/data/abilityData';
 import { getSpecies } from '../../../utils/data/speciesData';
-import FancyButton from '../../FancyButton';
-import FancyCardLong from '../cards/FancyCardLong';
+import FancyButton from '../../GUI/FancyButton';
+import FancySubmitButton from '../../GUI/FancySubmitButton';
+import FancyCardLong from '../../GUI/FancyCardLong';
 
 const AbilityForm = () => {
   const router = useRouter();
@@ -194,9 +195,9 @@ const AbilityForm = () => {
           </label>
 
           <div>
-            <FancyButton onClick={handleFormSubmit} style={{ marginRight: '13px' }}>
+            <FancySubmitButton>
               Create Ability
-            </FancyButton>
+            </FancySubmitButton>
             <FancyButton onClick={onCancel}>
               Cancel
             </FancyButton>

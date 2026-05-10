@@ -1,84 +1,15 @@
-import { clientCredentials } from '../client';
+// utils/data/noteData.js
+import { apiClient } from '../apiClient';
 
-const endpoint = clientCredentials.databaseURL;
+const createNote = (note) => apiClient.post('/notes/', note);
 
-const createNote = (note) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/notes/`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(note),
-  })
-    .then((response) => response.json())
-    .then((data) => resolve(data))
-    .catch(reject);
-});
+const getSingleNote = (id) => apiClient.get(`/notes/${id}/`);
 
-const getSingleNote = (id) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/notes/${id}/`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.json();
-    })
-    .then((data) => resolve(data))
-    .catch((error) => {
-      console.error('Error fetching single note:', error);
-      reject(error);
-    });
-});
+const getNotes = () => apiClient.get('/notes/');
 
-const getNotes = () => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/notes/`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
-    .then((response) => response.json())
-    .then((data) => resolve(data))
-    .catch(reject);
-});
+const updateNote = (id, note) => apiClient.put(`/notes/${id}/`, note);
 
-const updateNote = (id, note) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/notes/${id}/`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(note),
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-    })
-    .then((data) => {
-      resolve(data);
-    })
-    .catch((error) => {
-      console.error('Error updating Note:', error);
-      reject(error);
-    });
-});
-
-const deleteNote = (id) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/notes/${id}/`, {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
-    .then((data) => resolve(data))
-    .catch(reject);
-});
+const deleteNote = (id) => apiClient.delete(`/notes/${id}/`);
 
 export {
   createNote,

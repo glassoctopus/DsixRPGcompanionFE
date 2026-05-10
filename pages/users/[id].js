@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import UpdateUserForm from '../../components/UpdateUserForm';
-import { useAuth } from '../../utils/context/authContext';
+import UpdateUserForm from '../../components/site/UpdateUserForm';
+import { useAuth } from '../../context/AuthContext';
 import { getSingleUser } from '../../utils/data/user';
 
 const UserUpdate = () => {

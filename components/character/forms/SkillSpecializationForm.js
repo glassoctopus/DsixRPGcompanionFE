@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import FancyCardLong from '../cards/FancyCardLong';
-import FancyButton from '../../FancyButton';
+import FancyCardLong from '../../GUI/FancyCardLong';
+import FancyButton from '../../GUI/FancyButton';
 import { formatDiceCode, addOrSubtractPips } from '../../../utils/d6LogicForUI';
 import { updateHeroSkills } from '../../../utils/data/heroData';
 

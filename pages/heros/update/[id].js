@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import HeroForm from '../../../components/character/forms/HeroForm';
 import { getSingleHero } from '../../../utils/data/heroData';
-import FancyButton from '../../../components/FancyButton';
+import FancyButton from '../../../components/GUI/FancyButton';
 
 const NewHero = () => {
   const router = useRouter();

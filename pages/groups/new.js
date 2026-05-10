@@ -6,9 +6,9 @@ import HeroOverviewCard from '../../components/character/cards/HeroOverviewCard'
 import HeroCarousel from '../../components/carousels/HeroCarousel';
 import GroupForm from '../../components/character/forms/GroupForm';
 import { getUsers } from '../../utils/data/user';
-import FancyButton from '../../components/FancyButton';
-import FancyCardLong from '../../components/character/cards/FancyCardLong';
-import FancyCard from '../../components/character/cards/FancyCard';
+import FancyButton from '../../components/GUI/FancyButton';
+import FancyCardLong from '../../components/GUI/FancyCardLong';
+import FancyCard from '../../components/GUI/FancyCard';
 
 const GroupCreationView = () => {
   const router = useRouter();

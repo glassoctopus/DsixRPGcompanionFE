@@ -1,35 +1,36 @@
 import PropTypes from 'prop-types';
-import { useAuth } from './context/authContext';
-import Loading from '../components/Loading';
-import Signin from '../components/Signin';
-import NavBar from '../components/NavBar';
-import RegisterForm from '../components/RegisterForm';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import { useAuth } from '../context/AuthContext';
 
 const ViewDirectorBasedOnUserAuthStatus = ({ component: Component, pageProps }) => {
-  const { user, userLoading, updateUser } = useAuth();
-  // const updateUser = updateUser
+  const { isAuthenticated, loading } = useAuth();
+  const router = useRouter();
 
-  // if user state is null, then show loader
-  if (userLoading) {
-    return <Loading />;
-  }
+  // Define public routes
+  const publicRoutes = ['/login', '/register'];
+  const isPublicRoute = publicRoutes.includes(router.pathname);
 
-  // what the user should see if they are logged in
-  if (user) {
+  useEffect(() => {
+    // Redirect if trying to access protected route while not authenticated
+    if (!loading && !isAuthenticated && !isPublicRoute) {
+      router.push('/login');
+    }
+  }, [loading, isAuthenticated, isPublicRoute, router]);
+
+  if (loading) {
     return (
-      <>
-        <NavBar /> {/* NavBar only visible if user is logged in and is in every view */}
-        <div className="container">{'valid' in user ? <RegisterForm user={user} updateUser={updateUser} /> : <Component {...pageProps} />}</div>
-      </>
+      <div>Loading application...</div>
     );
   }
 
-  return <Signin />;
+  // Always render the requested component - let it handle its own layout
+  return <Component {...pageProps} />;
+};
+
+ViewDirectorBasedOnUserAuthStatus.propTypes = {
+  component: PropTypes.elementType.isRequired,
+  pageProps: PropTypes.shape({}).isRequired,
 };
 
 export default ViewDirectorBasedOnUserAuthStatus;
-
-ViewDirectorBasedOnUserAuthStatus.propTypes = {
-  component: PropTypes.func.isRequired,
-  pageProps: PropTypes.oneOfType([PropTypes.object]).isRequired,
-};

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React, { useState, useEffect, useRef } from 'react';
 import { Form, FormLabel } from 'react-bootstrap';
 import { createNote, updateNote } from '../../utils/data/noteData';
-import FancyButton from '../FancyButton';
+import FancySubmitButton from '../GUI/FancySubmitButton';
 
 const initialState = {
   title: '',
@@ -92,9 +92,9 @@ const NoteForm = ({ noteObject }) => {
           }))}
         />
       </Form.Group>
-      <FancyButton onClick={handleFancyButtonClick}>
+      <FancySubmitButton onClick={handleFancyButtonClick}>
         Commit Changes
-      </FancyButton>
+      </FancySubmitButton>
     </Form>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { getSingleSpecies } from '../../../../utils/data/speciesData';
-import { useAuth } from '../../../../utils/context/authContext';
+import { useAuth } from '../../../../context/AuthContext';
 import SpeciesForm from '../../../../components/character/forms/SpeciesForm';
 
 const NewSpecies = () => {

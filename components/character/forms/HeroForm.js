@@ -4,19 +4,19 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'react-bootstrap';
-import { useAuth } from '../../../utils/context/authContext';
+import { useAuth } from '../../../context/AuthContext';
 import { createHero, updateHero } from '../../../utils/data/heroData';
 import ArchetypeDropdown from '../../dropDowns/ArchetypeDropDown';
 import SpeciesDropDown from '../../dropDowns/SpeciesDropDown';
 import { getArchetypes } from '../../../utils/data/archetypeData';
 import { getSpecies } from '../../../utils/data/speciesData';
 import { formatDiceCode, addOrSubtractPips, assignPointsForDieCode } from '../../../utils/d6LogicForUI';
-import FancyButton from '../../FancyButton';
+import FancyButton from '../../GUI/FancyButton';
 import randomName from '../../../utils/names';
 import randomPlanet from '../../../utils/planets';
-import FancyCard from '../cards/FancyCard';
-import FancyCardLong from '../cards/FancyCardLong';
-import Tooltip from '../../Tooltip';
+import FancyCard from '../../GUI/FancyCard';
+import FancyCardLong from '../../GUI/FancyCardLong';
+import Tooltip from '../../GUI/Tooltip';
 
 const initialState = {
   uid: '',

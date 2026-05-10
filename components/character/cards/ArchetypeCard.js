@@ -3,10 +3,10 @@ import React from 'react';
 import { Card } from 'react-bootstrap';
 import { useRouter } from 'next/router';
 import { formatDiceCode } from '../../../utils/d6LogicForUI';
-import { useAuth } from '../../../utils/context/authContext';
+import { useAuth } from '../../../context/AuthContext';
 import { deleteArchetype } from '../../../utils/data/archetypeData';
-import FancyButton from '../../FancyButton';
-import FancyCardLong from './FancyCardLong';
+import FancyButton from '../../GUI/FancyButton';
+import FancyCardLong from '../../GUI/FancyCardLong';
 
 const ArchetypeCard = ({
   id,

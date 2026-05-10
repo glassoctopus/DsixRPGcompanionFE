@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import ArchetypeForm from '../../../../components/character/forms/ArchtypeForm';
-import { useAuth } from '../../../../utils/context/authContext';
+import { useAuth } from '../../../../context/AuthContext';
 import { getSingleArchetype } from '../../../../utils/data/archetypeData';
 import ArchetypeCard from '../../../../components/character/cards/ArchetypeCard';
 

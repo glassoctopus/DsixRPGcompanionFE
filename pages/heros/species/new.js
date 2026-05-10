@@ -1,6 +1,6 @@
 import React from 'react';
 import SpeciesForm from '../../../components/character/forms/SpeciesForm';
-import { useAuth } from '../../../utils/context/authContext';
+import { useAuth } from '../../../context/AuthContext';
 
 const NewSpecies = () => {
   const { user } = useAuth();

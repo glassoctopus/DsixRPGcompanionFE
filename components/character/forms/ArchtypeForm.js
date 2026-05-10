@@ -6,8 +6,8 @@ import {
   createArchetype, updateArchetype, getSingleArchetype,
 } from '../../../utils/data/archetypeData';
 import SpeciesSelect from '../miscComponents/SpeciesSelect';
-import FancyButton from '../../FancyButton';
-import FancyCard from '../cards/FancyCard';
+import FancyButton from '../../GUI/FancyButton';
+import FancyCard from '../../GUI/FancyCard';
 import { getSpecies } from '../../../utils/data/speciesData';
 
 const initialState = {
@@ -109,7 +109,8 @@ const ArchetypeForm = ({ archetype, id }) => {
     };
 
     setArchetypeData();
-  }, [archetype, id, routeId]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, routeId]);
 
   const setSpeciesPool = async () => {
     if (species.length === 0) {
@@ -120,7 +121,8 @@ const ArchetypeForm = ({ archetype, id }) => {
 
   useEffect(() => {
     setSpeciesPool();
-  });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

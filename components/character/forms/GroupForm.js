@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { createCharacterGroup } from '../../../utils/data/groupData';
 import { getUsers } from '../../../utils/data/user';
-import { useAuth } from '../../../utils/context/authContext';
-import FancyButton from '../../FancyButton';
-import FancyCardLong from '../cards/FancyCardLong';
+import { useAuth } from '../../../context/AuthContext';
+import FancyButton from '../../GUI/FancyButton';
+import FancyCardLong from '../../GUI/FancyCardLong';
 
 const GroupForm = () => {
   const router = useRouter();

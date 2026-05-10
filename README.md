@@ -54,7 +54,7 @@ Hopes & Dreams
 I truly miss this system and would love to preserve it.
 West End Games rocks!
 
-Walkthrough Video:
+Walkthrough Video: (needs another one, will do once at a stable state)
 https://www.youtube.com/watch?v=D6whDri3Edw
 
 Project Board:

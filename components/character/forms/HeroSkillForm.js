@@ -2,12 +2,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import { formatDiceCode, addOrSubtractPips } from '../../../utils/d6LogicForUI';
-import { useAuth } from '../../../utils/context/authContext';
+import { useAuth } from '../../../context/AuthContext';
 import { getSkills } from '../../../utils/data/skillData';
 import { getSingleHero, updateHeroSkills, createHeroSkills } from '../../../utils/data/heroData';
 import SkillSpecializationForm from './SkillSpecializationForm';
-import FancyCardLong from '../cards/FancyCardLong';
-import FancyButton from '../../FancyButton';
+import FancyCardLong from '../../GUI/FancyCardLong';
+import FancyButton from '../../GUI/FancyButton';
 
 const HeroSkillForm = ({ id }) => {
   const { user } = useAuth();

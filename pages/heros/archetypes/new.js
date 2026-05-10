@@ -1,6 +1,6 @@
 import React from 'react';
 import ArchtypeForm from '../../../components/character/forms/ArchtypeForm';
-import { useAuth } from '../../../utils/context/authContext';
+import { useAuth } from '../../../context/AuthContext';
 
 const NewCharacterType = () => {
   const { user } = useAuth();

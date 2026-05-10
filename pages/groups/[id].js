@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { getSingleCharacterGroup } from '../../utils/data/groupData';
 import HeroOverviewCard from '../../components/character/cards/HeroOverviewCard';
-import FancyCardLong from '../../components/character/cards/FancyCardLong';
+import FancyCardLong from '../../components/GUI/FancyCardLong';
 
 const GroupIdView = () => {
   const router = useRouter();

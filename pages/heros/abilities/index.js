@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { getAbilities } from '../../../utils/data/abilityData';
 import AbilityCard from '../../../components/character/cards/AbilityCard';
-import FancyButton from '../../../components/FancyButton';
+import FancyButton from '../../../components/GUI/FancyButton';
 
 const Ability = () => {
   const [abilities, setAbilities] = useState([]);

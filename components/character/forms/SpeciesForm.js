@@ -1,9 +1,9 @@
 import { useRouter } from 'next/router';
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import FancyButton from '../../FancyButton';
-import FancyCard from '../cards/FancyCard';
-import FancyCardLong from '../cards/FancyCardLong';
+import FancyButton from '../../GUI/FancyButton';
+import FancyCard from '../../GUI/FancyCard';
+import FancyCardLong from '../../GUI/FancyCardLong';
 import { createSpecies, updateSpecies, getSingleSpecies } from '../../../utils/data/speciesData';
 
 const SpeciesForm = ({ species, id }) => {
