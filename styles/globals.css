@@ -267,10 +267,17 @@ input, textarea {
 .general-content {
   position: relative;
   z-index: 1;
-  padding: 20px;
-  background-color: rgba(255, 255, 255, 0.8);
+  margin: 13px;
+  padding: 13px;
+  background-color: rgba(255, 255, 255, 0.05);
   box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.8);
-  border-radius: 8px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 13px;
+  flex-grow: 1;
+  overflow-y: 'auto'; /* Enable scrolling */
 }
 
 /* NewNote.css */

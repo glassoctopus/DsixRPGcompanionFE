@@ -85,7 +85,7 @@ const GroupIdView = () => {
   }
 
   return (
-    <div style={{ maxHeight: '80vh', overflow: 'auto', alignItems: 'center' }}>
+    <div className="general-content">
       <FancyCard>
         <div
           className="cardOfForm"

@@ -17,15 +17,7 @@ const Index = () => {
   };
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        height: '100vh', // Use 100vh to make sure it takes up the full viewport height
-        overflowY: 'auto', // Enable vertical scrolling
-      }}
-    >
+    <div className="general-content">
       {/* Content Wrapper */}
       <div
         style={{

@@ -27,8 +27,7 @@ const HeroCodes = () => {
   }
 
   return (
-
-    <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <div className="general-content">
       <h2>{user.handle}&apos;s Hero</h2>
 
       <div

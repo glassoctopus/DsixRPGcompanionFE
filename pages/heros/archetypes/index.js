@@ -41,7 +41,7 @@ const Archetypes = () => {
   }
 
   return (
-    <div style={{ margin: '13px', border: '13px ', padding: '13px' }}>
+    <div className="general-content">
       <div className="archetype-container">
         <div className="archetype-content">
           <article className="Archetypes">

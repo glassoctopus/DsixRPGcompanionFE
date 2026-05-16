@@ -46,7 +46,7 @@ const GroupCreationView = () => {
 
   return (
 
-    <div style={{ maxHeight: '80vh', overflow: 'auto' }}>
+    <div className="general-content">
       <FancyCardLong>
         <FancyCard>
           <h2>Create New Group</h2>

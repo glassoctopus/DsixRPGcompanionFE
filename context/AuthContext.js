@@ -1,4 +1,3 @@
-// context/AuthContext.js
 import React, {
   createContext, useState, useContext, useEffect,
 } from 'react';
@@ -21,6 +20,7 @@ function getCookie(name) {
   return cookieValue;
 }
 
+// eslint-disable-next-line react/prop-types
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);

@@ -34,10 +34,7 @@ const Hero = () => {
   }, [heros, user]);
 
   return (
-    <div style={{
-      padding: '13px', backgroundColor: 'rgba(244, 244, 244, 0.1)', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center',
-    }}
-    >
+    <div className="general-content">
       <div style={{ width: '100%', maxWidth: '1200px' }}>
         <div style={{
           display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px',
