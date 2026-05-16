@@ -64,16 +64,7 @@ const Skills = () => {
   if (error) return <p>{error}</p>;
 
   return (
-    <div
-      className="container"
-      style={{
-        overflowY: 'auto',
-        maxHeight: '95vh',
-        borderRadius: '13px',
-        padding: '13px',
-        margin: '13px',
-      }}
-    >
+    <div className="general-content">
       <FancyCardLong>
         <div
           className="container"

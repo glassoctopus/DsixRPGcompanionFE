@@ -19,16 +19,9 @@ const HeroById = () => {
   }, [id]);
 
   return (
-    <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <div className="general-content">
       <h2>{aHero.user_handle}&apos;s Hero</h2>
-      <div
-        style={{
-          padding: '13px',
-          backgroundColor: 'rgba(244, 244, 244, 0.5)',
-          flexGrow: 1,
-          overflowY: 'auto', // Enable scrolling
-        }}
-      >
+      <div className="general-content">
         <div>
           <HeroAndSkillsCard
             id={aHero.id}
